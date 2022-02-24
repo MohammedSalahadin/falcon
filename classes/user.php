@@ -33,7 +33,6 @@ class user{
 
     //set 
     public function setManagementCo($managementCo){
-        echo $managementCo;
         
     }
 
