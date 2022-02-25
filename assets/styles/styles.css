@@ -157,6 +157,21 @@ a:hover {
   border: solid silver 1px !important;
 }
 
+.users h1, .users p {
+  font-weight: 400;
+}
+
+.users img {
+  max-width: 75px !important;
+  max-height: 75px !important;
+  border: gray 1px solid;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+  border-radius: 2px;
+}
+
 .bi-x-circle {
   position: absolute;
   right: 3%;
@@ -212,5 +227,15 @@ a:hover {
 
 .mapController select {
   width: 100%;
+}
+
+summary span {
+  padding: 1%;
+}
+
+summary span:hover {
+  background-color: #03508e;
+  border-radius: 5px;
+  color: white !important;
 }
 /*# sourceMappingURL=styles.css.map */
