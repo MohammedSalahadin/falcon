@@ -1,4 +1,5 @@
-<tr>
+<tr data-bs-toggle="modal" data-bs-target="#issueTypeModal">
+  <?php  require('monitorIssueTypeModal.php')?>
   <th scope="row">123456 <span class="tableCameraImg" data-bs-toggle="modal" data-bs-target="#cameraModal">
       <i class="bi bi-camera"></i></span></th>
   <td>Austin American Statesman</td>
