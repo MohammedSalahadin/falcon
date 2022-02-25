@@ -14,10 +14,9 @@ body {
   box-sizing: border-box;
 }
 
-html {
+html{
   font-size: 86.5%;
 }
-
 .bg--primary {
   background-color: #e2e2e2 !important;
   background-color: #e2e2e2;
@@ -31,11 +30,9 @@ html {
   background-color: #979797;
   color: white;
 }
-
-.minWidth {
+.minWidth{
   min-width: 1000px;
 }
-
 .height-full {
   min-height: 100vh !important;
 }
@@ -45,7 +42,6 @@ html {
   -ms-flex-align: center;
   align-items: center;
 }
-
 a {
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
@@ -142,100 +138,87 @@ a:hover {
   text-decoration: line-through;
 }
 
-.messagebox {
+.messagebox{
   width: 300px;
-  margin-top: 1%;
-  margin-right: 1%;
-  position: relative;
-}
+  margin-top: 1%  ;
+margin-right: 1%;
+position: relative;
+h1{
 
-.messagebox h1 {
-  font-size: clamp(1.3rem, 1vw, 2rem);
+  font-size: clamp(1.3rem , 1vw , 2rem);
 }
-
-.users {
+  
+}
+.users{
   border: solid silver 1px !important;
+  h1 , p{
+    font-weight: 400;
+  }
+  img{
+    max-width: 75px !important;
+    max-height: 75px !important;
+    border: gray 1px solid;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 2px;
+  }
 }
-
-.users h1, .users p {
-  font-weight: 400;
-}
-
-.users img {
-  max-width: 75px !important;
-  max-height: 75px !important;
-  border: gray 1px solid;
-  -o-object-fit: cover;
-     object-fit: cover;
-  -o-object-position: center;
-     object-position: center;
-  border-radius: 2px;
-}
-
-.bi-x-circle {
+.bi-x-circle{
   position: absolute;
   right: 3%;
   top: 0%;
   color: black;
   font-size: 20px;
   cursor: pointer;
+  &:hover{
+    color: darkred;
+  }
 }
-
-.bi-x-circle:hover {
-  color: darkred;
-}
-
-.footerModal {
-  display: -webkit-box;
-  display: -ms-flexbox;
+.footerModal{
   display: flex;
   gap: 1rem;
+  img{
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    &:hover{
+    transform: translateY(-5px);
+    }
+  }
 }
 
-.footerModal img {
-  -webkit-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
-}
-
-.footerModal img:hover {
-  -webkit-transform: translateY(-5px);
-          transform: translateY(-5px);
-}
-
-.border {
+.border{
   border: rgba(128, 128, 128, 0.589) solid 1.5px !important;
+  
 }
+.issueSummeryModal{
+  h2{
+    color: #004196;
+    font-weight: 400;
+    font-size: large;
+  }
 
-.issueSummeryModal h2 {
-  color: #004196;
-  font-weight: 400;
-  font-size: large;
 }
-
-.relative {
-  position: relative;
+.relative{
+  position: relative ;
 }
-
-.mapController {
+.mapController{
   position: absolute;
   top: 0;
   right: 0;
   max-width: 30% !important;
   padding: .5% 1%;
+  select{
+    width: 100%;
+  }
 }
-
-.mapController select {
-  width: 100%;
-}
-
-summary span {
-  padding: 1%;
-}
-
-summary span:hover {
-  background-color: #03508e;
-  border-radius: 5px;
-  color: white !important;
+summary{
+  span{
+padding: 1%;
+&:hover{
+      background-color: #03508e;
+      border-radius: 5px;
+      color: white !important;
+    }
+  }
 }
 /*# sourceMappingURL=styles.css.map */
