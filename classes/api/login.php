@@ -1,6 +1,6 @@
 <?php
 
-require '../user.php';
+require 'C:\Users\meera\Documents\GitHub\classes\user.php';
 
 // check for milisos code or mysql injection
 function validate($value){
