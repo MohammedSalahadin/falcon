@@ -1,9 +1,9 @@
 <?php
 
 class db{
-    private $sName = "localhost";
-    private $uName = "root";
-    private $pw = "root";
+    private $sName = "18.191.148.36";
+    private $uName = "falcon";
+    private $pw = "falcon";
     private $dbname = "falcon";
     protected $conn;
 
