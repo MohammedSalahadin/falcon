@@ -6,14 +6,17 @@ class cityStateZip{
     public $city;
     public $state;
     public $zip;
-
+    public $arrayState =  array();
     public function __construct() {}
 
     public static function getStatesList(){
 
         $query = "SELECT name FROM falcon.states;";
         $execute = new Execute($query, 'multi');
-        return $execute;
+        print_r($execute);
+        for($i = 0; $i < count($execute->result); $i++) {
+            //print_r( $execute->result->$i['name']) ;
+        }
     }  
 
 }
@@ -52,7 +55,8 @@ class company{
 }
 
 $cus = new cityStateZip();
- $something =$cus->getStatesList("customer");
- print_r($something);
+ $something =$cus->getStatesList();
+ print_r($cus->arrayState[0]) ;
+ 
 
 ?>
