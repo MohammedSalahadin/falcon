@@ -63,9 +63,7 @@ class Admin{
             //user have been registerd 
             $this->userName = $userName;
             
-            
         } else { echo "not";}
-        
         
     }
 
