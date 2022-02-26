@@ -151,6 +151,17 @@ h1{
 }
 .users{
   border: solid silver 1px !important;
+  h1 , p{
+    font-weight: 400;
+  }
+  img{
+    max-width: 75px !important;
+    max-height: 75px !important;
+    border: gray 1px solid;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 2px;
+  }
 }
 .bi-x-circle{
   position: absolute;
@@ -200,5 +211,14 @@ h1{
     width: 100%;
   }
 }
-
+summary{
+  span{
+padding: 1%;
+&:hover{
+      background-color: #03508e;
+      border-radius: 5px;
+      color: white !important;
+    }
+  }
+}
 /*# sourceMappingURL=styles.css.map */

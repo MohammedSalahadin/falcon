@@ -1,3 +1,4 @@
+<?php require('newIssue.php') ?>
 
  <div class="d-flex aligin-item-center p-2 bg--secondary">
 
@@ -43,7 +44,7 @@
  		</div>
 		 
  		<div class="text-center ">
- 		<input type="button" id="cmdnew" value="New Action" style="background-color: #03508e; color: white;">
+ 		<input type="button" data-bs-toggle="modal" data-bs-target="#newIssueModal" id="cmdnew" value="New Action" style="background-color: #03508e; color: white;">
  	</div>
 
 
