@@ -62,31 +62,105 @@ class customer extends user{
     
     public $userType;
 
-    public function rigister($userName,$password,$emailAdress,$firstName,$lastName,$stateName, $cusRole){
-        $query = "INSERT INTO falcon.customers (`userName`, `password`, `emailAddress`, `firstName`, `lastName`, `states_id`, `customer_roles_id`) VALUES
-        ('$userName', '$password', '$emailAdress', '$firstName', '$lastName', (SELECT id FROM falcon.states WHERE shortName = '$stateName'),(SELECT id FROM falcon.customer_roles WHERE name = '$cusRole'));";
+    public function rigister($userName,$password,$emailAdress,$firstName,$lastName,$stateID,$cusRoleID, $active,$maintananceEmail,$timeCardID,$cellNumber,$phoneNumber,$city,$zip,$allowSecurityAssignments
+    ,$allowParkingAssignments,$allowMaintenanceAssignments,$allowUserToviewGPSData,$allowEmailes,$avatar,$managementCo, $userNotID){
+        $query = "INSERT INTO falcon.customers (`userName`, `password`, `emailAddress`, `firstName`, `lastName`, `states_id` , `customer_roles_id`,`active`, `maintananceEmail`
+        , `timeCardID`, `cellNumber`, `phoneNumber`, `city` , `zip`, `allowSecurityAssignments`,`allowParkingAssignments`
+        , `allowMaintenanceAssignments`, `allowUserToviewGPSData`, `allowEmails`, `avatar`, `managmentCompany`
+        ,`users_notification_id` ) VALUES
+        ('$userName', '$password', '$emailAdress', '$firstName', '$lastName','$stateID','$cusRoleID', '$active', '$maintananceEmail', '$timeCardID', '$cellNumber','$phoneNumber','$city'
+        , '$zip', '$allowSecurityAssignments', '$allowParkingAssignments', '$allowMaintenanceAssignments','$allowUserToviewGPSData','$allowEmailes', '$avatar', '$managementCo', '$userNotID' );";
 
        $execute = new Execute ($query, 'execute');
        
-       if ($execute) {
-           //user have been registerd 
-           $this->userName = $userName;
-           
-           
-       } else { echo "not";}
+      
        
 
     }
     public function webLogin($userName, $password){
         $query = "SELECT * FROM falcon.customers where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
-        return $execute;
+        if ($execute) {
+            //user have been registerd 
+            $this->loggedIn = true;
+            $this->userName = $userName;
+            $this->firstName = $execute->result['firstName'];
+            $this->lastName = $execute->result['lastName'];
+            $this->password = $execute->result['password'];
+            $this->emailAdress = $execute->result['emailAddress'];
+            $this->maintananceEmail = $execute->result['maintananceEmail'];
+            $this->timeCardID = $execute->result['timeCardID'];
+            $this->cellNumber = $execute->result['cellNumber'];
+            $this->phoneNumber = $execute->result['phoneNumber'];
+            $this->city = $execute->result['city'];
+            $this->zip = $execute->result['zip'];
+            $this->avatar = $execute->result['avatar'];
+            $this->lastLoginDate = $execute->result['lastLoginDate'];
+            $this->managementCo = $execute->result['managmentCompany'];
+            $this->employeeRoleId = $execute->result['employee_roles_id'];
+            if ($execute->result['active'] == 1){
+            $this->active = true;}
+            if ($execute->result['allowSecurityAssignments'] == 1){
+                $this->allowSecurityAssignments = true;
+            }
+            if ($execute->result['allowParkingAssignments'] == 1){
+                $this->allowParkingAssignments = true;
+            }
+            if ($execute->result['allowMaintenanceAssignments'] == 1){
+                $this->allowMaintenanceAssignments = true;
+            }
+            if ($execute->result['allowUserToviewGPSData'] == 1){
+                $this->allowUserToviewGPSData = true;
+            }
+            if ($execute->result['allowEmails'] == 1){
+                $this->allowEmailes = true;
+            }
+            
+        }
+     
 
     }
     public function  login($userName, $password){
         $query = "SELECT * FROM falcon.customers where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
-        return $execute;
+        if ($execute) {
+            //user have been registerd 
+            $this->loggedIn = true;
+            $this->userName = $userName;
+            $this->firstName = $execute->result['firstName'];
+            $this->lastName = $execute->result['lastName'];
+            $this->password = $execute->result['password'];
+            $this->emailAdress = $execute->result['emailAddress'];
+            $this->maintananceEmail = $execute->result['maintananceEmail'];
+            $this->timeCardID = $execute->result['timeCardID'];
+            $this->cellNumber = $execute->result['cellNumber'];
+            $this->phoneNumber = $execute->result['phoneNumber'];
+            $this->city = $execute->result['city'];
+            $this->zip = $execute->result['zip'];
+            $this->avatar = $execute->result['avatar'];
+            $this->lastLoginDate = $execute->result['lastLoginDate'];
+            $this->managementCo = $execute->result['managmentCompany'];
+            $this->employeeRoleId = $execute->result['employee_roles_id'];
+            if ($execute->result['active'] == 1){
+            $this->active = true;}
+            if ($execute->result['allowSecurityAssignments'] == 1){
+                $this->allowSecurityAssignments = true;
+            }
+            if ($execute->result['allowParkingAssignments'] == 1){
+                $this->allowParkingAssignments = true;
+            }
+            if ($execute->result['allowMaintenanceAssignments'] == 1){
+                $this->allowMaintenanceAssignments = true;
+            }
+            if ($execute->result['allowUserToviewGPSData'] == 1){
+                $this->allowUserToviewGPSData = true;
+            }
+            if ($execute->result['allowEmails'] == 1){
+                $this->allowEmailes = true;
+            }
+            
+        }
+     
 
     }
 
@@ -114,31 +188,104 @@ class managementCompanyUser extends customer{
 class employee extends user{
     public $userType;
 
-    public function rigister($userName,$password,$emailAdress,$firstName,$lastName,$stateName){
-        $query = "INSERT INTO falcon.employees (`userName`, `password`, `emailAddress`, `firstName`, `lastName`, `states_id`) VALUES
-        ('$userName', '$password', '$emailAdress', '$firstName', '$lastName', (SELECT id FROM falcon.states WHERE shortName = '$stateName'));";
+    public function rigister($userName,$password,$emailAdress,$firstName,$lastName,$stateID,$employeeRoleID, $active,$maintananceEmail,$timeCardID,$cellNumber,$phoneNumber,$city,$zip,$allowSecurityAssignments
+    ,$allowParkingAssignments,$allowMaintenanceAssignments,$allowUserToviewGPSData,$allowEmailes,$avatar,$managementCo, $userNotID){
+        $query = "INSERT INTO falcon.employees (`userName`, `password`, `emailAddress`, `firstName`, `lastName`, `states_id` , `employee_roles_id`,`active`, `maintananceEmail`
+        , `timeCardID`, `cellNumber`, `phoneNumber`, `city` , `zip`, `allowSecurityAssignments`,`allowParkingAssignments`
+        , `allowMaintenanceAssignments`, `allowUserToviewGPSData`, `allowEmails`, `avatar`, `managmentCompany`
+        ,`users_notification_id` ) VALUES
+        ('$userName', '$password', '$emailAdress', '$firstName', '$lastName','$stateID','$employeeRoleID', '$active', '$maintananceEmail', '$timeCardID', '$cellNumber','$phoneNumber','$city'
+        , '$zip', '$allowSecurityAssignments', '$allowParkingAssignments', '$allowMaintenanceAssignments','$allowUserToviewGPSData','$allowEmailes', '$avatar', '$managementCo', '$userNotID' );";
 
        $execute = new Execute ($query, 'execute');
        
-       if ($execute) {
-           //user have been registerd 
-           $this->userName = $userName;
-           
-           
-       } else { echo "not";}
-       
+
 
     }
     public function webLogin($userName, $password){
         $query = "SELECT * FROM falcon.employees where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
-        return $execute;
+        if ($execute) {
+            //user have been registerd 
+            $this->loggedIn = true;
+            $this->userName = $userName;
+            $this->firstName = $execute->result['firstName'];
+            $this->lastName = $execute->result['lastName'];
+            $this->password = $execute->result['password'];
+            $this->emailAdress = $execute->result['emailAddress'];
+            $this->maintananceEmail = $execute->result['maintananceEmail'];
+            $this->timeCardID = $execute->result['timeCardID'];
+            $this->cellNumber = $execute->result['cellNumber'];
+            $this->phoneNumber = $execute->result['phoneNumber'];
+            $this->city = $execute->result['city'];
+            $this->zip = $execute->result['zip'];
+            $this->avatar = $execute->result['avatar'];
+            $this->lastLoginDate = $execute->result['lastLoginDate'];
+            $this->managementCo = $execute->result['managmentCompany'];
+            $this->employeeRoleId = $execute->result['employee_roles_id'];
+            if ($execute->result['active'] == 1){
+            $this->active = true;}
+            if ($execute->result['allowSecurityAssignments'] == 1){
+                $this->allowSecurityAssignments = true;
+            }
+            if ($execute->result['allowParkingAssignments'] == 1){
+                $this->allowParkingAssignments = true;
+            }
+            if ($execute->result['allowMaintenanceAssignments'] == 1){
+                $this->allowMaintenanceAssignments = true;
+            }
+            if ($execute->result['allowUserToviewGPSData'] == 1){
+                $this->allowUserToviewGPSData = true;
+            }
+            if ($execute->result['allowEmails'] == 1){
+                $this->allowEmailes = true;
+            }
+            
+        }
+     
 
     }
     public function  login($userName, $password){
         $query = "SELECT * FROM falcon.employees where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
-        return $execute;
+        if ($execute) {
+            //user have been registerd 
+            $this->loggedIn = true;
+            $this->userName = $userName;
+            $this->firstName = $execute->result['firstName'];
+            $this->lastName = $execute->result['lastName'];
+            $this->password = $execute->result['password'];
+            $this->emailAdress = $execute->result['emailAddress'];
+            $this->maintananceEmail = $execute->result['maintananceEmail'];
+            $this->timeCardID = $execute->result['timeCardID'];
+            $this->cellNumber = $execute->result['cellNumber'];
+            $this->phoneNumber = $execute->result['phoneNumber'];
+            $this->city = $execute->result['city'];
+            $this->zip = $execute->result['zip'];
+            $this->avatar = $execute->result['avatar'];
+            $this->lastLoginDate = $execute->result['lastLoginDate'];
+            $this->managementCo = $execute->result['managmentCompany'];
+            $this->employeeRoleId = $execute->result['employee_roles_id'];
+            if ($execute->result['active'] == 1){
+            $this->active = true;}
+            if ($execute->result['allowSecurityAssignments'] == 1){
+                $this->allowSecurityAssignments = true;
+            }
+            if ($execute->result['allowParkingAssignments'] == 1){
+                $this->allowParkingAssignments = true;
+            }
+            if ($execute->result['allowMaintenanceAssignments'] == 1){
+                $this->allowMaintenanceAssignments = true;
+            }
+            if ($execute->result['allowUserToviewGPSData'] == 1){
+                $this->allowUserToviewGPSData = true;
+            }
+            if ($execute->result['allowEmails'] == 1){
+                $this->allowEmailes = true;
+            }
+            
+        }
+     
 
     }
 
@@ -182,11 +329,12 @@ class dispacher extends employee{
 
 
 
-$cus = new customer();
- $something =$cus->getALLUsers("customer");
- print_r($something);
+$cus = new employee();
+  $something =$cus->login("meer","mmeerr");
+   print_r($cus->allowSecurityAssignments);
+//  print_r($something);
 //  $admin-> userName = "meer";
-//$cus->rigister('alan', 'pass', 'mail', "f name", 'last name','NY','test');
+//$cus->rigister('meer', 'mmeerr', 'mb@mb', "meer", 'bahez','1','1','0','mm@mm','2','077077098','674633','suly','10005','1','0','0','1','1','lklklk','1','1');
  
 
 
