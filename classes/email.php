@@ -1,5 +1,7 @@
 <?php
 require_once 'db.php';
+require_once 'sendSMS/sendSMS'; // send sms by calling the static function SendSMS::send('+9647708138928', 'This is a test Message');
+
 
 
 class Email
