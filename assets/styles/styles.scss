@@ -30,6 +30,13 @@ html{
   background-color: #979797;
   color: white;
 }
+button{
+  transition: all 0.3s ease-in-out !important;
+  &:hover{
+box-shadow: rgba(128, 128, 128, 0.671) 0px 0px 10px;
+  
+  }
+}
 .minWidth{
   min-width: 1000px;
 }
