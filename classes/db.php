@@ -1,9 +1,9 @@
 <?php
 
 class db{
-    private $sName = "localhost";
-    private $uName = "root";
-    private $pw = "root";
+    private $sName = "falcontrac.tk";
+    private $uName = "falcon";
+    private $pw = "falcon";
     private $dbname = "falcon";
     protected $conn;
 
@@ -61,7 +61,7 @@ class Execute{
     public function multi($query){
         $result = $this->conn -> query($query);
         $this->num_rows = $result->num_rows;
-        $fetch = $result -> fetch_all(MYSQLI_ASSOC);
+        $fetch = $result -> fetch_all(MYSQLi_ASSOC);
         $this->conn->close();
         return $fetch;
     }
