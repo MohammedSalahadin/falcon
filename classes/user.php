@@ -353,12 +353,12 @@ class dispacher extends employee{
 
 
 
- $cus = new customer();
+//  $cus = new customer();
 //   $something =$cus->login("meer","tgt");
 //    print_r($cus->allowSecurityAssignments);
 //  print_r($something);
 //  $admin-> userName = "meer";
-$cus->rigister('meer', 'mmeerr', 'mb@mb', "meer", 'bahez','1','1','0','mm@mm','2','077077098','674633','suly','10005','1','0','0','1','1','lklklk','1','1');
+// $cus->rigister('meer', 'mmeerr', 'mb@mb', "meer", 'bahez','1','1','0','mm@mm','2','077077098','674633','suly','10005','1','0','0','1','1','lklklk','1','1');
  
 
 
