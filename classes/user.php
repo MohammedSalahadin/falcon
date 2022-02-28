@@ -153,7 +153,7 @@ class customer extends user{
             $this->avatar = $execute->result['avatar'];
             $this->lastLoginDate = $execute->result['lastLoginDate'];
             $this->managementCo = $execute->result['managmentCompany'];
-            $this->employeeRoleId = $execute->result['employee_roles_id'];
+            $this->employeeRoleId = $execute->result['customer_roles_id'];
             if ($execute->result['active'] == 1){
             $this->active = true;}
             if ($execute->result['allowSecurityAssignments'] == 1){
@@ -353,10 +353,10 @@ class dispacher extends employee{
 
 
 
-//  $cus = new customer();
-//   $something =$cus->login("meer","tgt");
-//    print_r($cus->allowSecurityAssignments);
-//  print_r($something);
+ $cus = new customer();
+  $something =$cus->login("meer","mmeerr");
+   print_r($cus->allowSecurityAssignments);
+ print_r($something);
 //  $admin-> userName = "meer";
 // $cus->rigister('meer', 'mmeerr', 'mb@mb', "meer", 'bahez','1','1','0','mm@mm','2','077077098','674633','suly','10005','1','0','0','1','1','lklklk','1','1');
  
