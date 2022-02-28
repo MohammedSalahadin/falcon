@@ -1,5 +1,5 @@
  <!-- camera report modal   -->
- <div class="modal fade" id="cameraModal" tabindex="-3" aria-labelledby="cameraModalLabel" aria-hidden="true">
+ <div class="modal fade" id="cameraModal" tabindex="-13" aria-labelledby="cameraModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg  modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header cameraModalHeader ">

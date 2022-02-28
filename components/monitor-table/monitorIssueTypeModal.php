@@ -41,7 +41,7 @@
                             <option value="1" disabled selected>choose</option>
                             <option value="2">test</option>
                         </select>
-                        <button class="btn btn-primary mx-1 w-25 mx-3">save Address</button>
+                        <button class="btn btn-light hover mx-1 w-25 mx-3">save Address</button>
                     </div>
 
 
@@ -138,16 +138,17 @@
             <!-- modal footer start     -->
             <div class="modal-footer d-flex justify-content-between bg--primary">
                 <div class="m-1 d-flex">
-                    <button class="btn btn-primary mx-1">Assign To</button>
-                    <button class="btn btn-primary mx-1">Add Note</button>
-                    <button class="btn btn-primary mx-1">Email</button>
-                    <button class="btn btn-primary mx-1">Print</button>
-                    <button class="btn btn-primary mx-1">Close</button>
-                    <button class="btn btn-primary mx-1">Gps Map</button>
+                    <button id="assin" class="btn btn-light hover mx-1">Assign
+                        To</button>
+                    <button class="btn btn-light hover mx-1">Add Note</button>
+                    <button class="btn btn-light hover mx-1">Email</button>
+                    <button class="btn btn-light hover mx-1">Print</button>
+                    <button class="btn btn-light hover mx-1">Close</button>
+                    <button class="btn btn-light hover mx-1">Gps Map</button>
                 </div>
                 <div class="d-flex m-1">
-                    <button class="btn btn-primary mx-1">Photo-1</button>
-                    <button class="btn btn-primary mx-1">Audio-0</button>
+                    <button class="btn btn-light hover mx-1">Photo-1</button>
+                    <button class="btn btn-light hover mx-1">Audio-0</button>
                 </div>
             </div>
             <!-- modal footer end    -->
