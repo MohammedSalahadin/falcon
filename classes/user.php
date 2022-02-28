@@ -198,7 +198,7 @@ class employee extends user{
         , '$zip', '$allowSecurityAssignments', '$allowParkingAssignments', '$allowMaintenanceAssignments','$allowUserToviewGPSData','$allowEmailes', '$avatar', '$managementCo', '$userNotID' );";
 
        $execute = new Execute ($query, 'execute');
-       
+    
 
 
     }
