@@ -220,6 +220,7 @@ echo "The Username You Entered Is Set by Other User. Please Change the User Name
         , '$zip', '$allowSecurityAssignments', '$allowParkingAssignments', '$allowMaintenanceAssignments','$allowUserToviewGPSData','$allowEmailes', '$avatar', '$managementCo', '$userNotID' );";
 
        $execute = new Execute ($query, 'execute');
+<<<<<<< HEAD
 
         }
 
@@ -227,6 +228,9 @@ echo "The Username You Entered Is Set by Other User. Please Change the User Name
 
 
        
+=======
+    
+>>>>>>> 7d298419dc4894973e4dbbdf5a996647dabf50ee
 
 
     }
