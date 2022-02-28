@@ -15,7 +15,7 @@ class cityStateZip{
         $execute = new Execute($query, 'multi');
         print_r($execute);
         for($i = 0; $i < count($execute->result); $i++) {
-            //print_r( $execute->result->$i['name']) ;
+           // print_r( $execute->result[$i]) ;
         }
     }  
 
