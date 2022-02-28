@@ -270,53 +270,58 @@ public function webLogin($userName, $password){
 
     }
     public function  login($userName, $password){
-        $query = "SELECT * FROM falcon.employees where userName = '$userName' and `password` = '$password';";
-        $execute = new Execute($query, 'array');
-        if ($execute) {
-            //user have been registerd 
-            $this->loggedIn = true;
-            $this->userName = $userName;
-            $this->firstName = $execute->result['firstName'];
-            $this->lastName = $execute->result['lastName'];
-            $this->password = $execute->result['password'];
-            $this->emailAdress = $execute->result['emailAddress'];
-            $this->maintananceEmail = $execute->result['maintananceEmail'];
-            $this->timeCardID = $execute->result['timeCardID'];
-            $this->cellNumber = $execute->result['cellNumber'];
-            $this->phoneNumber = $execute->result['phoneNumber'];
-            $this->city = $execute->result['city'];
-            $this->zip = $execute->result['zip'];
-            $this->avatar = $execute->result['avatar'];
-            $this->lastLoginDate = $execute->result['lastLoginDate'];
-            $this->managementCo = $execute->result['managmentCompany'];
-            $this->employeeRoleId = $execute->result['employee_roles_id'];
-            if ($execute->result['active'] == 1){
-            $this->active = true;}
-            if ($execute->result['allowSecurityAssignments'] == 1){
-                $this->allowSecurityAssignments = true;
+
+            $query = "SELECT * FROM falcon.employees where userName = '$userName' and `password` = '$password';";
+            $execute = new Execute($query, 'array');
+            if ($execute -> num_rows !==0) {
+             
+                
+                $this->loggedIn = true;
+                $this->userName = $userName;
+                $this->firstName = $execute->result['firstName'];
+                $this->lastName = $execute->result['lastName'];
+                $this->password = $execute->result['password'];
+                $this->emailAdress = $execute->result['emailAddress'];
+                $this->maintananceEmail = $execute->result['maintananceEmail'];
+                $this->timeCardID = $execute->result['timeCardID'];
+                $this->cellNumber = $execute->result['cellNumber'];
+                $this->phoneNumber = $execute->result['phoneNumber'];
+                $this->city = $execute->result['city'];
+                $this->zip = $execute->result['zip'];
+                $this->avatar = $execute->result['avatar'];
+                $this->lastLoginDate = $execute->result['lastLoginDate'];
+                $this->managementCo = $execute->result['managmentCompany'];
+                $this->employeeRoleId = $execute->result['employee_roles_id'];
+                if ($execute->result['active'] == 1){
+                $this->active = true;}
+                if ($execute->result['allowSecurityAssignments'] == 1){
+                    $this->allowSecurityAssignments = true;
+                }
+                if ($execute->result['allowParkingAssignments'] == 1){
+                    $this->allowParkingAssignments = true;
+                }
+                if ($execute->result['allowMaintenanceAssignments'] == 1){
+                    $this->allowMaintenanceAssignments = true;
+                }
+                if ($execute->result['allowUserToviewGPSData'] == 1){
+                    $this->allowUserToviewGPSData = true;
+                }
+                if ($execute->result['allowEmails'] == 1){
+                    $this->allowEmailes = true;
+                }
+               
+                
             }
-            if ($execute->result['allowParkingAssignments'] == 1){
-                $this->allowParkingAssignments = true;
-            }
-            if ($execute->result['allowMaintenanceAssignments'] == 1){
-                $this->allowMaintenanceAssignments = true;
-            }
-            if ($execute->result['allowUserToviewGPSData'] == 1){
-                $this->allowUserToviewGPSData = true;
-            }
-            if ($execute->result['allowEmails'] == 1){
-                $this->allowEmailes = true;
-            }
+
             
-        }
-     
+            
 
-    }
-
+        }}
 
 
 
-}
+
+
 class guard extends employee{
     public $permissions = array();
 
