@@ -1,6 +1,5 @@
 function ToggleElementsClass(elementVar, action, elementClass, toggleClass) { document.querySelector(elementVar).addEventListener(action, () => { document.querySelector(elementClass).classList.toggle(toggleClass) }) }
 // ---------------------------------------------------------------------------------//
-
 // ex for toggle class function 
 ToggleElementsClass(
     '#monitorMessageIcon' /* here is class name or id of icon or btn etc.., that on what ever action do someting

@@ -3,11 +3,6 @@
 require 'classes\user.php';
 
 // check for milisos code or mysql injection
-function validate($value){
-    $clean = "";
-    return $clean;
-}
-
 
 // Guard Login
 

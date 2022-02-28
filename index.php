@@ -34,20 +34,47 @@
         </div>
         <!-- navbar end   -->
 
+        <?php
+
+require('classes\user.php');
+
+// check for milisos code or mysql injection
+function validate($value){
+    $clean = "";
+    return $clean;
+}
+
+
+// Guard Login
+// select user name input from html
+$userName = $_POST['userName'];
+$password = $_POST['password'];
+    $user = new admin();
+   $res = $user-> login($userName, $password);
+   
+   echo $res
+
+
+
+
+
+?>
+
         <!-- login form start  -->
         <div class="d-flex justify-content-center pt-5">
-            <form class="bg-light p-5 rounded shadow w-75" action="routes/monitor.php">
+            <!-- --------------------------------------------formm------------------------------------- -->
+            <form class="bg-light p-5 rounded shadow w-75" method="POST">
                 <h1 class="text-center login-text">Login</h1>
                 <div class="mb-3">
                 <div class="input-group flex-nowrap">
   <span class="input-group-text" id="addon-wrapping">@</span>
-  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping">
+  <input type="text" class="form-control" placeholder="Username" aria-label="Username" name="userName" id="username" aria-describedby="addon-wrapping">
 </div>
                 </div>
                 <div class="mb-3">
                 <div class="input-group flex-nowrap">
   <span class="input-group-text" id="addon-wrapping">***</span>
-  <input type="password" class="form-control" placeholder="password" aria-label="Username" aria-describedby="addon-wrapping">
+  <input type="password" class="form-control" placeholder="password" aria-label="Username" name="password" id="password" aria-describedby="addon-wrapping">
 </div>
                     <div id="emailHelp" class="form-text">We'll never share your password with anyone else.</div>
                 </div>
