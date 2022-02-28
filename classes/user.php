@@ -64,7 +64,17 @@ class customer extends user{
 
     public function rigister($userName,$password,$emailAdress,$firstName,$lastName,$stateID,$cusRoleID, $active,$maintananceEmail,$timeCardID,$cellNumber,$phoneNumber,$city,$zip,$allowSecurityAssignments
     ,$allowParkingAssignments,$allowMaintenanceAssignments,$allowUserToviewGPSData,$allowEmailes,$avatar,$managementCo, $userNotID){
-        $query = "INSERT INTO falcon.customers (`userName`, `password`, `emailAddress`, `firstName`, `lastName`, `states_id` , `customer_roles_id`,`active`, `maintananceEmail`
+
+
+        $check = "SELECT userName FROM falcon.customers WHERE userName = '$userName';";
+
+        $execute = new Execute ($check, 'array');
+
+        if ($execute->result != ""){
+            echo "The Username You Entered Is Set by Other User. Please Change the User Name.";     
+        }else {
+
+                $query = "INSERT INTO falcon.customers (`userName`, `password`, `emailAddress`, `firstName`, `lastName`, `states_id` , `customer_roles_id`,`active`, `maintananceEmail`
         , `timeCardID`, `cellNumber`, `phoneNumber`, `city` , `zip`, `allowSecurityAssignments`,`allowParkingAssignments`
         , `allowMaintenanceAssignments`, `allowUserToviewGPSData`, `allowEmails`, `avatar`, `managmentCompany`
         ,`users_notification_id` ) VALUES
@@ -72,6 +82,9 @@ class customer extends user{
         , '$zip', '$allowSecurityAssignments', '$allowParkingAssignments', '$allowMaintenanceAssignments','$allowUserToviewGPSData','$allowEmailes', '$avatar', '$managementCo', '$userNotID' );";
 
        $execute = new Execute ($query, 'execute');
+        }
+
+    
        
       
        
@@ -190,6 +203,15 @@ class employee extends user{
 
     public function rigister($userName,$password,$emailAdress,$firstName,$lastName,$stateID,$employeeRoleID, $active,$maintananceEmail,$timeCardID,$cellNumber,$phoneNumber,$city,$zip,$allowSecurityAssignments
     ,$allowParkingAssignments,$allowMaintenanceAssignments,$allowUserToviewGPSData,$allowEmailes,$avatar,$managementCo, $userNotID){
+
+        $check = "SELECT userName FROM falcon.employees WHERE userName = '$userName';";
+
+        $execute = new Execute ($check, 'array');
+
+        if ($execute->result != ""){
+echo "The Username You Entered Is Set by Other User. Please Change the User Name.";
+        }else {
+
         $query = "INSERT INTO falcon.employees (`userName`, `password`, `emailAddress`, `firstName`, `lastName`, `states_id` , `employee_roles_id`,`active`, `maintananceEmail`
         , `timeCardID`, `cellNumber`, `phoneNumber`, `city` , `zip`, `allowSecurityAssignments`,`allowParkingAssignments`
         , `allowMaintenanceAssignments`, `allowUserToviewGPSData`, `allowEmails`, `avatar`, `managmentCompany`
@@ -198,11 +220,13 @@ class employee extends user{
         , '$zip', '$allowSecurityAssignments', '$allowParkingAssignments', '$allowMaintenanceAssignments','$allowUserToviewGPSData','$allowEmailes', '$avatar', '$managementCo', '$userNotID' );";
 
        $execute = new Execute ($query, 'execute');
-    
-
 
     }
-    public function webLogin($userName, $password){
+}
+
+   
+
+public function webLogin($userName, $password){
         $query = "SELECT * FROM falcon.employees where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
         if ($execute) {
@@ -329,12 +353,12 @@ class dispacher extends employee{
 
 
 
-$cus = new employee();
-  $something =$cus->login("meer","tgt");
+ $cus = new customer();
+//   $something =$cus->login("meer","tgt");
 //    print_r($cus->allowSecurityAssignments);
 //  print_r($something);
 //  $admin-> userName = "meer";
-//$cus->rigister('meer', 'mmeerr', 'mb@mb', "meer", 'bahez','1','1','0','mm@mm','2','077077098','674633','suly','10005','1','0','0','1','1','lklklk','1','1');
+$cus->rigister('meer', 'mmeerr', 'mb@mb', "meer", 'bahez','1','1','0','mm@mm','2','077077098','674633','suly','10005','1','0','0','1','1','lklklk','1','1');
  
 
 
