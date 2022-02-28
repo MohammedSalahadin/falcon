@@ -10,15 +10,16 @@ function validate($value){
 
 
 // Guard Login
-if(isset($_POST['userName'])){
-    $userName = validate($_POST['userName']);
-    $password = validate($_POST['password']);
+
+    $userName = "meer";
+    $password = "mmeerr";
 
     $user = new Guard();
-    $user-> login($username, $password);
+    $user-> login($userName, $password);
     if ($user->loggedIn) { //logged in
+        echo 'Succesfully Logged in';
         if ($user->active == true){ //user is active
-            $returnBack['message'] = 'Succesfully Logged in'; // return success login
+             // return success login
             $returnBack['loggedIn'] = false;                  // login state
             $returnBack['id'] = $user->id;
             $returnBack['firstName'] = $user->firstName;
@@ -37,7 +38,7 @@ if(isset($_POST['userName'])){
      }
      
 
-}
+
 
 
 ?>
