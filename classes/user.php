@@ -220,21 +220,13 @@ echo "The Username You Entered Is Set by Other User. Please Change the User Name
         , '$zip', '$allowSecurityAssignments', '$allowParkingAssignments', '$allowMaintenanceAssignments','$allowUserToviewGPSData','$allowEmailes', '$avatar', '$managementCo', '$userNotID' );";
 
        $execute = new Execute ($query, 'execute');
-<<<<<<< HEAD
-
-        }
-
-
-
-
-       
-=======
-    
->>>>>>> 7d298419dc4894973e4dbbdf5a996647dabf50ee
-
 
     }
-    public function webLogin($userName, $password){
+}
+
+   
+
+public function webLogin($userName, $password){
         $query = "SELECT * FROM falcon.employees where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
         if ($execute) {
