@@ -50,9 +50,9 @@ function validate($value){
 $userName = $_POST['userName'];
 $password = $_POST['password'];
     $user = new admin();
-   $res = $user-> login($userName, $password);
+    $user -> login($userName, $password);
    
-   echo $res
+   echo $user ->userName;
 
 
 
@@ -68,7 +68,7 @@ $password = $_POST['password'];
                 <div class="mb-3">
                 <div class="input-group flex-nowrap">
   <span class="input-group-text" id="addon-wrapping">@</span>
-  <input type="text" class="form-control" placeholder="Username" aria-label="Username" name="userName" id="username" aria-describedby="addon-wrapping">
+  <input type="text" class="form-control" placeholder="Username" aria-label="Username" name="userName" id="userName" aria-describedby="addon-wrapping">
 </div>
                 </div>
                 <div class="mb-3">

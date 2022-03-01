@@ -93,7 +93,7 @@ class customer extends user{
     public function webLogin($userName, $password){
         $query = "SELECT * FROM falcon.customers where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
-        if ($execute) {
+        if ($execute -> num_rows !==0) {
             //user have been registerd 
             $this->loggedIn = true;
             $this->userName = $userName;
@@ -136,7 +136,7 @@ class customer extends user{
     public function  login($userName, $password){
         $query = "SELECT * FROM falcon.customers where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
-        if ($execute) {
+        if ($execute ->num_rows !==0) {
             //user have been registerd 
             $this->loggedIn = true;
             $this->userName = $userName;
@@ -229,7 +229,7 @@ echo "The Username You Entered Is Set by Other User. Please Change the User Name
 public function webLogin($userName, $password){
         $query = "SELECT * FROM falcon.employees where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
-        if ($execute) {
+        if ($execute->num_rows !==0) {
             //user have been registerd 
             $this->loggedIn = true;
             $this->userName = $userName;
@@ -272,7 +272,8 @@ public function webLogin($userName, $password){
     public function  login($userName, $password){
         $query = "SELECT * FROM falcon.employees where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
-        if ($execute) {
+        
+        if ($execute->num_rows !==0) {
             //user have been registerd 
             $this->loggedIn = true;
             $this->userName = $userName;
@@ -349,6 +350,16 @@ class admin extends employee{
 class dispacher extends employee{
     public $permissions = array();
 }
+
+
+
+
+ $cus = new employee();
+  $something =$cus->login("meer","mmr");
+
+//  $admin-> userName = "meer";
+// $cus->rigister('meer', 'mmeerr', 'mb@mb', "meer", 'bahez','1','1','0','mm@mm','2','077077098','674633','suly','10005','1','0','0','1','1','lklklk','1','1');
+ 
 
 
 ?>
