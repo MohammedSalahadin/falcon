@@ -94,6 +94,8 @@ class customer extends user{
         $query = "SELECT * FROM falcon.customers where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
         if ($execute -> num_rows !==0) {
+            if ($execute -> result['userName'] == $userName && $execute->reset['password'] == $password){
+
             //user have been registerd 
             $this->loggedIn = true;
             $this->userName = $userName;
@@ -128,6 +130,9 @@ class customer extends user{
             if ($execute->result['allowEmails'] == 1){
                 $this->allowEmailes = true;
             }
+        }else {
+            $error = "The User Name or Password is Incorrect";
+        }
             
         }
      
@@ -137,6 +142,8 @@ class customer extends user{
         $query = "SELECT * FROM falcon.customers where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
         if ($execute ->num_rows !==0) {
+            if ($execute -> result['userName'] == $userName && $execute->reset['password'] == $password){
+
             //user have been registerd 
             $this->loggedIn = true;
             $this->userName = $userName;
@@ -171,11 +178,12 @@ class customer extends user{
             if ($execute->result['allowEmails'] == 1){
                 $this->allowEmailes = true;
             }
+        }else {
+            $error = "The User Name or Password is Incorrect";
+        }
             
         }
-     
-
-    }
+}
 
 
 
@@ -230,6 +238,7 @@ public function webLogin($userName, $password){
         $query = "SELECT * FROM falcon.employees where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
         if ($execute->num_rows !==0) {
+            if ($execute -> result['userName'] == $userName && $execute->reset['password'] == $password){
             //user have been registerd 
             $this->loggedIn = true;
             $this->userName = $userName;
@@ -264,6 +273,9 @@ public function webLogin($userName, $password){
             if ($execute->result['allowEmails'] == 1){
                 $this->allowEmailes = true;
             }
+        }else {
+            $error = "The User Name or Password is Incorrect";
+        }
             
         }
      
@@ -274,6 +286,7 @@ public function webLogin($userName, $password){
         $execute = new Execute($query, 'array');
         
         if ($execute->num_rows !==0) {
+            if ($execute -> result['userName'] == $userName && $execute->reset['password'] == $password){
             //user have been registerd 
             $this->loggedIn = true;
             $this->userName = $userName;
@@ -308,6 +321,9 @@ public function webLogin($userName, $password){
             if ($execute->result['allowEmails'] == 1){
                 $this->allowEmailes = true;
             }
+        }else {
+            $error = "The User Name or Password is Incorrect";
+        }
             
         }
      
@@ -354,12 +370,6 @@ class dispacher extends employee{
 
 
 
- $cus = new employee();
-  $something =$cus->login("meer","mmr");
-
-//  $admin-> userName = "meer";
-// $cus->rigister('meer', 'mmeerr', 'mb@mb', "meer", 'bahez','1','1','0','mm@mm','2','077077098','674633','suly','10005','1','0','0','1','1','lklklk','1','1');
- 
 
 
 ?>
