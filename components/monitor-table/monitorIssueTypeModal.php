@@ -117,7 +117,7 @@
                     </div>
                     <div class="mb-1 d-flex justify-content-between px-5 text-start">
                         <div class="d-flex justify-content-between align-items-center px-1 w-25">
-                            <i class="bi bi-camera-fill" style="color: #03508e; cursor:pointer;"></i>
+                            <i class="bi bi-camera-fill typeIssueCamera" style="color: #03508e; cursor:pointer;"></i>
                             <div>
 
                                 <p>4:03 PM</p>

@@ -10,4 +10,16 @@ ToggleElementsClass(
 )
 
 // another example for toggle class function 
-ToggleElementsClass('.bi-x-circle', 'click', '.messagebox', 'd-none')    
+ToggleElementsClass('.bi-x-circle', 'click', '.messagebox', 'd-none')
+
+ToggleElementsClass('.btn-close-cam', 'click', '.camera-modal', 'show-Modal')
+// camera modal toggle 
+ToggleElementsClass('.typeIssueCamera', 'click', '.camera-modal', 'show-Modal')
+// close all modal by close btn 
+const allModal = document.querySelectorAll('.bi-camera')
+allModal.forEach(modal => {
+    modal.addEventListener('click', () => {
+        document.querySelector('.camera-modal').classList.toggle('show-Modal')
+    })
+})
+
