@@ -61,7 +61,7 @@ class Execute{
     public function multi($query){
         $result = $this->conn -> query($query);
         $this->num_rows = $result->num_rows;
-        $fetch = $result -> fetch_all(MYSQLi_ASSOC);
+        $fetch = $result -> fetch_all(MYSQLI_ASSOC);
         $this->conn->close();
         return $fetch;
     }

@@ -59,51 +59,105 @@ class Property
         return 0;
     }
 
-    //$query = "INSERT INTO `falcon`.`properties` (`propertyName`, `propertyCode`, `propertyNotes/PostOrders`, `clients_companies_id`) 
-    //VALUES ('second Property', 'code 2', 'p1.com', 'iraq, sully street2', '2', 'Some Note', '2', '2', '2', '2');
-    //;";
-
-    public function createProperty($name,$notes,$clientManagCompany)
+    public function createPropertyTX($name,$notes,$clientManagCompany)
     {
-        $query = "INSERT INTO `falcon`.`properties` (`propertyName`,`propertyNotes/PostOrders`, `clients_companies_id`) 
-        VALUES ('$name', '$notes','$clientManagCompany');
-        ;";
+        try {
 
-        $execute = new Execute ($query, 'execute');
+            $dbConn = new db();
+            $conn = $dbConn->getConnection();
+            $conn->begin_transaction();
+
+            $query = "INSERT INTO `falcon`.`properties` (`propertyName`,`propertyNotes/PostOrders`, `clients_companies_id`) 
+            VALUES ('$name', '$notes','$clientManagCompany'); "; 
+
+            $result = $conn->query($query);
+
+            if ($result) { //Propery has been added
+                
+                $this->name = $name;
+                $this->notesPostOrders = $notes;
+                echo $name."<br>".$notes."<br>";
+
+                $lastInsertId = $conn->insert_id; //getting last insert ID
+
+                echo $lastInsertId."<br>";
+
+                $query1 = "INSERT INTO `falcon`.`group_has_properties` (`property_id`, `property_group_id`) VALUES ($lastInsertId, '1'); ";
+                $result1 = $conn->query($query1);
+                if($result1){ //adding the most recent added property to all properties group
+                     echo " It fucking Worked ";
+                }
+           }
+           $conn->commit();
+           $conn->close();
+
+        } catch (\Throwable $th) {
+            $conn->rollback();
+            $conn->close();
+            return false;
+        }
         
-        if ($execute) { //Propery has been added
-             
-            $this->name = $name;
-            $this->notesPostOrders = $notes;
-
-            echo $name."<br>".$notes ;
-            
-            
-        } else { echo "Failed";}
         
     }
 
-    // private function validatecCompanyID()
+    // theres problems in this one because of no multi array execution
+    // public function createProperty($name,$notes,$clientManagCompany)
     // {
-    //     return 0;
+    //     try {
+
+    //         $query = "INSERT INTO `falcon`.`properties` (`propertyName`,`propertyNotes/PostOrders`, `clients_companies_id`) 
+    //         VALUES ('$name', '$notes','$clientManagCompany'); "; 
+    //         $execute = new Execute($query, 'execute');
+
+    //         if ($execute) { //Propery has been added
+                
+    //             $this->name = $name;
+    //             $this->notesPostOrders = $notes;
+    //             echo $name."<br>".$notes."<br>";
+
+    //             $lastIncrementedId = $execute->conn->insert_id;
+    //             echo $lastIncrementedId."<br>";
+
+    //             $query1 = "INSERT INTO `falcon`.`group_has_properties` (`property_id`, `property_group_id`) VALUES ($lastIncrementedId, '1'); ";
+    //             $execute1 = new Execute($query1,"execute");
+    //             if($execute1){ 
+    //                  echo " It fucking Worked ";
+    //                  print_r($execute1);
+    //             }
+                
+    //        }
+    //     } catch (\Throwable $th) {
+    //         return false;
+    //     }
     // }
 
-    public function generateProperty()
+    private function validateCompanyID() // to validate the update function.
     {
         return 0;
     }
 
+    // Gives error because you are trying to insert an ID of "0" to a table.
+    // public  function addThisPropertyToAllPropertyGroup() 
+    // {
+    //     $query1 = "INSERT INTO `falcon`.`group_has_properties` (`property_id`, `property_group_id`) VALUES (last_insert_id(), '1');";
+    //     $execute1 = new Execute($query1, 'execute');
+        
+    //     if ($execute1) { // adding the most recent added property to all properties
+
+    //         echo "Last index Id Has been fetched, and the most recent added property has been added to all properties<br>";
+    //         print_r($execute1);
+
+    //     } else { echo "Failed";}
+
+    // }
+
     public function updateProperty($name,$notes,$clientManagCompany,$id)
     {
 
+        $query = "UPDATE `falcon`.`properties` SET `propertyName` = '$name', `propertyNotes/PostOrders` = '$notes ', `clients_companies_id` = '$clientManagCompany' WHERE (`id` = '$id'); ";
+        $execute = new Execute($query, 'execute');
         
-
-        $query = "UPDATE `falcon`.`properties` SET `propertyName` = '$name', `propertyNotes/PostOrders` = '$notes ', `clients_companies_id` = '$clientManagCompany' WHERE (`id` = '$id');
-        ;";
-
-        $execute = new Execute ($query, 'execute');
-        
-        if ($execute) { //Propery has been added
+        if ($execute) { //Propery has been updated
              
             $this->name = $name;
             $this->notesPostOrders = $notes;
@@ -113,21 +167,11 @@ class Property
             echo "The name has been updated to ".$name."<br>The notes has been updated to ".$notes;
             
         } else { echo "Failed";}
-        
-
-        return 0;
     }
-
-    function addThisPropertyToAllPropertyGroup()
-    {
-        return 0;
-    }
-
-
 }
-$property2 = new Property();
 
-//$property2->createProperty("Second Property","Some Note",1);
-$property2->updateProperty("Updated Name","Updated Note",1,2);
+$property2 = new Property();
+$property2->createPropertyTX("testingAddToAllPropertyAgain","Hopefully it worked this time",1);
+//$property2->updateProperty("Updated Name","Updated Note",1,2);
 
 ?>
