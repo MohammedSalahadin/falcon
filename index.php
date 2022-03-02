@@ -55,6 +55,11 @@ require('classes\user.php');
 $userName = isset($_POST['userName']);
 $password = isset($_POST['password']);
     $user = new admin();
+    $user -> login($userName, $password);
+   
+   echo $user ->userName;
+
+
     $user-> login($userName, $password);
     if ($user-> userName !== '')   {
         // redirect to dashboard
@@ -64,7 +69,6 @@ $password = isset($_POST['password']);
     } 
     $error = 'err test';
 
- 
 
 
 

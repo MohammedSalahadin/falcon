@@ -93,7 +93,9 @@ class customer extends user{
     public function webLogin($userName, $password){
         $query = "SELECT * FROM falcon.customers where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
-        if ($execute) {
+        if ($execute -> num_rows !==0) {
+            if ($execute -> result['userName'] == $userName && $execute->reset['password'] == $password){
+
             //user have been registerd 
             $this->loggedIn = true;
             $this->userName = $userName;
@@ -128,6 +130,9 @@ class customer extends user{
             if ($execute->result['allowEmails'] == 1){
                 $this->allowEmailes = true;
             }
+        }else {
+            $error = "The User Name or Password is Incorrect";
+        }
             
         }
      
@@ -136,7 +141,9 @@ class customer extends user{
     public function  login($userName, $password){
         $query = "SELECT * FROM falcon.customers where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
-        if ($execute) {
+        if ($execute ->num_rows !==0) {
+            if ($execute -> result['userName'] == $userName && $execute->reset['password'] == $password){
+
             //user have been registerd 
             $this->loggedIn = true;
             $this->userName = $userName;
@@ -171,11 +178,12 @@ class customer extends user{
             if ($execute->result['allowEmails'] == 1){
                 $this->allowEmailes = true;
             }
+        }else {
+            $error = "The User Name or Password is Incorrect";
+        }
             
         }
-     
-
-    }
+}
 
 
 
@@ -229,7 +237,8 @@ echo "The Username You Entered Is Set by Other User. Please Change the User Name
 public function webLogin($userName, $password){
         $query = "SELECT * FROM falcon.employees where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
-        if ($execute) {
+        if ($execute->num_rows !==0) {
+            if ($execute -> result['userName'] == $userName && $execute->reset['password'] == $password){
             //user have been registerd 
             $this->loggedIn = true;
             $this->userName = $userName;
@@ -264,64 +273,67 @@ public function webLogin($userName, $password){
             if ($execute->result['allowEmails'] == 1){
                 $this->allowEmailes = true;
             }
+        }else {
+            $error = "The User Name or Password is Incorrect";
+        }
             
         }
      
 
     }
     public function  login($userName, $password){
-
-            $query = "SELECT * FROM falcon.employees where userName = '$userName' and `password` = '$password';";
-            $execute = new Execute($query, 'array');
-            if ($execute -> num_rows !==0) {
-             
-                
-                $this->loggedIn = true;
-                $this->userName = $userName;
-                $this->firstName = $execute->result['firstName'];
-                $this->lastName = $execute->result['lastName'];
-                $this->password = $execute->result['password'];
-                $this->emailAdress = $execute->result['emailAddress'];
-                $this->maintananceEmail = $execute->result['maintananceEmail'];
-                $this->timeCardID = $execute->result['timeCardID'];
-                $this->cellNumber = $execute->result['cellNumber'];
-                $this->phoneNumber = $execute->result['phoneNumber'];
-                $this->city = $execute->result['city'];
-                $this->zip = $execute->result['zip'];
-                $this->avatar = $execute->result['avatar'];
-                $this->lastLoginDate = $execute->result['lastLoginDate'];
-                $this->managementCo = $execute->result['managmentCompany'];
-                $this->employeeRoleId = $execute->result['employee_roles_id'];
-                if ($execute->result['active'] == 1){
-                $this->active = true;}
-                if ($execute->result['allowSecurityAssignments'] == 1){
-                    $this->allowSecurityAssignments = true;
-                }
-                if ($execute->result['allowParkingAssignments'] == 1){
-                    $this->allowParkingAssignments = true;
-                }
-                if ($execute->result['allowMaintenanceAssignments'] == 1){
-                    $this->allowMaintenanceAssignments = true;
-                }
-                if ($execute->result['allowUserToviewGPSData'] == 1){
-                    $this->allowUserToviewGPSData = true;
-                }
-                if ($execute->result['allowEmails'] == 1){
-                    $this->allowEmailes = true;
-                }
-               
-                
+        $query = "SELECT * FROM falcon.employees where userName = '$userName' and `password` = '$password';";
+        $execute = new Execute($query, 'array');
+        
+        if ($execute->num_rows !==0) {
+            if ($execute -> result['userName'] == $userName && $execute->reset['password'] == $password){
+            //user have been registerd 
+            $this->loggedIn = true;
+            $this->userName = $userName;
+            $this->firstName = $execute->result['firstName'];
+            $this->lastName = $execute->result['lastName'];
+            $this->password = $execute->result['password'];
+            $this->emailAdress = $execute->result['emailAddress'];
+            $this->maintananceEmail = $execute->result['maintananceEmail'];
+            $this->timeCardID = $execute->result['timeCardID'];
+            $this->cellNumber = $execute->result['cellNumber'];
+            $this->phoneNumber = $execute->result['phoneNumber'];
+            $this->city = $execute->result['city'];
+            $this->zip = $execute->result['zip'];
+            $this->avatar = $execute->result['avatar'];
+            $this->lastLoginDate = $execute->result['lastLoginDate'];
+            $this->managementCo = $execute->result['managmentCompany'];
+            $this->employeeRoleId = $execute->result['employee_roles_id'];
+            if ($execute->result['active'] == 1){
+            $this->active = true;}
+            if ($execute->result['allowSecurityAssignments'] == 1){
+                $this->allowSecurityAssignments = true;
             }
-
+            if ($execute->result['allowParkingAssignments'] == 1){
+                $this->allowParkingAssignments = true;
+            }
+            if ($execute->result['allowMaintenanceAssignments'] == 1){
+                $this->allowMaintenanceAssignments = true;
+            }
+            if ($execute->result['allowUserToviewGPSData'] == 1){
+                $this->allowUserToviewGPSData = true;
+            }
+            if ($execute->result['allowEmails'] == 1){
+                $this->allowEmailes = true;
+            }
+        }else {
+            $error = "The User Name or Password is Incorrect";
+        }
             
-            
+        }
+     
 
-        }}
-
-
-
+    }
 
 
+
+
+}
 class guard extends employee{
     public $permissions = array();
 
@@ -354,6 +366,10 @@ class admin extends employee{
 class dispacher extends employee{
     public $permissions = array();
 }
+
+
+
+
 
 
 ?>
