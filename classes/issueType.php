@@ -51,9 +51,6 @@ class IssueTypes{
     public function generate(){
         return 0;
     }
-
-
-
 }
 
 ?>
