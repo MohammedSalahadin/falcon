@@ -23,18 +23,16 @@ class IssueTypes{
 
     public $restrictToCheckpoint;
 
-    public $mainIssueTypes = array();
+    public $mainIssueTypes = array("Security","Parking","Maintenance");
 
     public $createdAt;
 
     public $updatedAt;
 
-
-    public $level =  new IssueLevels(1);
+    public IssueLevels $level;
 
     public $getIssueTyes; //its going to be an array with object of IssueTypes Class, and Property Class.
 
-    
     public function __construct($id)
     {
         $this->id = $id;

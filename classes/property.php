@@ -47,17 +47,45 @@ class Property
 
     public $location; // object of class Location
 
-    //public $issueTypes1 = new IssueTypes(1);
+    public static IssueType $issueType;
 
     public function __construct()
     {
         
     }
 
-    public function addIssueType()
+    // for adding issueType, can't finish it right now as the database side of it needs work.
+    public function addIssueType($issueTypeName,$description,$addTo,$issueFee,$active,$dispatch,$handheld,$webUsers,$autoClose,$checkPointOnly,$issueType,$issueLevel)
+    {
+        try {
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    private function validateCompanyID() // to validate the update function.
     {
         return 0;
     }
+
+    public function updateProperty($name,$notes,$clientManagCompany,$id)
+    {
+        $query = "UPDATE `falcon`.`properties` SET `propertyName` = '$name', `propertyNotes/PostOrders` = '$notes ', `clients_companies_id` = '$clientManagCompany' WHERE (`id` = '$id'); ";
+        $execute = new Execute($query, 'execute');
+        
+        if ($execute) { //Propery has been updated
+             
+            $this->name = $name;
+            $this->notesPostOrders = $notes;
+            $this->managementCompany = $clientManagCompany;
+            $this->id = $id;
+
+            echo "The name has been updated to ".$name."<br>The notes has been updated to ".$notes;
+            
+        } else { echo "Failed";}
+    }
+    
 
     public function createPropertyTX($name,$notes,$clientManagCompany)
     {
@@ -95,32 +123,10 @@ class Property
             return false;
         }
     }
-
-    private function validateCompanyID() // to validate the update function.
-    {
-        return 0;
-    }
-
-    public function updateProperty($name,$notes,$clientManagCompany,$id)
-    {
-        $query = "UPDATE `falcon`.`properties` SET `propertyName` = '$name', `propertyNotes/PostOrders` = '$notes ', `clients_companies_id` = '$clientManagCompany' WHERE (`id` = '$id'); ";
-        $execute = new Execute($query, 'execute');
-        
-        if ($execute) { //Propery has been updated
-             
-            $this->name = $name;
-            $this->notesPostOrders = $notes;
-            $this->managementCompany = $clientManagCompany;
-            $this->id = $id;
-
-            echo "The name has been updated to ".$name."<br>The notes has been updated to ".$notes;
-            
-        } else { echo "Failed";}
-    }
 }
 
 $property2 = new Property();
-$property2->createPropertyTX("testingAddToAllPropertyAgain","Hopefully it worked this time",1);
+//$property2->createPropertyTX("testingAddToAllPropertyAgain","Hopefully it worked this time",1);
 //$property2->updateProperty("Updated Name","Updated Note",1,2);
 
 ?>
