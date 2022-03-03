@@ -49,15 +49,13 @@ $password = isset($_POST['password']);
    
    echo $user ->userName;
 
-
-    $user-> login($userName, $password);
-    if ($user->login($userName, $password)) {
+    if ($user->loggedIn == true) {
         // redirect to dashboard
         header('Location: dashboard.php');
-    } 
-    $error = 'err test';
+    } else{
+    $error = $user->error;
 
-
+}
 
 
 ?>
@@ -79,17 +77,9 @@ $password = isset($_POST['password']);
   <input type="password" class="form-control" placeholder="password" aria-label="Username" name="password" id="password" aria-describedby="addon-wrapping">
 </div>
                     <div id="emailHelp" class="form-text">We'll never share your password with anyone else.</div>
-                    <div class="text-center m-1"><?php  
-                      if ($error == "" ) {
-        echo '<div class="alert alert-success" role="alert">
-        Login Successful
-        </div>';
-    } else {
-        echo '<div class="alert alert-danger" role="alert">
-        ' . $error . '
-        </div>';
-    }
-                     ?></div>
+                    <div class="text-center m-1">
+
+ </div>
                 </div>
                 <div class="mb-3 forget-password">
                     <p data-bs-toggle="modal" data-bs-target="#exampleModal">Forgot your passwoed ?</p>
