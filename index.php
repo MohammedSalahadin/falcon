@@ -19,32 +19,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="assets/styles/styles.css">
     <title>Falcontrac</title>
-</head>
-
-
-<body>
-    <!-- navbar start   -->
-    <div class="container py-4">
-        <div class="d-flex justify-content-between">
-            <div class="logo">
-                <img src="assets/images/logo.png" alt="">
-            </div>
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">test</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">test</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">test</a>
-                </li>
-
-            </ul>
-        </div>
-        <!-- navbar end   -->
-
-        <?php
+    <?php
 
 require('classes\user.php');
 
@@ -81,6 +56,32 @@ $password = isset($_POST['password']);
 
 
 ?>
+</head>
+
+
+<body>
+    <!-- navbar start   -->
+    <div class="container py-4">
+        <div class="d-flex justify-content-between">
+            <div class="logo">
+                <img src="assets/images/logo.png" alt="">
+            </div>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">test</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">test</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">test</a>
+                </li>
+
+            </ul>
+        </div>
+        <!-- navbar end   -->
+
+        
 
         <!-- login form start  -->
         <div class="d-flex justify-content-center pt-5">
