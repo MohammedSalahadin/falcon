@@ -59,13 +59,13 @@ $password = isset($_POST['password']);
    
    echo $user ->userName;
 
-<<<<<<< HEAD
+ 
     if ($user->loggedIn == true) {
         // redirect to dashboard
         header('Location: dashboard.php');
     } else{
     $error = $user->error;
-=======
+
 
     $user-> login($userName, $password);
     if ($user-> userName !== '')   {
@@ -76,7 +76,6 @@ $password = isset($_POST['password']);
     } 
     $error = 'err test';
 
->>>>>>> 9e7aa6f5158fcfe5910db1ae9e92ac418ed3f306
 
 }
 
