@@ -7,9 +7,12 @@
                 <button class="btn mx-3 rounded btn-primary ">
                     issue monitor
                 </button>
-                <button class="btn mx-3 rounded btn-primary">
-                    logout
-                </button>
+                 <a href="../logout.php">
+                     <button  class=" btn mx-3 rounded btn-primary">
+                         logout
+                     </button>
+
+                 </a>
                 <button class="btn mx-3 rounded btn-primary">
                     help
                 </button>

@@ -1,10 +1,10 @@
  <!-- camera report modal   -->
- <div class="modal fade" id="cameraModal" tabindex="-13" aria-labelledby="cameraModalLabel" aria-hidden="true">
+ <div class="my-modal camera-modal">
         <div class="modal-dialog modal-lg  modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header cameraModalHeader ">
                     <h5 class="modal-title" id="cameraModalLabel">Photo Count 1/12</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-cam" ></button>
                 </div>
                 <div class="modal-body cameraModalBody">
                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
