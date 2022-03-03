@@ -1,10 +1,4 @@
-<?php
 
-    if(isset($_SESSION['username'])){
-
-      header("Location: routes/monitor.php");
-    }
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,43 +13,53 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="assets/styles/styles.css">
     <title>Falcontrac</title>
-    <?php
+    
+    <script type="text/javascript">
 
-require('classes\user.php');
+function log()
+		{
+		event.preventDefault();
+		var data = new Object();
+		data.uname = document.getElementById('userName').value;
+		data.pass = document.getElementById('password').value;
+		
+		var send = JSON.stringify(data);
+		var x = new XMLHttpRequest();
+	
+			x.onreadystatechange = function()
+			{
+				if (this.readyState == 4 && this.status == 200)
+				{
+
+					var data = JSON.parse(this.responseText);
+					console.log(data);
+					if (data.length==0)
+					{alert("invalid login");
+						
+						
+					}else {
+						alert("Log in successful");
+						
+						header("Location: routes/monitor.php");
+						    
+					
+					}
+					
+					
+				}
+			};
+			x.open("POST", "classes/user.php", true);
+			x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			
+			x.send(send);
+
+		}
 
 
 
-// Guard Login
-// select user name input from html
-$userName = isset($_POST['userName']);
-$password = isset($_POST['password']);
-    $user = new admin();
-    $user -> login($userName, $password);
-   
-   echo $user ->userName;
-
- 
-    if ($user->loggedIn == true) {
-        // redirect to dashboard
-        header('Location: dashboard.php');
-    } else{
-    $error = $user->error;
+    </script>
 
 
-    $user-> login($userName, $password);
-    if ($user-> userName !== '')   {
-        // redirect to dashboard
-        $_SESSION['username']=$user -> userName;
-        echo 'done';
-       
-    } 
-    $error = 'err test';
-
-
-}
-
-
-?>
 </head>
 
 
@@ -103,29 +107,16 @@ $password = isset($_POST['password']);
                     </div>
                     <div id="emailHelp" class="form-text">We'll never share your password with anyone else.</div>
                     <div class="text-center m-1">
-<<<<<<< HEAD
+
 
  </div>
-=======
-                        <?php  
-                      if ($error == "" ) {
-        echo '<div class="alert alert-success" role="alert">
-        Login Successful
-        </div>';
-    } else {
-        echo '<div class="alert alert-danger" role="alert">
-        ' . $error . '
-        </div>';
-    }
-                     ?>
-                    </div>
->>>>>>> 9e7aa6f5158fcfe5910db1ae9e92ac418ed3f306
+
                 </div>
                 <div class="mb-3 forget-password">
                     <p data-bs-toggle="modal" data-bs-target="#exampleModal">Forgot your passwoed ?</p>
 
                 </div>
-                <button type="submit" name="loginSubmit" class="btn btn-primary">Submit</button>
+                <button type="submit" name="loginSubmit" class="btn btn-primary" onclick="log()">Submit</button>
             </form>
         </div>
     </div>
@@ -139,13 +130,9 @@ $password = isset($_POST['password']);
 
 
     <!-- resetmodal -->
-    <?php require('./components/resetPasswordModal.php')    ?>
+  
 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
-    <script src="assets/js/falcon.js"></script>
+    
 
 </body>
 
