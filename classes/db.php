@@ -1,9 +1,9 @@
 <?php
 
 class db{
-    private $sName = "localhost";
-    private $uName = "root";
-    private $pw = "root";
+    private $sName = "falcontrac.tk";
+    private $uName = "falcon";
+    private $pw = "falcon";
     private $dbname = "falcon";
     protected $conn;
 

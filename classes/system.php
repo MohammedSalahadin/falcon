@@ -1,5 +1,7 @@
 <?php
 
+include 'db.php';
+
 class System{
     public $id;                                 //id of the system match in the database
     //general info
@@ -48,24 +50,39 @@ class System{
 
     }
 
-    public function addGeneral($localURL, $hideHomePageMenuBar, $returnUrlOnLogout, $contactCompanyName, $dispachPhoneNumber, 
+    //System ID is requried
+   /*  public function addGeneral($localURL, $hideHomePageMenuBar, $returnUrlOnLogout, $contactCompanyName, $dispachPhoneNumber, 
     $cityStateZip, $contactEmail, $contactPhoneNumber, $handheldPhotoTimestampText, $includeArrivals_DeparturesInDAR,
-    $homePageMessage, $mobileDeviceLoginMessage, $propertyFindExampleText, $externalUrlLinks){
+    $homePageMessage, $mobileDeviceLoginMessage, $propertyFindExampleText, $externalUrlLinks){ */
+        public function addGeneral(){
         $id = 0;
-        return $id;
+        $query = "INSERT INTO `falcon`.`general` (`localUrl`, `hideHomePageMenuBar`, `homePageMenuLinkName`, `returnURLonLogout`,`dispachPhoneNumber`, `dispachPhoenNumberGuards`, `timeZone`, `contactCompanyName`, `contactAddress`, `city`, `states_id`,`contactEmail`, `contactPhoneNumber`, `handheldPhotoTimestampText`, `renderHomePageAsHTMLMarkup`, `IncludeArrivals/DeparturesInDAR`,`HomePageMessage`, `MobileDeviceLoginMessage`, `hideDropDownCitySelector`, `propertyFindExampleText`, `externalUrlLinks`) VALUES ('user2.falcontrac.com', '1', '1', '1', '07701233332', '07701213123', '+1', 'UserCompany', 'co address', 'austin', '1','user@email.com', '07763343334', '1', '1', '1', 'Welcome to user System', 'WElcome to falcon system', '0', 'example p name','somesites');";
+        // $query.="SELECT LAST_INSERT_ID();";
+        // $sql = "SELECT firstName FROM falcon.employees where id='1';";
+        // $id = new Execute($query, 'single');
+        $conn = new db();
+        $conn = $conn -> getConnection();
+        $result = $conn -> query($query);
+        // $row = $result -> fetch_row();
+        echo $query;
+        // echo $row[0];
     }
 
     public function updateGeneral($localURL, $hideHomePageMenuBar, $returnUrlOnLogout, $contactCompanyName, $dispachPhoneNumber, 
     $cityStateZip, $contactEmail, $contactPhoneNumber, $handheldPhotoTimestampText, $includeArrivals_DeparturesInDAR,
     $homePageMessage, $mobileDeviceLoginMessage, $propertyFindExampleText, $externalUrlLinks){
         $id = 0;
-        return $id;
+        $query = "INSERT INTO `falcon`.`general` (`localUrl`, `hideHomePageMenuBar`, `homePageMenuLinkName`, `returnURLonLogout`, `dispachPhoneNumber`, `dispachPhoenNumberGuards`, `timeZone`, `contactCompanyName`, `contactAddress`, `city`, `states_id`, `contactEmail`, `contactPhoneNumber`, `handheldPhotoTimestampText`, `renderHomePageAsHTMLMarkup`, `IncludeArrivals/DeparturesInDAR`, `HomePageMessage`, `MobileDeviceLoginMessage`, `hideDropDownCitySelector`, `propertyFindExampleText`, `externalUrlLinks`) VALUES ('user.falcontrac.com', '1', '1', '1', '07701233332', '07701213123', '+1', 'UserCompany', 'userCo. address', 'austin', '1', 'user@email.com', '07763343334', '1', '1', '1', 'Welcome to user System', 'WElcome to falcon system', '0', 'eg.property name', 'https://www.google.com https://hjuzati.com');";
+        $query.="";
+        $id = new Execute($query, 'single');
+        echo $id;
     }
     //used to view data on front-end
     public function getGeneral($localURL, $hideHomePageMenuBar, $returnUrlOnLogout, $contactCompanyName, $dispachPhoneNumber, 
     $cityStateZip, $contactEmail, $contactPhoneNumber, $handheldPhotoTimestampText, $includeArrivals_DeparturesInDAR,
     $homePageMessage, $mobileDeviceLoginMessage, $propertyFindExampleText, $externalUrlLinks){
         $id = 0;
+        
         return $id;
     }
 
@@ -73,6 +90,7 @@ class System{
     $resendNotificationAlertForUnacknowledgedIssuesPriority3){
         $id = 0;
         $query = "";
+
         return $id;
     }
 
@@ -80,6 +98,7 @@ class System{
     $resendNotificationAlertForUnacknowledgedIssuesPriority3){
         $id = 0;
         $query = "";
+
         return $id;
     }
     //used to view data on front-end
@@ -128,7 +147,7 @@ class System{
 
     public function createSystem(){
         $query = "INSERT INTO `falcon`.`systems` (`general_id`, `devices_id`, `logos_id`, `notification_id`, `email_id`, `domainName`) VALUES ('1', '1', '1', '1', '1', 'test.falcontrac.com');";
-
+        
 
     }
 
@@ -137,7 +156,12 @@ class System{
 
 }
 
-
+/* ($localURL, $hideHomePageMenuBar, $returnUrlOnLogout, $contactCompanyName, $dispachPhoneNumber, 
+    $cityStateZip, $contactEmail, $contactPhoneNumber, $handheldPhotoTimestampText, $includeArrivals_DeparturesInDAR,
+    $homePageMessage, $mobileDeviceLoginMessage, $propertyFindExampleText, $externalUrlLinks) */
+    
+$s = new System();
+$s->addGeneral();
 
 
 
