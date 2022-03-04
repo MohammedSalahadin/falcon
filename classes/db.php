@@ -37,6 +37,9 @@ class Execute{
             case 'multi':
                 $result = $this->multi($query);
                 break;
+            case 'multiQuery':
+                $result = $this->multiQuery($query);
+                break;
             default:
                 $result = "wrong method: $type, use execute,single,array or multi";
                 break;
@@ -70,6 +73,20 @@ class Execute{
         $result = $this->conn->query($query);
         $this->conn->close();
         return $result;
+    }
+
+    public function multiQuery($query)
+    {
+        $result =  $this->conn->multi_query($query);
+        $fetch = [];
+        do {
+            if ($result =  $this->conn->store_result()) {
+                $fetch = $result->fetch_all(MYSQLI_ASSOC) ;
+                // var_dump($result->fetch_all(MYSQLI_ASSOC));
+                $result->free();
+            }
+        } while ( $this->conn->next_result());
+        return $fetch;
     }
 }
 
