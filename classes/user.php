@@ -106,7 +106,7 @@ class customer extends user{
         $query = "SELECT * FROM falcon.customers where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
         if ($execute -> num_rows !==0) {
-            if ($execute -> result['userName'] == $userName && $execute->reset['password'] == $password){
+            if ($execute -> result['userName'] == $userName && $execute->result['password'] == $password){
 
             //user have been registerd 
             $this->loggedIn = true;
@@ -154,7 +154,7 @@ class customer extends user{
         $query = "SELECT * FROM falcon.customers where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
         if ($execute ->num_rows !==0) {
-            if ($execute -> result['userName'] == $userName && $execute->reset['password'] == $password){
+            if ($execute -> result['userName'] == $userName && $execute->result['password'] == $password){
 
             //user have been registerd 
             $this->loggedIn = true;
@@ -250,7 +250,7 @@ public function webLogin($userName, $password){
         $query = "SELECT * FROM falcon.employees where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
         if ($execute->num_rows !==0) {
-            if ($execute -> result['userName'] == $userName && $execute->reset['password'] == $password){
+            if ($execute -> result['userName'] == $userName && $execute->result['password'] == $password){
             //user have been registerd 
             $this->loggedIn = true;
             $this->userName = $userName;
@@ -296,9 +296,10 @@ public function webLogin($userName, $password){
     public function  login($userName, $password){
         $query = "SELECT * FROM falcon.employees where userName = '$userName' and `password` = '$password';";
         $execute = new Execute($query, 'array');
+       
         
         if ($execute->num_rows !==0) {
-            if ($execute -> result['userName'] == $userName && $execute->reset['password'] == $password){
+            if ($execute -> result['userName'] == $userName && $execute->result['password'] == $password){
             //user have been registerd 
             $this->loggedIn = true;
             $this->userName = $userName;
@@ -380,9 +381,13 @@ class dispacher extends employee{
 }
 
 
-$u = new admin();
+$user = new admin();
 
-$u -> login($user,$pass);
+            $user ->login("meer","mmeerr");
+
+            if($user->loggedIn == true){
+                echo"true";
+            }else{echo"error";}
 
 
 
