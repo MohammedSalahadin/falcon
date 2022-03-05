@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,51 +12,33 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="assets/styles/styles.css">
     <title>Falcontrac</title>
+
+ 
     
-    <script type="text/javascript">
+ 
 
-function log()
-		{
-		event.preventDefault();
-		var data = new Object();
-		data.uname = document.getElementById('userName').value;
-		data.pass = document.getElementById('password').value;
+<!-- HTML comment
+            <?php
+            if(isset($_POST['submit'])) {
+                include 'classes/user.php';
+            $un = $_POST['userName'];
+            $pas = $_POST['password'];
+
+            $test = new admin();
+            //----------
+            $test -> login($un,$pas);
+
+            if($test -> loggedIn == true){
+
+                header('routs/monitor.php');
+
+            }
+        } 
+                
+                
+                
+            ?>
 		
-		var send = JSON.stringify(data);
-		var x = new XMLHttpRequest();
-	
-			x.onreadystatechange = function()
-			{
-				if (this.readyState == 4 && this.status == 200)
-				{
-
-					var data = JSON.parse(this.responseText);
-					console.log(data);
-					if (data.length==0)
-					{alert("invalid login");
-						
-						
-					}else {
-						alert("Log in successful");
-						
-						header("Location: routes/monitor.php");
-						    
-					
-					}
-					
-					
-				}
-			};
-			x.open("POST", "classes/user.php", true);
-			x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			
-			x.send(send);
-
-		}
-
-
-
-    </script>
 
 
 </head>
@@ -95,15 +76,15 @@ function log()
                 <div class="mb-3">
                     <div class="input-group flex-nowrap">
                         <span class="input-group-text" id="addon-wrapping">@</span>
-                        <input type="text" class="form-control" placeholder="Username" aria-label="Username"
-                            name="userName" id="userName" aria-describedby="addon-wrapping">
+                        <input type="text" class="form-control" placeholder="Username" 
+                            name="userName" id="userName" >
                     </div>
                 </div>
                 <div class="mb-3">
                     <div class="input-group flex-nowrap">
                         <span class="input-group-text" id="addon-wrapping">***</span>
-                        <input type="password" class="form-control" placeholder="password" aria-label="Username"
-                            name="password" id="password" aria-describedby="addon-wrapping">
+                        <input type="password" class="form-control" placeholder="password" 
+                            name="password" id="password" >
                     </div>
                     <div id="emailHelp" class="form-text">We'll never share your password with anyone else.</div>
                     <div class="text-center m-1">
@@ -116,15 +97,14 @@ function log()
                     <p data-bs-toggle="modal" data-bs-target="#exampleModal">Forgot your passwoed ?</p>
 
                 </div>
-                <button type="submit" name="loginSubmit" class="btn btn-primary" onclick="log()">Submit</button>
+                <button type="submit" name="submit" class="btn btn-primary"">Submit</button>
             </form>
         </div>
     </div>
     <!-- login form end  -->
 
 
-    </div>
-    </div>
+   
 
     <!-- login form end --->
 
