@@ -1,6 +1,7 @@
 <?php
 
 include 'db.php';
+require 'services.php';
 
 class System{
     public $id;                                 //id of the system match in the database
@@ -38,6 +39,8 @@ class System{
     public $resendNotificationAlertForUnacknowledgedIssuesPriority3;
 
     //logos info
+    public $logosID;
+    private static $logosGenerated;
     public $mainPageLogo;                       //url of the logo file
     public $reportHeaderLogo;                   //url of the logo file
 
@@ -166,8 +169,6 @@ class System{
         $resendNotificationAlertForUnacknowledgedIssuesPriority3){
         // call add Notification one time
         if (self::$notificationGenerated) return false;
-        
-
         $query = "INSERT INTO `falcon`.`system_notification` (`ResendNotificationAlertForUnacknowledgedIssuesPriority1`, `ResendNotificationAlertForUnacknowledgedIssuesPriority2`, `ResendNotificationAlertForUnacknowledgedIssuesPriority3`) VALUES ('$resendNotificationAlertForUnacknowledgedIssuesPriority1', '$resendNotificationAlertForUnacknowledgedIssuesPriority2', '$resendNotificationAlertForUnacknowledgedIssuesPriority3');";
         $query.= "SELECT LAST_INSERT_ID() as id;";
         $result = new Execute($query, 'multiQuery');
@@ -260,23 +261,61 @@ class System{
             return false;
         }
     }
-    
-    public function addLogos($mainPageLogo, $reportHeaderLogo){
-        $id = 0;
-        $query = "";
-        return $id;
+    //Files will be soted in the gloabal variable $_FILES
+    public function addLogos(){
+        if (self::$logosGenerated) return false;    //stop if the function have been called before
+        if(!isset($_Files)) return false;           //stop if no files where uploaded
+        //Store the photos into ../upload folder and get their url
+        $mainPageLogoUrl = Services::uploadImage("mainLogo"); // mainLogo matches the name of the file input in the from
+        $reportHeaderLogoUrl = Services::uploadImage("reportHeaderLogo");  // reportHeaderLogo matches the name of the input in the from
+        
+        if ($mainPageLogoUrl != false || $reportHeaderLogoUrl != false){
+            $query = "INSERT INTO `falcon`.`logos` (`mainPageLogo`, `reportHeaderLogo`) VALUES ('$mainPageLogoUrl', '$reportHeaderLogoUrl');";
+            $query.= "SELECT LAST_INSERT_ID() as id;";
+            $result = new Execute($query, 'multiQuery');
+            $id = ($result->result)[0]['id'];
+            if($id != null && $this->getLogos($id)){ //set class variables and check if setted
+                return true; 
+            } else {
+                $this->logosGenerated = "undifined";
+                return false; //coudn't set/update the object info
+            };
+        }
+       
     }
-    //get's data fron front-end
-    public function updateLogos($mainPageLogo, $reportHeaderLogo){
-        $id = 0;
-        $query = "";
-        return $id;
+    //logos id in the database
+    public function updateLogos($id){
+        //Store the photos into ../upload folder and get their url
+        $mainPageLogoUrl = Services::uploadImage("mainLogo"); // mainLogo matches the name of the file input in the from
+        $reportHeaderLogoUrl = Services::uploadImage("reportHeaderLogo");  // reportHeaderLogo matches the name of the input in the from
+        
+        if ($mainPageLogoUrl != false || $reportHeaderLogoUrl != false){
+            $query = "UPDATE `falcon`.`logos` SET `mainPageLogo` = '$mainPageLogoUrl', `reportHeaderLogo` = '$reportHeaderLogoUrl' WHERE (`id` = '$id');";
+            $result = new Execute($query, 'multiQuery');
+            if($id != null && $this->getLogos($id)){ //set class variables and check if setted
+                return true; 
+            } else {
+                $this->logosGenerated = "undifined";
+                return false; //coudn't set/update the object info
+            };
+        }
     }
-    //used to view data on front-end
-    public function getLogos($mainPageLogo, $reportHeaderLogo){
-        $id = 0;
-        $query = "";
-        return $id;
+    //logos id in the database
+    public function getLogos($id){
+        $query = "SELECT * FROM falcon.logos where id = '$id'";
+        $result = new Execute($query, 'multiQuery');
+        $fields = ($result->result)[0];
+        if ($fields > 0) {
+            self::$logosGenerated = true;       
+            $this->logosID = $fields['id'];
+            $this->mainPageLogo = $fields['mainPageLogo'];
+            $this->reportHeaderLogo = $fields['reportHeaderLogo'];
+           return true;
+        }
+        else {
+            $this->notificationID = "undifined";
+            return false;
+        }
     }
 
 
@@ -297,16 +336,16 @@ class System{
 }
 
 
-$localURL = "user.falcontrac.net";$hideHomePageMenuBar=1; $returnUrlOnLogout="user.falcontrac.com/logout";$homePageMenuLinkName="HP Menue N";
-$contactCompanyName = "user co name";$contactAddress= "address";$dispachPhoneNumber = "098721938";$timeZone="+1 GMT";$dispachPhoenNumberGuards="200300324";$city = "austin";$state = "1";$zip="12344";
-$contactEmail = "user@mail.com";$contactPhoneNumber = "09870977";$handheldPhotoTimestampText = "photo by user co";$renderHomePageAsHTMLMarkup = '0'; $includeArrivals_DeparturesInDAR = '1';
-$homePageMessage = "Welcome to to user co";$mobileDeviceLoginMessage = "mobilelogin message";$hideDropDownCitySelector='0'; $propertyFindExampleText="find property"; 
-$externalUrlLinks = "https://hjuzati.com https;//falcontrac.com";
+// $localURL = "user.falcontrac.net";$hideHomePageMenuBar=1; $returnUrlOnLogout="user.falcontrac.com/logout";$homePageMenuLinkName="HP Menue N";
+// $contactCompanyName = "user co name";$contactAddress= "address";$dispachPhoneNumber = "098721938";$timeZone="+1 GMT";$dispachPhoenNumberGuards="200300324";$city = "austin";$state = "1";$zip="12344";
+// $contactEmail = "user@mail.com";$contactPhoneNumber = "09870977";$handheldPhotoTimestampText = "photo by user co";$renderHomePageAsHTMLMarkup = '0'; $includeArrivals_DeparturesInDAR = '1';
+// $homePageMessage = "Welcome to to user co";$mobileDeviceLoginMessage = "mobilelogin message";$hideDropDownCitySelector='0'; $propertyFindExampleText="find property"; 
+// $externalUrlLinks = "https://hjuzati.com https;//falcontrac.com";
 
 //when updating 
-$rowId = '34';
+// $rowId = '34';
 
-$s = new System();
+//$s = new System();
 //$id = $s->updateGeneral($rowId,$localURL,$hideHomePageMenuBar, $homePageMenuLinkName,$returnUrlOnLogout,$contactCompanyName,$contactAddress,$dispachPhoneNumber,$timeZone,$dispachPhoenNumberGuards,$city,$state,$zip,$contactEmail,$contactPhoneNumber,$handheldPhotoTimestampText,$renderHomePageAsHTMLMarkup, $includeArrivals_DeparturesInDAR,$homePageMessage,$mobileDeviceLoginMessage,$hideDropDownCitySelector,$propertyFindExampleText,$externalUrlLinks);    
 // $id = $s->getGeneral('34');
 // $id2 = $s->addGeneral($localURL,$hideHomePageMenuBar, $homePageMenuLinkName,$returnUrlOnLogout,$contactCompanyName,$contactAddress,$dispachPhoneNumber,$timeZone,$dispachPhoenNumberGuards,$city,$state,$zip,$contactEmail,$contactPhoneNumber,$handheldPhotoTimestampText,$renderHomePageAsHTMLMarkup, $includeArrivals_DeparturesInDAR,$homePageMessage,$mobileDeviceLoginMessage,$hideDropDownCitySelector,$propertyFindExampleText,$externalUrlLinks);    
@@ -325,13 +364,8 @@ $s = new System();
 // $result2 = $s->addEmails('mail1@mail.com', 'emails2@gmail.com', 'email3@hotmail.com', 'email4@yahoo.com');
 
 // echo $result1 ."  -  ".$result2;
+
 //echo $s->fromEmailAddressNewIssue;
-
-
-
-
-
-
 
 
 ?>
