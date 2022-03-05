@@ -381,13 +381,6 @@ class dispacher extends employee{
 }
 
 
-$user = new admin();
-
-            $user ->login("meer","mmeerr");
-
-            if($user->loggedIn == true){
-                echo"true";
-            }else{echo"error";}
 
 
 
