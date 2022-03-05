@@ -77,8 +77,6 @@ class System{
         $homePageMessage, $mobileDeviceLoginMessage,$hideDropDownCitySelector, $propertyFindExampleText, $externalUrlLinks){
         //function is called only one time in the second call it will return false
         if (self::$generalGenerated) return false;
-        
-
         // do something.
         $query = "INSERT INTO `falcon`.`general` (`localUrl`, `hideHomePageMenuBar`, `homePageMenuLinkName`, `returnURLonLogout`,
          `dispachPhoneNumber`, `dispachPhoenNumberGuards`, `timeZone`, `contactCompanyName`, `contactAddress`, `city`, `states_id`, `zip`,
@@ -264,7 +262,6 @@ class System{
     //Files will be soted in the gloabal variable $_FILES
     public function addLogos(){
         if (self::$logosGenerated) return false;    //stop if the function have been called before
-        if(!isset($_Files)) return false;           //stop if no files where uploaded
         //Store the photos into ../upload folder and get their url
         $mainPageLogoUrl = Services::uploadImage("mainLogo"); // mainLogo matches the name of the file input in the from
         $reportHeaderLogoUrl = Services::uploadImage("reportHeaderLogo");  // reportHeaderLogo matches the name of the input in the from
@@ -320,21 +317,63 @@ class System{
 
 
     //in order to create the system, we have to create 
-    public function createSystem($generalId, $notificationID, $emailID){
-        $query = "INSERT INTO `falcon`.`systems` (`general_id`, `devices_id`, `logos_id`, `notification_id`, `email_id`, `domainName`) VALUES ('1', '1', '1', '1', '1', 'test.falcontrac.com');";
+    public function createSystem(){
+        if (self::$generalGenerated && self::$notificationGenerated && self::$logosGenerated && self::$emailsGenerated) {
+            $generalId = $this->generalId;
+            $notificationID = $this->notificationID;
+            $emailsID = $this->emailsID;
+            $logosID = $this->logosID;
+            $query = "INSERT INTO `falcon`.`systems` (`general_id`, `logos_id`, `notification_id`, 
+            `email_id`) VALUES ('$generalId', '$logosID', '$notificationID', '$emailsID');";
+             $query.= "SELECT LAST_INSERT_ID() as id;";
+             $result = new Execute($query, 'multiQuery');
+             $id = ($result->result)[0]['id'];
+             if ($id > 1 && $this->getSystem($id)) {
+                 return true;
+             }
+             else {
+                 return false;
+             }
+             echo "Executed:".$id;
+
+        } else {
+            echo "Missing Calling function, General:".self::$generalGenerated." Notification:".self::$notificationGenerated."
+            Logo Generated:".self::$logosGenerated." emails Generated:".self::$emailsGenerated;
+        }
     }
 
     public function updateSystem(){
+        
 
     }
 
     public function getSystem($id){
-
+        $query = "SELECT * FROM falcon.systems WHERE id = '$id';";
+        $result = new Execute($query, 'multiQuery');
+        $fields = ($result->result)[0]; //select first array that contains all the fields
+        if($fields > 0){
+            print_r($fields);
+            if(
+            $this->getGeneral($fields['general_id']) &&
+            $this->getEmails($fields['email_id']) &&
+            $this->getNotifications($fields['notification_id']) &&
+            $this->getLogos($fields['logos_id'])
+            ){
+                echo "all fileds are set up";
+                return true;
+            } else{ return false;}; //coudn't set all system info
+        } else { return false;}; //coudn't get the system id
+        
+        
     }
 
 
 }
 
+// $s = new System();
+// $s->getSystem("1");
+// echo $s->zip;
+// echo $s->reportHeaderLogo;
 
 // $localURL = "user.falcontrac.net";$hideHomePageMenuBar=1; $returnUrlOnLogout="user.falcontrac.com/logout";$homePageMenuLinkName="HP Menue N";
 // $contactCompanyName = "user co name";$contactAddress= "address";$dispachPhoneNumber = "098721938";$timeZone="+1 GMT";$dispachPhoenNumberGuards="200300324";$city = "austin";$state = "1";$zip="12344";
@@ -345,15 +384,15 @@ class System{
 //when updating 
 // $rowId = '34';
 
-//$s = new System();
+
 //$id = $s->updateGeneral($rowId,$localURL,$hideHomePageMenuBar, $homePageMenuLinkName,$returnUrlOnLogout,$contactCompanyName,$contactAddress,$dispachPhoneNumber,$timeZone,$dispachPhoenNumberGuards,$city,$state,$zip,$contactEmail,$contactPhoneNumber,$handheldPhotoTimestampText,$renderHomePageAsHTMLMarkup, $includeArrivals_DeparturesInDAR,$homePageMessage,$mobileDeviceLoginMessage,$hideDropDownCitySelector,$propertyFindExampleText,$externalUrlLinks);    
 // $id = $s->getGeneral('34');
-// $id2 = $s->addGeneral($localURL,$hideHomePageMenuBar, $homePageMenuLinkName,$returnUrlOnLogout,$contactCompanyName,$contactAddress,$dispachPhoneNumber,$timeZone,$dispachPhoenNumberGuards,$city,$state,$zip,$contactEmail,$contactPhoneNumber,$handheldPhotoTimestampText,$renderHomePageAsHTMLMarkup, $includeArrivals_DeparturesInDAR,$homePageMessage,$mobileDeviceLoginMessage,$hideDropDownCitySelector,$propertyFindExampleText,$externalUrlLinks);    
+// $s->addGeneral($localURL,$hideHomePageMenuBar, $homePageMenuLinkName,$returnUrlOnLogout,$contactCompanyName,$contactAddress,$dispachPhoneNumber,$timeZone,$dispachPhoenNumberGuards,$city,$state,$zip,$contactEmail,$contactPhoneNumber,$handheldPhotoTimestampText,$renderHomePageAsHTMLMarkup, $includeArrivals_DeparturesInDAR,$homePageMessage,$mobileDeviceLoginMessage,$hideDropDownCitySelector,$propertyFindExampleText,$externalUrlLinks);    
 // echo $id." - ".$id2;
 // echo $s->returnUrlOnLogout;
 
 // $result1 = $s->getNotifications('4');
-// $result2 = $s->addNotifications('1','1','1');
+// $s->addNotifications('1','1','1');
 // echo $result1 ."  -  ".$result2;
 // echo $s->notificationID;
 // echo $s->resendNotificationAlertForUnacknowledgedIssuesPriority1;
@@ -361,11 +400,11 @@ class System{
 
 //** After calling add emails, or getEmails will disable the addEmails function */
 // $result1 = $s->getEmails('1');
-// $result2 = $s->addEmails('mail1@mail.com', 'emails2@gmail.com', 'email3@hotmail.com', 'email4@yahoo.com');
+// $s->addEmails('mail1@mail.com', 'emails2@gmail.com', 'email3@hotmail.com', 'email4@yahoo.com');
 
 // echo $result1 ."  -  ".$result2;
-
 //echo $s->fromEmailAddressNewIssue;
+// $s->getLogos("1");
 
 
 ?>
