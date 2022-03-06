@@ -21,8 +21,9 @@
             <?php
 
             if(isset($_POST['submit'])) {
+                if (isset($_POST['rr'])){
                     $check = $_POST['rr'];
-         if ($check == "Admin"){
+                    if ($check == "Admin"){
                 include 'classes/user.php';
             $un = $_POST['userName'];
             $pas = $_POST['password'];
@@ -77,6 +78,7 @@ window.location.href = "routes/monitor.php";
         }
         } 
     }
+    }
         
     
                 
@@ -120,9 +122,9 @@ window.location.href = "routes/monitor.php";
                 <h1 class="text-center login-text">Login</h1>
                 <br>
                 <input type="radio" name="rr" value="Admin">
-                  <label for="Admin">Admin</label>
-                  <input type="radio" name="rr" value="custommer">
-                  <label for="custommer">Custommer</label><br>
+                      <label for="Admin">Admin</label>
+                      <input type="radio" name="rr" value="custommer">
+                      <label for="custommer">Custommer</label><br>
                 <div class="mb-3">
                     <div class="input-group flex-nowrap">
                         <span class="input-group-text" id="addon-wrapping">@</span>
