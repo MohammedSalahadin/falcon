@@ -1,7 +1,7 @@
 <?php
 
 class db{
-    private $sName = "18.191.148.36";
+    private $sName = "falcontrac.tk";
     private $uName = "falcon";
     private $pw = "falcon";
     private $dbname = "falcon";
