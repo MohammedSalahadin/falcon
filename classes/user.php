@@ -1,16 +1,6 @@
 <?php
 
 
-header("Content-Type: application/json; charset=UTF-8");
-
-		$get = file_get_contents('php://input');
-		$data = json_decode($get, true);
-
-        	
-			$user = $data['uname'];
-			$pass = $data['pass'];
-
-
 //include database
 require_once 'db.php';
 
@@ -382,6 +372,6 @@ class dispacher extends employee{
 
 
 
-
+     
 
 ?>

@@ -17,7 +17,7 @@
     
  
 
-<!-- HTML comment
+
             <?php
             if(isset($_POST['submit'])) {
                 include 'classes/user.php';
@@ -25,13 +25,18 @@
             $pas = $_POST['password'];
 
             $test = new admin();
-            //----------
-            $test -> login($un,$pas);
+       $test -> login($un,$pas);
 
             if($test -> loggedIn == true){
 
-                header('routs/monitor.php');
+                header("location:routes\monitor.php");
 
+            }else{
+                echo '<script type="text/javascript">
+
+            alert("Your Email or Password is Incorrect"); 
+
+                            </script>';
             }
         } 
                 
