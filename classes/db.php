@@ -75,8 +75,7 @@ class Execute{
         return $result;
     }
 
-    public function multiQuery($query)
-    {
+    public function multiQuery($query){
         $result =  $this->conn->multi_query($query);
         $fetch = [];
         do {
@@ -88,8 +87,35 @@ class Execute{
         } while ( $this->conn->next_result());
         return $fetch;
     }
+
+    //check if table is exists: return true: exists, false: not exists
+    public static function checkTableExists($table){
+        $conn = new db(); $conn = $conn->getConnection();
+        $query = 'select 1 from `'.$table.'`';
+        $val = mysqli_query($conn, $query);
+        if($val !== FALSE){
+            // print("Exists");
+            return true;
+        }
+        else{
+            // print("Doesn't exist");
+            return false;
+        }
+
+    }
+
+    //Accepts id and table name, returns true if the id is exists, false if it's not exists
+    public static function checkIdInTable($id, $table){
+        if(Execute::checkTableExists($table)){
+            $query = "select id from ";
+            
+        }else{
+            return false; //table isn't exists
+        }
+    }
 }
 
+Execute::checkTableExists("logos");
 // $ex = new Execute("SELECT * FROM hima.visets where ipAddress = '::1'", "single");
 // print_r($ex->result);
 

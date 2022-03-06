@@ -63,9 +63,8 @@ class Services{
             $uploadOk = 0;
         }
     }
+
 }
-
-
 
 // echo Services::generateRandomString();
 

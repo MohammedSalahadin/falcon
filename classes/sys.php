@@ -344,7 +344,6 @@ class System{
 
     public function updateSystem(){
         
-
     }
 
     public function getSystem($id){
@@ -352,7 +351,7 @@ class System{
         $result = new Execute($query, 'multiQuery');
         $fields = ($result->result)[0]; //select first array that contains all the fields
         if($fields > 0){
-            print_r($fields);
+            // print_r($fields);
             if(
             $this->getGeneral($fields['general_id']) &&
             $this->getEmails($fields['email_id']) &&
@@ -397,14 +396,13 @@ class System{
 // echo $s->notificationID;
 // echo $s->resendNotificationAlertForUnacknowledgedIssuesPriority1;
 
-
 //** After calling add emails, or getEmails will disable the addEmails function */
 // $result1 = $s->getEmails('1');
 // $s->addEmails('mail1@mail.com', 'emails2@gmail.com', 'email3@hotmail.com', 'email4@yahoo.com');
 
-// echo $result1 ."  -  ".$result2;
-//echo $s->fromEmailAddressNewIssue;
-// $s->getLogos("1");
+//  echo $result1 ."  -  ".$result2;
+//  echo $s->fromEmailAddressNewIssue;
+//  $s->getLogos("1");
 
 
 ?>
