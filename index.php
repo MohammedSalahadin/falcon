@@ -19,7 +19,10 @@
 
 
             <?php
+
             if(isset($_POST['submit'])) {
+                    $check = $_POST['rr'];
+                    if ($check == "Admin"){
                 include 'classes/user.php';
             $un = $_POST['userName'];
             $pas = $_POST['password'];
@@ -29,7 +32,15 @@
 
             if($test -> loggedIn == true){
 
-                header("location:routes\monitor.php");
+                    echo '<script type="text/javascript">
+
+            alert("You have loged in as an Admin");
+
+            window.location.href = "routes/monitor.php"; 
+
+                            </script>';
+
+               
 
             }else{
                 echo '<script type="text/javascript">
@@ -38,7 +49,36 @@
 
                             </script>';
             }
+        }else {
+            if($check == "custommer"){
+                include 'classes/user.php';
+            $un = $_POST['userName'];
+            $pas = $_POST['password'];
+
+            $test = new customer();
+       $test -> login($un,$pas);
+
+            if($test -> loggedIn == true){
+
+                echo '<script type="text/javascript">
+
+            alert("You have loged in as a custommer"); 
+window.location.href = "routes/monitor.php";
+                            </script>';
+               
+
+            }else{
+                echo '<script type="text/javascript">
+
+            alert("Your Email or Password is Incorrect"); 
+
+                            </script>';
+            }
+        }
         } 
+    }
+        
+    
                 
                 
                 
@@ -78,6 +118,11 @@
             <!-- --------------------------------------------formm------------------------------------- -->
             <form class="bg-light p-5 rounded shadow w-75" method="POST">
                 <h1 class="text-center login-text">Login</h1>
+                <br>
+                <input type="radio" name="rr" value="Admin">
+                      <label for="Admin">Admin</label>
+                      <input type="radio" name="rr" value="custommer">
+                      <label for="custommer">Custommer</label><br>
                 <div class="mb-3">
                     <div class="input-group flex-nowrap">
                         <span class="input-group-text" id="addon-wrapping">@</span>
