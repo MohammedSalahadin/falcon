@@ -369,7 +369,7 @@ class System{
 
 }
 
-// $s = new System();
+//  $s = new System();
 // $s->getSystem("1");
 // echo $s->zip;
 // echo $s->reportHeaderLogo;
@@ -403,6 +403,8 @@ class System{
 //  echo $result1 ."  -  ".$result2;
 //  echo $s->fromEmailAddressNewIssue;
 //  $s->getLogos("1");
+
+
 
 
 ?>

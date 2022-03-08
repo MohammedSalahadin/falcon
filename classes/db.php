@@ -70,9 +70,15 @@ class Execute{
     }
 
     public function execute($query){
-        $result = $this->conn->query($query);
-        $this->conn->close();
-        return $result;
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        if($stmt->affected_rows > 0) {
+             return true;
+        } else {
+            // print_r($query);
+            return false;
+        }
+
     }
 
     public function multiQuery($query){
@@ -105,17 +111,30 @@ class Execute{
     }
 
     //Accepts id and table name, returns true if the id is exists, false if it's not exists
-    public static function checkIdInTable($id, $table){
+    public static function checkIdInTable($colID,$value, $table){
+        $conn = new db(); $conn = $conn->getConnection();
         if(Execute::checkTableExists($table)){
-            $query = "select id from ";
-            
+            $query = "select $colID from $table where $colID = $value";
+            $result = mysqli_query($conn, $query);
+            if(mysqli_num_rows($result) >0){
+            //found
+            return true;
+            // echo "$value is found";
+                
+            }else{
+            //not found
+            return false;
+                // echo "Coudn't find :$value in $table";
+            }
         }else{
             return false; //table isn't exists
         }
     }
 }
 
-Execute::checkTableExists("logos");
+// Execute::checkTableExists("logos");
+// Execute::checkIdInTable('id','3','logos');
+
 // $ex = new Execute("SELECT * FROM hima.visets where ipAddress = '::1'", "single");
 // print_r($ex->result);
 
