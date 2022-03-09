@@ -30,6 +30,13 @@ html{
   background-color: #979797;
   color: white;
 }
+button{
+  transition: all 0.3s ease-in-out !important;
+  &:hover{
+box-shadow: rgba(128, 128, 128, 0.671) 0px 0px 10px;
+  
+  }
+}
 .minWidth{
   min-width: 1000px;
 }
@@ -151,6 +158,17 @@ h1{
 }
 .users{
   border: solid silver 1px !important;
+  h1 , p{
+    font-weight: 400;
+  }
+  img{
+    max-width: 75px !important;
+    max-height: 75px !important;
+    border: gray 1px solid;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 2px;
+  }
 }
 .bi-x-circle{
   position: absolute;
@@ -178,5 +196,36 @@ h1{
 .border{
   border: rgba(128, 128, 128, 0.589) solid 1.5px !important;
   
+}
+.issueSummeryModal{
+  h2{
+    color: #004196;
+    font-weight: 400;
+    font-size: large;
+  }
+
+}
+.relative{
+  position: relative ;
+}
+.mapController{
+  position: absolute;
+  top: 0;
+  right: 0;
+  max-width: 30% !important;
+  padding: .5% 1%;
+  select{
+    width: 100%;
+  }
+}
+summary{
+  span{
+padding: 1%;
+&:hover{
+      background-color: #03508e;
+      border-radius: 5px;
+      color: white !important;
+    }
+  }
 }
 /*# sourceMappingURL=styles.css.map */

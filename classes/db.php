@@ -7,22 +7,26 @@ class db{
     private $dbname = "falcon";
     protected $conn;
 
-    public function __construct(){
-        $this->conn = new mysqli($this->sName, $this->uName,$this->pw,$this->dbname);//db connection
+    public function __construct()
+    {
+        $this->conn = new mysqli($this->sName, $this->uName, $this->pw, $this->dbname); //db connection
     }
-    public function getConnection(){
+    public function getConnection()
+    {
         return $this->conn;
     }
 }
 
 //execute queires
-class Execute{
+class Execute
+{
     public $num_rows;
     public $result;
     public $conn;
-    public function __construct($query, $type){
+    public function __construct($query, $type)
+    {
         $conn = new db();
-        $conn = $conn -> getConnection();
+        $conn = $conn->getConnection();
         $this->conn = $conn;
         switch ($type) {
             case 'execute':
@@ -47,27 +51,31 @@ class Execute{
         $this->result = $result;
     }
 
-    public function single($query){
-        $result = $this->conn -> query($query);
-        $fetch = $result -> fetch_row();
+    public function single($query)
+    {
+        $result = $this->conn->query($query);
+        $fetch = $result->fetch_row();
         $this->conn->close();
         return $fetch[0];
     }
 
-    public function array($query){
-        $result = $this->conn -> query($query);
+    public function array($query)
+    {
+        $result = $this->conn->query($query);
         $this->num_rows = $result->num_rows;
-        $fetch = $result -> fetch_array();
+        $fetch = $result->fetch_array();
         $this->conn->close();
         return $fetch;
     }
-    public function multi($query){
-        $result = $this->conn -> query($query);
+    public function multi($query)
+    {
+        $result = $this->conn->query($query);
         $this->num_rows = $result->num_rows;
-        $fetch = $result -> fetch_all(MYSQLI_ASSOC);
+        $fetch = $result->fetch_all(MYSQLI_ASSOC);
         $this->conn->close();
         return $fetch;
     }
+
 
     public function execute($query){
         $stmt = $this->conn->prepare($query);
@@ -130,13 +138,22 @@ class Execute{
             return false; //table isn't exists
         }
     }
+
+    public function multiQuery($query)
+    {
+        $result =  $this->conn->multi_query($query);
+        $fetch = [];
+
+        do {
+            if ($result =  $this->conn->store_result()) {
+                $fetch = $result->fetch_all(MYSQLI_ASSOC) ;
+                // var_dump($result->fetch_all(MYSQLI_ASSOC));
+                $result->free();
+            }
+        } while ( $this->conn->next_result());
+        return $fetch;
+    }
+
+    
 }
 
-// Execute::checkTableExists("logos");
-// Execute::checkIdInTable('id','3','logos');
-
-// $ex = new Execute("SELECT * FROM hima.visets where ipAddress = '::1'", "single");
-// print_r($ex->result);
-
-
-?>
