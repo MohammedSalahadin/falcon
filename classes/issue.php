@@ -4,43 +4,24 @@
 class Issue
 {
     public $id;
-
     public $propertyName;
-
     public $createdDate;
-
     public $location;
-
     public $reportedAddress;
-
     public $approxAccuranceTime;
-
     public $status;
-
     public $assignedDate;
-
     public $ack; //acknowledgement
-
     public $arrivedDate;
-
     public $closed;
-
     public $photos;
-
     public $audio;
-
     public $notes;
-
     public $gpsLongitude;
-
     public $gpsLatitude;
-
-    public IssueTypes $issueType; //object of IssueTypes Class
-
+    public $issueType; //object of IssueTypes Class
     public $createdBy; //its going to be object of User Class
-
     public $assignedTo; //its going to be object of User Class
-
     public $actualAddress; //its going to be object of Address Class
 
 

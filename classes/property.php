@@ -4,57 +4,33 @@ require_once 'db.php';
 class Property
 {
     public $id;
-
     public $name;
-
     public $webAddress;
-
     public $lockProperty;
-
     public $managementCompany; // object of Company class
-
     public $primaryAddress;
-
     public $billingAddress;
-
     public $notesPostOrders;
-
     public $securityProgram; //acknowledgement
-
     public $maintenanceProgram;
-
     public $parkingProgram;
-
     public $photo;
-
     public $tours; // object of an Unknown class
-
     public $address; // object of class Address
-
     public $tasks; // object of class Task
-
     public $alert; // object of class Alert
-
     public $attachedDocument;
-
-    public $checkPoints; // objct of class Checkpoint
-
-    //public $issue1 = new Issue(1);
-
+    public $checkPoints; // object of class Checkpoint
+    public $issue; // object of class issue
     public $checkPointsTours; // object of class CheckPointsTours
-
     public $phoneNumber; // object of class PhoneNumber
-
     public $location; // object of class Location
-
-    public static IssueType $issueTypeObj;
 
     public function __construct()
     {
         
     }
 
-    // for adding issueType, can't finish it right now as the database side of it needs work.
     public function addIssueType($issueTypeName,$description,$issueFee,$issueLevel,$issueType,$active,$dispatch,$handheld,$webUsers,$autoClose,$checkPointOnly,$addTo)
     {
         try {
@@ -102,14 +78,9 @@ class Property
         }
     }
 
-    private function validateCompanyID() // to validate the update function.
+    public function updateProperty($name,$notes,$clientManagCompany)
     {
-        return 0;
-    }
-
-    public function updateProperty($name,$notes,$clientManagCompany,$id)
-    {
-        $query = "UPDATE `falcon`.`properties` SET `propertyName` = '$name', `propertyNotes/PostOrders` = '$notes ', `clients_companies_id` = '$clientManagCompany' WHERE (`id` = '$id'); ";
+        $query = "UPDATE `falcon`.`properties` SET `propertyName` = '$name', `propertyNotes/PostOrders` = '$notes ', `clients_companies_id` = '$clientManagCompany' WHERE (`id` = '$this->id'); ";
         $execute = new Execute($query, 'execute');
         
         if ($execute) { //Propery has been updated
@@ -162,6 +133,6 @@ class Property
 $property2 = new Property();
 //$property2->createPropertyTX("addingToTestIssueType","first try",1);
 $property2->addIssueType("secondAddedViaProg","Trying for all properties",1.50,2,"Security",1,1,1,1,0,0,"allproperties");
-//$property2->updateProperty("Updated Name","Updated Note",1,2);
+//$property2->updateProperty("Updated Name","Updated Note",1); // now it doesn't accept ID argument, it gets it from this->id.
 
 ?>
