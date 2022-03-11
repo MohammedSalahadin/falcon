@@ -32,7 +32,6 @@ class Property
         
     }
 
-    // for adding issueType, can't finish it right now as the database side of it needs work.
     public function addIssueType($id)
     {
         $issueType = new IssueType();
@@ -50,15 +49,15 @@ class Property
             $this->name = $name;
             $this->notesPostOrders = $notes;
             $this->managementCompany = $clientManagCompany;
-            $this->id = $id;
 
             echo "The name has been updated to ".$name."<br>The notes has been updated to ".$notes;
+            return true;
             
-        } else { echo "Failed";}
+        } else { return false;}
     }
     
 
-    public function createPropertyTX($name,$notes,$clientManagCompany)
+    public function createProperty($name,$notes,$clientManagCompany)
     {
         try {
             $dbConn = new db();
@@ -93,7 +92,7 @@ class Property
 }
 
 $property2 = new Property();
-//$property2->createPropertyTX("addingToTestIssueType","first try",1);
+//$property2->createProperty("addingToTestIssueType","first try",1);
 $property2->addIssueType("secondAddedViaProg","Trying for all properties",1.50,2,"Security",1,1,1,1,0,0,"allproperties");
 //$property2->updateProperty("Updated Name","Updated Note",1); // now it doesn't accept ID argument, it gets it from this->id.
 $issueType->create("secondAddedViaProg","Trying for all properties",1.50,2,"Security",1,1,1,1,0,0,"allproperties");
