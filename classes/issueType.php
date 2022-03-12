@@ -29,31 +29,30 @@ class IssueType{
     {
     }
 
-    public function updateIssueType($description,$issueFee,$issueLevel,$active,$dispatch,$handheld,$webUsers,$autoClose,$checkPointOnly){
+    public function update($description,$issueFee,$issueLevel,$active,$dispatch,$handheld,$webUsers,$autoClose,$checkPointOnly){
         
         if($this->generated == false){echo "this objects issueType has not been generated yet, so you can't update it. ";return false;} //stop,  
-
+       
         try {
-            $currentDateTime = (new DateTime())->format('Y-M-D h:m:s');
+            $currentDateTime = (new DateTime())->format('Y-m-d h:m:s');
             //echo $currentDateTime ."<br> This is the current time/date and this is the id of the current object -> ".$this->id;
 
             $query = "UPDATE falcon.issue_types SET issueDescription = '$description', issueFee = '$issueFee', issueLevel = '$issueLevel', 
             isActiveIssue = '$active', displayForDispach = '$dispatch', displayOnHandheld = '$handheld',
             updatedAt = '$currentDateTime' WHERE (issue_type_id = '$this->id');";
 
-            $execute = new Execute($query,"multiQuery");
-            $result = ($execute->result);
 
-            // $test = $execute->getLastInsertedId();
-            // echo "Last Inserted ID -> ".$test." should be the same as -> ".$this->id;
-        
-                if ($result) { // if the IssueType has been updated
-                    echo " The IssueType has been updated successfully ";
-                    $this->generate($this->id);  //generate info based on the updated data
-                    return true;
-                } else {
-                    return false;
-                }
+            $execute = new Execute($query,"execute");
+            $result = $execute->result;
+
+            if ($result) { // if the IssueType has been updated
+                echo " The IssueType has been updated successfully ";
+                $this->generate($this->id);  //generate info based on the updated data
+                return true;
+            } else {
+                echo "not updated";
+                return false;
+            }
         } catch (\Throwable $th) {
             echo $th;
             return false;
@@ -68,7 +67,7 @@ class IssueType{
             $conn = $dbConn->getConnection();
             $conn->begin_transaction();
 
-            $currentDateTime = (new DateTime())->format('Y-M-D h:m:s');
+            $currentDateTime = (new DateTime())->format('Y-m-d h:m:s');
             $query = "INSERT INTO `falcon`.`issue_types` (`issueTypeName`, `issueDescription`, `issueFee`, `issueLevel`, `issue_type`, `isActiveIssue`, `displayForDispach`, `displayOnHandheld`, `displayForWebUsers`, `autoCloseIssue`, `restrictToCheckpointOnly`,`createdAt`) 
             VALUES ('$issueTypeName','$description','$issueFee','$issueLevel','$issueType','$active','$dispatch','$handheld','$webUsers','$autoClose','$checkPointOnly','$currentDateTime');" ; 
                 
@@ -120,7 +119,7 @@ class IssueType{
         $query = "SELECT * FROM issue_types where issue_type_id = '$id';";
         $execute = new Execute($query, "multiQuery");
         $result = ($execute->result)[0];
-        print_r($result);
+        //print_r($result);
         $this->id = $id;
         $this->name= $result['issueTypeName'];
         $this->description= $result['issueDescription'];
@@ -140,9 +139,11 @@ class IssueType{
 }
 
 $it = new IssueType();
-$it->createIssueType("The new Create Func","Trying for all properties",1.50,2,"Security",1,1,1,1,0,0,"allproperties");
-//$it->generate($id);
-//$it->updateIssueType("Trying out update and generate",1.50,2,1,1,1,1,0,0);
+// $it->createIssueType("The new Create Func","Trying for all properties",1.50,2,"Security",1,1,1,1,0,0,"allproperties");
+$it->generate('1');
+$it->update("Trying out update and generate",1.50,2,1,1,1,1,0,0);
+
+
 //echo $it->checkIfGenerated();
 //echo $it->id;
 // $something = $it->generate('1');
