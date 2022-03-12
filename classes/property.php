@@ -70,10 +70,7 @@ class Property
             if ($conn->query($query)) { //Propery has been added
                 $this->id = $conn->insert_id; //getting last insert ID
                 echo $this->id."<br>";
-                $this->name = $name;
-                $this->notesPostOrders = $notes;
-                echo $name."<br>".$notes."<br>";
-
+            
                 $query1 = "INSERT INTO `falcon`.`group_has_properties` (`property_id`, `property_group_id`) VALUES ($this->id, '1'); ";
                 $result1 = $conn->query($query1);
                 if($result1){ //adding the most recent added property to all properties group

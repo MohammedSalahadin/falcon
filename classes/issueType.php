@@ -73,7 +73,9 @@ class IssueType{
             VALUES ('$issueTypeName','$description','$issueFee','$issueLevel','$issueType','$active','$dispatch','$handheld','$webUsers','$autoClose','$checkPointOnly','$currentDateTime');" ; 
                 
                 if ($conn->query($query)) { // issueType has been Created
-                    echo "IssueType has been Created <br>";
+                    $this->createdAt = $currentDateTime;
+                    echo "IssueType has been Created Successfuly at $this->createdAt <br>";
+                    
                     switch ($addTo) {
 
                         case 'current':
@@ -130,7 +132,7 @@ class IssueType{
         $this->autoCloseIssue= $result['autoCloseIssue'];
         $this->restrictToCheckpoint= $result['restrictToCheckpointOnly'];
         $this->level= $result['issueLevel'];
-        $this->createdAt= (new DateTime())->format('Y-M-D h:m:s');
+        //$this->createdAt= (new DateTime())->format('Y-M-D h:m:s'); this would be assigned even when you update, so i transfered it to create function.
         $this->mainIssueTypes = $result['issue_type'];
 
         return true;
