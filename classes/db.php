@@ -51,6 +51,10 @@ class Execute
         $this->result = $result;
     }
 
+    public function getLastInsertedId(){ // call this function instead of using query to get last_insert_id
+        return $this->conn->insert_id; 
+    }
+    
     public function single($query)
     {
         $result = $this->conn->query($query);

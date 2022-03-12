@@ -1,4 +1,5 @@
 <?php
+use Twilio\TwiML\Voice\Echo_;
 
 require 'db.php';
 class IssueType{
@@ -19,30 +20,60 @@ class IssueType{
     public $level;
     public $getIssueTyes; //its going to be an array with object of IssueTypes Class, and Property Class.
     private $generated = false; //bool
+
+    public function checkIfGenerated(){
+        return "Has this object's issueType been generated before? -> ".$this->generated;
+    }
     
     public function __construct()
     {
     }
 
-    public function update($issueTypeName,$description,$issueFee,$issueLevel,$issueType,$active,$dispatch,$handheld,$webUsers,$autoClose,$checkPointOnly){
-        if($this->generated == false){return false;} //stop,  
+    public function updateIssueType($description,$issueFee,$issueLevel,$active,$dispatch,$handheld,$webUsers,$autoClose,$checkPointOnly){
+        
+        if($this->generated == false){echo "this objects issueType has not been generated yet, so you can't update it. ";return false;} //stop,  
 
-        $query = "update issue_types set () where id= '$this->id;'";
+        try {
+            $currentDateTime = (new DateTime())->format('Y-M-D h:m:s');
+            //echo $currentDateTime ."<br> This is the current time/date and this is the id of the current object -> ".$this->id;
+
+            $query = "UPDATE falcon.issue_types SET issueDescription = '$description', issueFee = '$issueFee', issueLevel = '$issueLevel', 
+            isActiveIssue = '$active', displayForDispach = '$dispatch', displayOnHandheld = '$handheld',
+            updatedAt = '$currentDateTime' WHERE (issue_type_id = '$this->id');";
+
+            $execute = new Execute($query,"multiQuery");
+            $result = ($execute->result);
+
+            // $test = $execute->getLastInsertedId();
+            // echo "Last Inserted ID -> ".$test." should be the same as -> ".$this->id;
+        
+                if ($result) { // if the IssueType has been updated
+                    echo " The IssueType has been updated successfully ";
+                    $this->generate($this->id);  //generate info based on the updated data
+                    return true;
+                } else {
+                    return false;
+                }
+        } catch (\Throwable $th) {
+            echo $th;
+            return false;
+        }
     }
 
-    public function create($issueTypeName,$description,$issueFee,$issueLevel,$issueType,$active,$dispatch,$handheld,$webUsers,$autoClose,$checkPointOnly,$addTo)
+    public function createIssueType($issueTypeName,$description,$issueFee,$issueLevel,$issueType,$active,$dispatch,$handheld,$webUsers,$autoClose,$checkPointOnly,$addTo)
     {
-        if($this->generated == true){return false;}
-
+        if($this->generated == true){echo "this objects issueType has been generated before, so you can't do it again. ";return false;}
         try {
             $dbConn = new db();
             $conn = $dbConn->getConnection();
-            $conn->begin_transaction(); 
+            $conn->begin_transaction();
 
-            $query = "INSERT INTO `falcon`.`issue_types` (`issueTypeName`, `issueDescription`, `issueFee`, `issueLevel`, `issue_type`, `isActiveIssue`, `displayForDispach`, `displayOnHandheld`, `displayForWebUsers`, `autoCloseIssue`, `restrictToCheckpointOnly`) 
-            VALUES ('$issueTypeName','$description','$issueFee','$issueLevel','$issueType','$active','$dispatch','$handheld','$webUsers','$autoClose','$checkPointOnly');" ; 
+            $currentDateTime = (new DateTime())->format('Y-M-D h:m:s');
+            $query = "INSERT INTO `falcon`.`issue_types` (`issueTypeName`, `issueDescription`, `issueFee`, `issueLevel`, `issue_type`, `isActiveIssue`, `displayForDispach`, `displayOnHandheld`, `displayForWebUsers`, `autoCloseIssue`, `restrictToCheckpointOnly`,`createdAt`) 
+            VALUES ('$issueTypeName','$description','$issueFee','$issueLevel','$issueType','$active','$dispatch','$handheld','$webUsers','$autoClose','$checkPointOnly','$currentDateTime');" ; 
                 
                 if ($conn->query($query)) { // issueType has been Created
+                    echo "IssueType has been Created <br>";
                     switch ($addTo) {
 
                         case 'current':
@@ -50,7 +81,7 @@ class IssueType{
                             VALUES ('$this->id', '$conn->insert_id'); ";
 
                                 if($conn->query($query1)){ // added the most recent added issueType to the current property
-                                    echo " added the most recent added issueType to the current property ";
+                                    echo " added the most recent added issueType to the current property<br> ";
                                     $this->generate($conn->insert_id);  //generate info
                                 }
                             break;
@@ -60,7 +91,7 @@ class IssueType{
                             VALUES ('1', '$conn->insert_id'); ";
 
                                 if($conn->query($query2)){ // added the most recent added issueType to all properties
-                                    echo " added the most recent added issueType to all properties ";
+                                    echo " added the most recent added issueType to all properties<br> ";
                                     $this->generate($conn->insert_id);  //generate info
                                 }
                             break;
@@ -87,7 +118,7 @@ class IssueType{
         $query = "SELECT * FROM issue_types where issue_type_id = '$id';";
         $execute = new Execute($query, "multiQuery");
         $result = ($execute->result)[0];
-        //print_r($result);
+        print_r($result);
         $this->id = $id;
         $this->name= $result['issueTypeName'];
         $this->description= $result['issueDescription'];
@@ -107,10 +138,11 @@ class IssueType{
 }
 
 $it = new IssueType();
-// $it->create("secondAddedViaProg","Trying for all properties",1.50,2,"Security",1,1,1,1,0,0,"allproperties");
-$it->generate($id);
-
-
+$it->createIssueType("The new Create Func","Trying for all properties",1.50,2,"Security",1,1,1,1,0,0,"allproperties");
+//$it->generate($id);
+//$it->updateIssueType("Trying out update and generate",1.50,2,1,1,1,1,0,0);
+//echo $it->checkIfGenerated();
+//echo $it->id;
 // $something = $it->generate('1');
 
 // if ($something){
