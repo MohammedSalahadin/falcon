@@ -115,11 +115,10 @@ class Execute
         if(Execute::checkTableExists($table)){
             $query = "select $colID from $table where $colID = $value";
             $result = mysqli_query($conn, $query);
-            if(mysqli_num_rows($result) >0){
+            if(mysqli_num_rows($result) > 0){
             //found
             return true;
             // echo "$value is found";
-                
             }else{
             //not found
             return false;

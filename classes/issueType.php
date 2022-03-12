@@ -114,6 +114,9 @@ class IssueType{
 
     public function generate($id){
         if ($id < 0) { return false;}
+        if(!Execute::checkIdInTable('issue_type_id',$id, 'issue_types')){return false;}
+        
+        
         $this->generated = true;
 
         $query = "SELECT * FROM issue_types where issue_type_id = '$id';";
@@ -139,10 +142,12 @@ class IssueType{
 }
 
 $it = new IssueType();
-// $it->createIssueType("The new Create Func","Trying for all properties",1.50,2,"Security",1,1,1,1,0,0,"allproperties");
-$it->generate('1');
-$it->update("Trying out update and generate",1.50,2,1,1,1,1,0,0);
+if(!$it->generate('6')){
+    echo "Not generated";
+}
 
+// $it->update("Trying out update and generate",1.50,2,1,1,1,1,0,0);
+//$result = $it->createIssueType("The new Create Func","Trying for all properties",1.50,2,"Security",1,1,1,1,0,0,"allproperties");
 
 //echo $it->checkIfGenerated();
 //echo $it->id;
