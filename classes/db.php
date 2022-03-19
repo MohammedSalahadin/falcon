@@ -79,8 +79,7 @@ class Execute
 
     public function execute($query){
         $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        if($stmt->affected_rows > 0) {
+        if($stmt->execute()) {
              return true;
         } else {
             // print_r($query);
