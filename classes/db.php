@@ -15,6 +15,17 @@ class db{
     {
         return $this->conn;
     }
+    public function checkConnection()
+    {
+        if($this->conn->connect_error)
+        {
+            echo " There was a problem connecting to the database " ; return false;
+        } else // This part can be removed, its just for reassurance.
+        {
+            echo " Connection with the database is Successfull " ; return true;
+        }
+        
+    }
 }
 
 //execute queires
@@ -26,8 +37,9 @@ class Execute
     public function __construct($query, $type)
     {
         $conn = new db();
-        $conn = $conn->getConnection();
-        $this->conn = $conn;
+        $conn->checkConnection();
+        $this->conn = $conn->getConnection();
+        
         switch ($type) {
             case 'execute':
                 $result = $this->execute($query);

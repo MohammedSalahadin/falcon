@@ -29,7 +29,7 @@ class Issue
     public function __construct()
     {
     }
-    public function createIssue()
+    public function create()
     {
         $query = "INSERT INTO `falcon`.`issues` (`properties_id`, `issue_types_id`, `reportedDetail`, `location`, `reportedAddress`, 
         `approxOccurrenceTime`, `property_addresses_id`, `status`, `created`, `assigned`, `ack`, `arrived`, `closed`, `createdBy`, `assignedTo`, 
