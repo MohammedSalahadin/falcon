@@ -93,11 +93,11 @@ class Property
             {
                 if ($conn->query($query)) //Propery has been added
                     {
-                        echo " Propery has been added successfully " ;                 
-                        $query1 = "INSERT INTO `falcon`.`group_has_properties` (`property_id`, `property_group_id`) VALUES ($conn->insert_id, '1'); ";
+                        $issueTypelastInsertedId = $conn->insert_id;
+                        echo " Propery has been added successfully ".$issueTypelastInsertedId ;                 
+                        $query1 = "INSERT INTO `falcon`.`group_has_properties` (`property_id`, `property_group_id`) VALUES ($issueTypelastInsertedId, '1'); ";
                         if($conn->query($query1)) //adding the most recent added property to all properties group
                             {
-                                $this->generate($conn->insert_id); //generate info
                                 echo " added the most recent added property to all properties group successfully " ;                 
                             }
                     } 
@@ -107,6 +107,7 @@ class Property
                 return false;
             }
             $conn->commit();
+            $this->generate($issueTypelastInsertedId); //generate info
             $conn->close();
             return true;
         }
@@ -120,7 +121,9 @@ class Property
     }
     public function generate($id)
     {
-        if (!is_int($id)) {return false;}
+        echo " This property's ID before conditions -> ".$id;
+        if ($id<1) {return false;}
+        echo " This property's ID after first condition -> ".$id;
         if (!Execute::checkIdInTable('property_id', $id, 'properties')) {return false;}
 
         try 

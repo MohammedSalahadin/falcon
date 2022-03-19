@@ -54,16 +54,8 @@ class IssueType{
                             if($conn->query($query1)) // added the most recent added issueType to the current property
                             { 
                                 echo " added the most recent added issueType to the current property ";
-
-                                if ($this->generate($issueTypelastInsertedId)) //generate info
-                                {
-                                    echo " Generate based on updated issueType ";
-                                }
-                                else 
-                                {
-                                    return false;
-                                }
                             }
+                            else {return false;}
                         break;
 
                     case 'allproperties':
@@ -74,17 +66,9 @@ class IssueType{
 
                             if($conn->query($query2)) // added the most recent added issueType to all properties
                             { 
-                                //echo $conn->insert_id;
-                                if ($this->generate($issueTypelastInsertedId)) //generate info
-                                {
-                                    echo " Generated based on updated issueType ";
-                                }
-                                else 
-                                {
-                                    return false;
-                                }
                                 echo " added the most recent added issueType to all properties ";
                             }
+                            else {return false;}
                         break;
 
                     default:
@@ -93,6 +77,11 @@ class IssueType{
                 }
             }
         $conn->commit();
+        if ($this->generate($issueTypelastInsertedId)) //generate info
+        {
+            echo " Generate based on updated issueType ";
+        }
+        else {return false;}
         $conn->close();
         return true;
         } 
@@ -107,7 +96,7 @@ class IssueType{
 
     public function generate($id){
         echo" Before Conditions ";
-        if (!is_int($id)) { return false;}
+        if ($id<1) { return false;}
         echo" first condition is okay ";
         if(!Execute::checkIdInTable('issue_type_id',$id, 'issue_types')){return false;}
         echo" second condition is okay ";
