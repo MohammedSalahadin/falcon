@@ -128,10 +128,7 @@ class Property
 
         try 
         {
-            echo " Generate variable's value Before Generating -> ".$this->generated; ;
             $this->generated = true;
-            echo " Generate variable's value After Generating -> ".$this->generated; ;
-
             $query = "SELECT * FROM properties where property_id = '$id';";
             $execute = new Execute($query, "multiQuery");
             $result = ($execute->result)[0];
