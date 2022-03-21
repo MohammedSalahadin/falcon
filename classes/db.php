@@ -81,7 +81,7 @@ class Execute
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         if($stmt->affected_rows >= 0) {
-            echo "Effected Rows: ".$stmt->affected_rows;
+            // echo "Effected Rows: ".$stmt->affected_rows;
              return true;
         } else {
             // print_r($query);
