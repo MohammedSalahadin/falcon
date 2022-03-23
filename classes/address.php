@@ -98,8 +98,8 @@ class Address
 // $property_id = '1'; $streetNumber= '5151'; $streetName= 'fiftyone';  $streetTypeId= '14'; $city= 'Husten' ; $states_id= '43';
 // $zip= '33443';$country= 'United States';$buildingNumber= ''; $addressTypeId= '4'; $GPSLongitude = '2993888'; $GPSLatitude = '66577473';
 
-$address = new Address();
-$address->generate('1');
+//$address = new Address();
+//$address->generate('1');
 
 /* $r = $address->create($property_id, $streetNumber, $streetName, $streetTypeId, $city, $states_id, $zip, $country, $buildingNumber, $addressTypeId, $GPSLongitude, $GPSLatitude);
 if($r){
@@ -111,15 +111,15 @@ else {
 
 
 // Update test
-/* $id = '2';
-$u = $address->update($id,$property_id, $streetNumber, $streetName, $streetTypeId, $city, $states_id, $zip, $country, $buildingNumber, $addressTypeId, $GPSLongitude, $GPSLatitude);
+// $id = $_POST['address_id'];
+// $u = $address->update($id,$property_id, $streetNumber, $streetName, $streetTypeId, $city, $states_id, $zip, $country, $buildingNumber, $addressTypeId, $GPSLongitude, $GPSLatitude);
 
-if ($u) {
-        echo "Updated";
-} else {
-        echo "not updated";
-}
- */
+// if ($u) {
+//         echo "Updated";
+// } else {
+//         echo "not updated";
+// }
+ 
 
  
 /* $idRemove = '2';
