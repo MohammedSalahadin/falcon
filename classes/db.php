@@ -22,7 +22,8 @@ class db{
             echo " There was a problem connecting to the database " ; return false;
         } else // This part can be removed, its just for reassurance.
         {
-            echo " Connection with the database is Successfull " ; return true;
+            // echo " Connection with the database is Successfull " ;
+             return true;
         }
         
     }

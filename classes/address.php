@@ -1,5 +1,6 @@
 <?php
-//require_once 'db.php';
+require_once 'db.php';
+require_once 'unit.php';
 
 class Address
 {
@@ -16,10 +17,37 @@ class Address
         public $addressTypeId;
         public $GPSLongitude;
         public $GPSLatitude;
+        public $unites = array();
+
+        public function generateUnites()
+        {
+                if (!isset($this->id) || $this->id < 1) {
+                        echo "generate the address first;";
+                }
+                $query = "SELECT id FROM falcon.unites where property_addresses_id = '$this->id';";
+                $unites = (new Execute($query, "multiQuery"))->result;
+                if (!empty($unites)) {
+                        foreach ($unites as $key => $unit) {
+                                $unitID = $unit['id'];
+                                $uObj = new Unit();
+                                if ($uObj->generate($unitID)) {
+                                        $this->unites[$unitID] = $uObj;
+                                }
+                                // unset($unit);
+                        }
+                        // echo "unites are generated";
+                        return true;
+                } else {
+                        echo "Coud not find unites for address: $this->id";
+                        return false;
+                }
+        }
 
         public function create($property_id, $streetNumber, $streetName, $streetTypeId, $city, $states_id, $zip, $country, $buildingNumber, $addressTypeId, $GPSLongitude, $GPSLatitude)
         {
-                if (isset($this->id) && $this->id > 0) { return false;}//create is called when creating new address only
+                if (isset($this->id) && $this->id > 0) {
+                        return false;
+                } //create is called when creating new address only
                 $query = "INSERT INTO `falcon`.`property_addresses` (`property_id`, `streetNumber`, `streetName`, `streetType_id`, `city`, `states_id`, `zip`, `country`, `buildingNumber`, `addresses_types_id`, `GPSLongitude`, `GPSLatitude`) 
                 VALUES ('$property_id', '$streetNumber', '$streetName', '$streetTypeId', '$city', '$states_id', '$zip', '$country', '$buildingNumber', '$addressTypeId', '$GPSLongitude', '$GPSLatitude');";
                 $query .= "SELECT LAST_INSERT_ID() as id;";
@@ -27,7 +55,7 @@ class Address
                 $id = ((new Execute($query, 'multiQuery'))->result)[0]['id'];
                 if ($id > 0) {
                         if ($this->generate($id)) {
-                                
+
                                 return true;
                         } else {
                                 return false;
@@ -37,23 +65,35 @@ class Address
                 }
         }
 
-        public function update($id,$property_id, $streetNumber, $streetName, $streetTypeId, $city, $states_id, $zip, $country, $buildingNumber, $addressTypeId, $GPSLongitude, $GPSLatitude){
-                if(!Execute::checkIdInTable('id', $id, 'property_addresses')){return false;}//Address validation
-                
+        public function update($id, $property_id, $streetNumber, $streetName, $streetTypeId, $city, $states_id, $zip, $country, $buildingNumber, $addressTypeId, $GPSLongitude, $GPSLatitude)
+        {
+                if (!Execute::checkIdInTable('id', $id, 'property_addresses')) {
+                        return false;
+                } //Address validation
+
                 $query = "UPDATE `falcon`.`property_addresses` SET `streetNumber` = '$streetNumber', `streetName` = '$streetName', `streetType_id` = '$addressTypeId', `city` = '$city', `states_id` = '$states_id', `zip` = '$zip', `country` = '$country', `buildingNumber` = '$buildingNumber', `addresses_types_id` = '$addressTypeId', `GPSLongitude` = '$GPSLongitude', `GPSLatitude` = '$GPSLatitude' WHERE (`id` = '$id');";
                 $executed = (new Execute($query, "execute"))->result;
                 if ($executed) {
                         if ($this->generate($id)) {
                                 return true;
-                        } else { return false;}
-                }else { return false;}
+                        } else {
+                                return false;
+                        }
+                } else {
+                        return false;
+                }
         }
 
         public function generate($id = '')
         {
                 if ($id < 1) {
-                        if (isset($this->id) && $this->id > 0){$id = $this->id;}                         // when already generated
-                        else { echo "generate stopped, incomming id: $id";return false;}                 // when not generated and not sent
+                        if (isset($this->id) && $this->id > 0) {
+                                $id = $this->id;
+                        }                         // when already generated
+                        else {
+                                echo "generate stopped, incomming id: $id";
+                                return false;
+                        }                 // when not generated and not sent
                 }
 
                 $query = "SELECT * FROM falcon.property_addresses  where id = '$id' ";
@@ -72,24 +112,35 @@ class Address
                         $this->addressTypeId = $result['addresses_types_id'];
                         $this->GPSLongitude = $result['GPSLongitude'];
                         $this->GPSLatitude = $result['GPSLatitude'];
+                        if ($this->generateUnites()) {
+                        } else {
+                                echo "coudn't generate unites";
+                        }
+
                         return true;
-                }
-                else {
+                } else {
                         return false;
                 }
-                
         }
 
-        public function remove($id = ''){
+        
+
+        public function remove($id = '')
+        {
                 if ($id < 1) {
-                        if (isset($this->id) && $this->id > 0){$id = $this->id;}                         // when already generated
-                        else { echo "generate stopped, incomming id: $id";return false;}                 // when not generated and not sent
+                        if (isset($this->id) && $this->id > 0) {
+                                $id = $this->id;
+                        }                         // when already generated
+                        else {
+                                echo "generate stopped, incomming id: $id";
+                                return false;
+                        }                 // when not generated and not sent
                 }
                 $query = "DELETE FROM `falcon`.`property_addresses` WHERE (`id` = '2');";
                 $executed = (new Execute($query, 'execute'))->result;
                 if ($executed) {
                         return true;
-                } else { 
+                } else {
                         return false;
                 }
         }
@@ -121,9 +172,12 @@ if ($u) {
 }
  */
 
- 
+
 /* $idRemove = '2';
  $re = $address->remove($idRemove);
 if ($re) {
        echo "address $idRemove is removed";
 } else { echo "ID $idRemove is not removed!";} */
+
+
+// print_r($address->unites);

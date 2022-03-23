@@ -1,6 +1,6 @@
 <?php
 
-use Telnyx\Exception\UnknownApiErrorException;
+// use Telnyx\Exception\UnknownApiErrorException;
 
 require_once 'db.php';
 
@@ -64,11 +64,10 @@ class Unit
                                 return false;
                         }                                    // when not generated and not sent
                 }
-
                 $query = "SELECT * FROM falcon.unites where id = '$id';";
                 $result = ((new Execute($query, "multiQuery"))->result)[0];
                 if (!empty($result)) {
-                        $this->id;
+                        $this->id = $result['id'];
                         $this->property_addresses_id = $result['property_addresses_id'];
                         $this->UnitNumber = $result['UnitNumber'];
                         $this->ParkingSpaceCount = $result['ParkingSpaceCount'];
@@ -107,10 +106,10 @@ class Unit
 }
 
 
-$property_addresses_id = "5";
-$UnitNumber = "A1";
+// $property_addresses_id = "5";
+// $UnitNumber = "A1";
 
-$unit1 = new Unit();
+// $unit1 = new Unit();
 
 //Single Object Creation
 // $result = $unit1->create($property_addresses_id, $UnitNumber);
@@ -129,11 +128,11 @@ if ($uResult) {
 } else { echo "unit Not Updated";} */
 
 //Single Object Remove
-$id = 5;
-$remove = $unit1->remove($id);
-if ($remove) {
-        echo "removed succesfully: $id";
-} else {echo "Couldnot remove unit: $id";}
+// $id = 5;
+// $remove = $unit1->remove($id);
+// if ($remove) {
+//         echo "removed succesfully: $id";
+// } else {echo "Couldnot remove unit: $id";}
 
 // Accept Array of Unites
 /* $unites = array("A1","A2","A3");
