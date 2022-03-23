@@ -3,54 +3,89 @@ require_once 'db.php';
 
 class Address
 {
+        public $id;
+        public $property_id;
+        public $streetNumber;
+        public $streetName;
+        public $streetTypeId;
+        public $city;
+        public $states_id;
+        public $zip;
+        public $country;
+        public $buildingNumber;
+        public $addressTypeId;
+        public $GPSLongitude;
+        public $GPSLatitude;
 
-        private $property_id;
-        private $streetNumber;
-        private $streetName;
-        private $streetTypeId;
-        private $city;
-        private $states_id;
-        private $zip;
-        private $country;
-        private $buildingNumber;
-        private $addressType;
-        private $propertyAddressescol1;
-        private $addressTypeId;
-        private $GPSLongitude;
-        private $GPSLatitude;
-
-
-        private function setValue($property_id, $streetNumber, $streetName, $streetTypeId, $city, $states_id, $zip, $country, $buildingNumber, $addressType, $propertyAddressescol1, $addressTypeId, $GPSLongitude, $GPSLatitude)
+        public function create($property_id, $streetNumber, $streetName, $streetTypeId, $city, $states_id, $zip, $country, $buildingNumber, $addressTypeId, $GPSLongitude, $GPSLatitude)
         {
-                $this->property_id = $property_id;
-                $this->streetNumber = $streetNumber;
-                $this->streetName = $streetName;
-                $this->streetTypeId = $streetTypeId;
-                $this->city = $city;
-                $this->states_id = $states_id;
-                $this->zip = $zip;
-                $this->country = $country;
-                $this->buildingNumber = $buildingNumber;
-                $this->addressType = $addressType;
-                $this->propertyAddressescol1 = $propertyAddressescol1;
-                $this->addressTypeId = $addressTypeId;
-                $this->GPSLongitude = $GPSLongitude;
-                $this->GPSLatitude = $GPSLatitude;
+                if (isset($this->id) && $this->id > 0) { return false;}//create is called when creating new address only
+                $query = "INSERT INTO `falcon`.`property_addresses` (`property_id`, `streetNumber`, `streetName`, `streetType_id`, `city`, `states_id`, `zip`, `country`, `buildingNumber`, `addresses_types_id`, `GPSLongitude`, `GPSLatitude`) 
+                VALUES ('$property_id', '$streetNumber', '$streetName', '$streetTypeId', '$city', '$states_id', '$zip', '$country', '$buildingNumber', '$addressTypeId', '$GPSLongitude', '$GPSLatitude');";
+                $query .= "SELECT LAST_INSERT_ID() as id;";
+                echo $query;
+                $id = ((new Execute($query, 'multiQuery'))->result)[0]['id'];
+                if ($id > 0) {
+                        if ($this->generate($id)) {
+                                
+                                return true;
+                        } else {
+                                return false;
+                        }
+                } else {
+                        return false;
+                }
         }
 
-
-        public function create($property_id, $streetNumber, $streetName, $streetTypeId, $city, $states_id, $zip, $country, $buildingNumber, $addressType, $propertyAddressescol1, $addressTypeId, $GPSLongitude, $GPSLatitude)
-        {
-                $this->setValue($property_id, $streetNumber, $streetName, $streetTypeId, $city, $states_id, $zip, $country, $buildingNumber, $addressType, $propertyAddressescol1, $addressTypeId, $GPSLongitude, $GPSLatitude);
-                $query = "INSERT INTO `falcon`.`admins` (`userName`, `password`, `email`, `firstName`, `lastName`, `domainName`) VALUES (`$property_id` , `$streetNumber` ,`$streetName` , `$streetTypeId` ,`$city` , `$states_id` ,`$zip` , `$country` ,`$buildingNumber` ,`$addressType`,`$propertyAddressescol1`,`$addressTypeId`,`$GPSLongitude`,`$GPSLatitude`  )";
-                $execute = new Execute($query, 'execute');
-                return $execute;
+        public function update($id,$property_id, $streetNumber, $streetName, $streetTypeId, $city, $states_id, $zip, $country, $buildingNumber, $addressTypeId, $GPSLongitude, $GPSLatitude){
+                $query = "UPDATE `falcon`.`property_addresses` SET `streetNumber` = '$streetNumber', `streetName` = '$streetName', `streetType_id` = '$addressTypeId', `city` = '$city', `states_id` = '$states_id', `zip` = '$zip', `country` = '$country', `buildingNumber` = '$buildingNumber', `addresses_types_id` = '$addressTypeId', `GPSLongitude` = '$GPSLongitude', `GPSLatitude` = '$GPSLatitude' WHERE (`id` = '$id');";
+                //still working on this function..
+        
+        
         }
 
-        public function show($id)
+        public function generate($id = '')
         {
-                $query = "SELECT * FROM falcon.property_addresses  where id = `$id` ";
-                $execute = new Execute($query, 'single');
-                return $execute;
+                if ($id < 1) {
+                        if (isset($this->id) && $this->id > 0){$id = $this->id;}                         // when already generated
+                        else { echo "generate stopped, incomming id: $id";return false;}                 // when not generated and not sent
+                }
+
+                $query = "SELECT * FROM falcon.property_addresses  where id = '$id' ";
+                $result = ((new Execute($query, 'multiQuery'))->result)[0];
+                if (!empty($result)) {
+                        $this->id = $id;
+                        $this->property_id = $result['property_id'];
+                        $this->streetNumber = $result['streetNumber'];
+                        $this->streetName = $result['streetName'];
+                        $this->streetTypeId = $result['streetType_id'];
+                        $this->city = $result['city'];
+                        $this->states_id = $result['states_id'];
+                        $this->zip = $result['zip'];
+                        $this->country = $result['country'];
+                        $this->buildingNumber = $result['buildingNumber'];
+                        $this->addressTypeId = $result['addresses_types_id'];
+                        $this->GPSLongitude = $result['GPSLongitude'];
+                        $this->GPSLatitude = $result['GPSLatitude'];
+                        return true;
+                }
+                else {
+                        return false;
+                }
+                
         }
 }
+
+$property_id = '1'; $streetNumber= '5151'; $streetName= 'fiftyone';  $streetTypeId= '14'; $city= 'Husten' ; $states_id= '43';
+$zip= '33443';$country= 'United States';$buildingNumber= ''; $addressTypeId= '4'; $GPSLongitude = '2993888'; $GPSLatitude = '66577473';
+
+$address = new Address();
+$r = $address->create($property_id, $streetNumber, $streetName, $streetTypeId, $city, $states_id, $zip, $country, $buildingNumber, $addressTypeId, $GPSLongitude, $GPSLatitude);
+if($r){
+        echo "created successfully";
+        echo $address->id;
+}
+else {
+        echo "something is wrong";
+}
+
