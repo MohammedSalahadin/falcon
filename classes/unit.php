@@ -1,74 +1,121 @@
 <?php
+
+use Telnyx\Exception\UnknownApiErrorException;
+
 require_once 'db.php';
 
 class Unit
 {
-        private $id;
-        private $propertyAddressId;
-        private $unitNumberPrefix;
-        private $startingUnitNumber;
-        private $unitNumberIncrement;
-        private $endingUnitNumber;
-        private $unitNumberSuffix;
+        public $id;
+        public $property_addresses_id;
+        public $UnitNumber;
+        public $ParkingSpaceCount;
+        public $ParkingSpaceNumbers;
+        public $CurrentPermitCount;
+        public $MaxPermitCount;
+        public $SecurityViolations;
+        public $ReportedSecurity;
+        public $ReportedParking;
+        public $ReportedMaintenance;
 
-        private function setValue($id, $propertyAddressId, $unitNumberPrefix, $startingUnitNumber, $unitNumberIncrement, $endingUnitNumber, $unitNumberSuffix)
+        public function create($property_addresses_id, $UnitNumber)
         {
-                $this->$id = $id;
-                $this->propertyAddressId = $propertyAddressId;
-                $this->unitNumberPrefix = $unitNumberPrefix;
-                $this->startingUnitNumber = $startingUnitNumber;
-                $this->unitNumberIncrement = $unitNumberIncrement;
-                $this->endingUnitNumber = $endingUnitNumber;
-                $this->unitNumberSuffix = $unitNumberSuffix;
-        }
-
-        public function create($propertyAddressId, $unitNumberPrefix, $startingUnitNumber, $unitNumberIncrement, $endingUnitNumber, $unitNumberSuffix)
-        {
-                $this->setValue(null, $propertyAddressId, $unitNumberPrefix, $startingUnitNumber, $unitNumberIncrement, $endingUnitNumber, $unitNumberSuffix);
-                $query =
-                        "INSERT INTO `falcon`.`unites`
-                                (`property_addresses_id`,
-                                `unitNumberPrefix`, 
-                                `startingUnitNumber`, 
-                                `unitNumberIncrement`, 
-                                `endingUnitNumber`, 
-                                `unitNumberSuffix`)
-                        VALUES
-                                (`$this->$propertyAddressId`,
-                                `$this->$unitNumberPrefix`,
-                                `$this->$startingUnitNumber`,
-                                `$this->$unitNumberIncrement`,
-                                `$this->$endingUnitNumber`,
-                                `$this-> $unitNumberSuffix`);";
-
-                $execute = new Execute($query, 'execute');
-                return $execute;
+                if(isset($this->id) && $this->id > 0){return false;} //can't call this function except when creating a new unit. 
+                
+                if(!Execute::checkIdInTable('id' ,$property_addresses_id, "property_addresses")){ echo $property_addresses_id." Address is Not Exists";return false;}// address id validation
+                
+                $MaxPermitCount = -1; // -1 Means value is set by property, to show in the front-end
+                
+                $query = "INSERT INTO `falcon`.`unites` (`property_addresses_id`, `UnitNumber`, `ParkingSpaceCount`, `ParkingSpaceNumbers`, `CurrentPermitCount`, `MaxPermitCount`, `SecurityViolations`, `Reported Security`, `ReportedParking`, `Reported Maintenance`) 
+                VALUES ('$property_addresses_id', '$UnitNumber', '0', '0', '0', '$MaxPermitCount', '0', '0', '0', '0');";
+                $query .= "SELECT LAST_INSERT_ID() as id;";
+                $id = ((new Execute($query, "multiQuery"))->result)[0]['id'];
+                if ($id > 0) {
+                        if ($this->generate($id)){
+                                return true;
+                        } else {
+                                 return false;
+                        }
+                } else { 
+                        return false;
+                }
         }
 
 
-        public function show($id)
-        {
-                $this->$id = $id;
-                $query = "SELECT * FROM falcon.unites  where id = `$this->$id` ";
-                $execute = new Execute($query, 'single');
-                return $execute;
+        public function setMaxPrimitCount($id, $maxPrimitCount){
+                if(!Execute::checkIdInTable('id' ,$id, "unites")){ echo $id." unit is Not Exists";return false;}// address id validation
+                $query = "UPDATE `falcon`.`unites` SET `MaxPermitCount` = '$maxPrimitCount' WHERE (`id` = '$id');";
+                $executeed = (new Execute($query, "execute"))->result;
+                if ($executeed) {
+                        if ($this->generate($id)) {
+                                return true;            //generated Successfully
+                        } else { return false;}
+                } else { return false;}
         }
 
-        public function update($id, $propertyAddressId, $unitNumberPrefix, $startingUnitNumber, $unitNumberIncrement, $endingUnitNumber, $unitNumberSuffix)
+        public function generate($id)
         {
-                $this->setValue($id, $propertyAddressId, $unitNumberPrefix, $startingUnitNumber, $unitNumberIncrement, $endingUnitNumber, $unitNumberSuffix);
-                $query =
-                        "UPDATE `falcon`.`unites`
-                        SET
-                                `id` = `$id`,
-                                `property_addresses_id` = `$this->$propertyAddressId`,
-                                `unitNumberPrefix` = `$this->$unitNumberPrefix`,
-                                `startingUnitNumber` = `$this->$startingUnitNumber`,
-                                `unitNumberIncrement` = `$this->$unitNumberIncrement`,
-                                `endingUnitNumber` = `$this->$endingUnitNumber`,
-                                `unitNumberSuffix` = `$this->$unitNumberSuffix`
-                        WHERE `id` = `$this->$id`;";
-                $execute = new Execute($query, 'single');
-                return $execute;
+                if ($id < 1) {
+                        if (isset($this->id) && $this->id > 0) {
+                                $id = $this->id;
+                        } // when already generated
+                        else {
+                                echo "generate stopped";
+                                return false;
+                        }                                    // when not generated and not sent
+                }
+
+                $query = "SELECT * FROM falcon.unites where id = '$id';";
+                $result = ((new Execute($query, "multiQuery"))->result)[0];
+                if (!empty($result)) {
+                        $this->id;
+                        $this->property_addresses_id = $result['property_addresses_id'];
+                        $this->UnitNumber = $result['UnitNumber'];
+                        $this->ParkingSpaceCount = $result['ParkingSpaceCount'];
+                        $this->ParkingSpaceNumbers = $result['ParkingSpaceNumbers'];
+                        $this->CurrentPermitCount = $result['CurrentPermitCount'];
+                        $this->MaxPermitCount = $result['MaxPermitCount'];
+                        $this->SecurityViolations = $result['SecurityViolations'];
+                        $this->ReportedSecurity = $result['Reported Security'];
+                        $this->ReportedParking = $result['ReportedParking'];
+                        $this->ReportedMaintenance = $result['Reported Maintenance'];
+                        return true;
+                }
         }
 }
+
+
+$property_addresses_id = "5";
+$UnitNumber = "A1";
+
+//Single Object Creation
+$unit1 = new Unit();
+// $result = $unit1->create($property_addresses_id, $UnitNumber);
+// if ($result) {
+//         echo "unit is created";
+// } else{
+//         echo "Unit is not created!";
+// }
+
+// Singel Object Update;
+$maxPrimitCount =0 ;
+$id = 5;
+$uResult = $unit1->setMaxPrimitCount($id, $maxPrimitCount);
+if ($uResult) {
+        echo "Unit is updated";
+} else { echo "unit Not Updated";}
+
+// Accept Array of Unites
+/* $unites = array("A1","A2","A3");
+$u = array(); //list of unites objects of the */
+
+//this foreach used to create multiple unites and store their objects into $u
+/* foreach($unites as $unit){
+        $uObj = new Unit();
+        if ($uObj->create($property_addresses_id, $UnitNumber)) {
+                $u[] = $uObj;
+                unset($uObj);
+        }
+        
+}
+ */
