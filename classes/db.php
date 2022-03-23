@@ -106,6 +106,19 @@ class Execute
         }
 
     }
+
+    public function multiQuery($query){
+        $result =  $this->conn->multi_query($query);
+        $fetch = [];
+        do {
+            if ($result =  $this->conn->store_result()) {
+                $fetch = $result->fetch_all(MYSQLI_ASSOC) ;
+                // var_dump($result->fetch_all(MYSQLI_ASSOC));
+                $result->free();
+            }
+        } while ( $this->conn->next_result());
+        return $fetch;
+    }
     
     //check if table is exists: return true: exists, false: not exists
     public static function checkTableExists($table){

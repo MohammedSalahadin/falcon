@@ -34,6 +34,20 @@ class Property
 
     }
 
+    public function inCustomGroup(){
+        // if (!(isset($this->id) && $this->id > 0)) { echo "generate the object first";return false;}
+        $query = "SELECT * FROM falcon.group_has_properties where property_id = '$this->id';";
+        $result = (new Execute($query, "multiQuery"))->result;
+        print_r($query);
+
+        if (!empty($result)) {
+            print_r($result);
+        } else {
+            echo "coudn't execute"; return false;
+        }
+
+    }
+
     public function addIssueType()
     {  
         require_once 'issueType.php';
@@ -158,13 +172,36 @@ class Property
         } 
         
     }
+    public function addToGroup($groupID){
+        if (!Execute::checkIdInTable('group_id', $groupID, 'property_group')){return false;}
+        $property_id = $this->id;
+
+        $query = "INSERT INTO `falcon`.`group_has_properties` (`property_id`, `property_group_id`) 
+        VALUES ('$property_id', '$groupID');";
+        $executed = (new Execute($query, "execute"))->result;
+        if ($executed) {
+            echo "added to group $groupID";
+            return true;
+        } else {
+            echo "coudn't add the property to the group $groupID";
+            return false;
+        }
+
+    }
 }
 
-$majdiMall = new Property();
-$majdiMall->create("Majdi Mall","Check each floor, check the fire exits.",1);
+$obj = new Property();
+// $majdiMall->create("Majdi Mall","Check each floor, check the fire exits.",1);
 //$majdiMall->addIssueType();
 //$property2->addIssueType("secondAddedViaProg","Trying for all properties",1.50,2,"Security",1,1,1,1,0,0,"allproperties");
 //$property2->update("Updated Name","Updated Note",1); // now it doesn't accept ID argument, it gets it from this->id.
 //$issueType->create("secondAddedViaProg","Trying for all properties",1.50,2,"Security",1,1,1,1,0,0,"allproperties");
+
+$obj->generate('19');
+$obj->addToGroup('2');
+
+// $obj->inCustomGroup();
+
+
 
 ?>
