@@ -1,12 +1,13 @@
 <?php
 
 require_once 'db.php';
+require_once 'address.php';
 class Property
 {
     public $id;
     public $name;
     public $code;
-    public $inCustomGroup;
+    public $inCustomGroups = array();
     public $webAddress;
     public $lockProperty;
     public $managementCompany;
@@ -18,7 +19,7 @@ class Property
     public $parkingProgram;
     public $photo;
     public $tours; // object of an Unknown class
-    public $address = array(); // object of class Address
+    public $addresses = array(); // object of class Address
     public $tasks; // object of class Task
     public $alert; // object of class Alert
     public $attachedDocument;
@@ -33,15 +34,37 @@ class Property
     {
 
     }
+    public function getGroupName($groupID){
+        $query="SELECT groupName from property_group where group_id='$groupID';";
+        $result = (new Execute($query, "single"))->result;
+
+        if (!empty($result)) 
+        {
+         //echo" The name of the group($groupID)  is -> $result "; 
+         return $result;
+        }
+        else{
+            echo"Something wrong inside get group name";   return false;
+        }
+
+    }
 
     public function inCustomGroup(){
         // if (!(isset($this->id) && $this->id > 0)) { echo "generate the object first";return false;}
         $query = "SELECT * FROM falcon.group_has_properties where property_id = '$this->id';";
         $result = (new Execute($query, "multiQuery"))->result;
-        print_r($query);
+        //print_r($query);
 
         if (!empty($result)) {
-            print_r($result);
+            // the numbers that execute from this for loop is the group that the property belongs to. ex: 1 2 3.
+            foreach ($result as $group) {
+                //echo $group["property_group_id"]." ";
+                //$this->getGroupName($group["property_group_id"]);
+                $groupKey = $group["property_group_id"];
+                $groupName = $this->getGroupName($groupKey);
+                $this->inCustomGroups[$groupKey]=$groupName;
+            }
+            //print_r($result);
         } else {
             echo "coudn't execute"; return false;
         }
@@ -157,7 +180,7 @@ class Property
             $this->primaryAddress = $result['primaryAddress'];
             $this->billingAddress = $result['billingAddress'];
             $this->notesPostOrders = $result['propertyNotes/PostOrders'];
-            $this->inCustomGroup = $result['inCustomGroups'];
+            $this->inCustomGroups = $result['inCustomGroups'];
             $this->securityProgram = $result['securityProgram'];
             $this->maintenanceProgram = $result['maintananceProgram'];
             $this->parkingProgram = $result['parkingProgram'];
@@ -172,6 +195,7 @@ class Property
         } 
         
     }
+    
     public function addToGroup($groupID){
         if (!Execute::checkIdInTable('group_id', $groupID, 'property_group')){return false;}
         $property_id = $this->id;
@@ -188,6 +212,24 @@ class Property
         }
 
     }
+    public function generateAddresses()
+    {
+        
+        $query = "SELECT id FROM falcon.property_addresses where property_id = '$this->id';";
+        $addresses = (new Execute($query, "multiQuery"))->result;
+        //print_r($addresses);
+        foreach ($addresses as $address) 
+        {
+            //print_r($address["id"]);
+            $addressID = $address["id"];
+            $address = new Address();
+            $address->generate($addressID);
+            if ($address->generate($addressID)) {
+                $this->addresses[$addressID]=$address;
+            }
+            unset($address);
+        }
+    }
 }
 
 $obj = new Property();
@@ -197,11 +239,11 @@ $obj = new Property();
 //$property2->update("Updated Name","Updated Note",1); // now it doesn't accept ID argument, it gets it from this->id.
 //$issueType->create("secondAddedViaProg","Trying for all properties",1.50,2,"Security",1,1,1,1,0,0,"allproperties");
 
-$obj->generate('19');
-$obj->addToGroup('2');
-
-// $obj->inCustomGroup();
-
-
+$obj->generate('1');
+//$obj->addToGroup('3');
+$obj->generateAddresses();
+//$obj->inCustomGroup();
+//print_r($obj->inCustomGroup);
+print_r($obj->addresses);
 
 ?>
