@@ -5,7 +5,7 @@ require_once 'db.php';
 class Admin{
     //admin info
     public $userName;
-    public $password;
+    public $password; 
     public $email;
     public $firstName;
     public $lastName;

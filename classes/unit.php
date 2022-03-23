@@ -53,7 +53,7 @@ class Unit
                 } else { return false;}
         }
 
-        public function generate($id)
+        public function generate($id ='')
         {
                 if ($id < 1) {
                         if (isset($this->id) && $this->id > 0) {
@@ -82,14 +82,37 @@ class Unit
                         return true;
                 }
         }
+
+
+        public function remove($id= ''){
+                if ($id < 1) {
+                        if (isset($this->id) && $this->id > 0) {
+                                $id = $this->id;
+                        } // when already generated
+                        else {
+                                echo "generate stopped";
+                                return false;
+                        }                                    // when not generated and not sent
+                }
+                if(!Execute::checkIdInTable("id",$id,"unites")){echo "unit is not exists";return false;}  //check if unit is existes
+               
+                $query = "DELETE FROM `falcon`.`unites` WHERE (`id` = '$id');";
+                $executeed = (new Execute($query, "execute"))->result;
+                if($executeed){// Remove Successfully
+                        return true;
+                } else {
+                        return false;
+                }
+        }
 }
 
 
 $property_addresses_id = "5";
 $UnitNumber = "A1";
 
-//Single Object Creation
 $unit1 = new Unit();
+
+//Single Object Creation
 // $result = $unit1->create($property_addresses_id, $UnitNumber);
 // if ($result) {
 //         echo "unit is created";
@@ -98,12 +121,19 @@ $unit1 = new Unit();
 // }
 
 // Singel Object Update;
-$maxPrimitCount =0 ;
+/* $maxPrimitCount =0 ;
 $id = 5;
 $uResult = $unit1->setMaxPrimitCount($id, $maxPrimitCount);
 if ($uResult) {
         echo "Unit is updated";
-} else { echo "unit Not Updated";}
+} else { echo "unit Not Updated";} */
+
+//Single Object Remove
+$id = 5;
+$remove = $unit1->remove($id);
+if ($remove) {
+        echo "removed succesfully: $id";
+} else {echo "Couldnot remove unit: $id";}
 
 // Accept Array of Unites
 /* $unites = array("A1","A2","A3");
