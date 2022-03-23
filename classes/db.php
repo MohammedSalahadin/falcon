@@ -15,6 +15,17 @@ class db{
     {
         return $this->conn;
     }
+    public function checkConnection()
+    {
+        if($this->conn->connect_error)
+        {
+            echo " There was a problem connecting to the database " ; return false;
+        } else // This part can be removed, its just for reassurance.
+        {
+            echo " Connection with the database is Successfull " ; return true;
+        }
+        
+    }
 }
 
 //execute queires
@@ -26,8 +37,9 @@ class Execute
     public function __construct($query, $type)
     {
         $conn = new db();
-        $conn = $conn->getConnection();
-        $this->conn = $conn;
+        $conn->checkConnection();
+        $this->conn = $conn->getConnection();
+        
         switch ($type) {
             case 'execute':
                 $result = $this->execute($query);
@@ -51,6 +63,10 @@ class Execute
         $this->result = $result;
     }
 
+    public function getLastInsertedId(){ // call this function instead of using query to get last_insert_id
+        return $this->conn->insert_id; 
+    }
+    
     public function single($query)
     {
         $result = $this->conn->query($query);
@@ -103,7 +119,7 @@ class Execute
         } while ( $this->conn->next_result());
         return $fetch;
     }
-
+    
     //check if table is exists: return true: exists, false: not exists
     public static function checkTableExists($table){
         $conn = new db(); $conn = $conn->getConnection();
@@ -126,11 +142,10 @@ class Execute
         if(Execute::checkTableExists($table)){
             $query = "select $colID from $table where $colID = $value";
             $result = mysqli_query($conn, $query);
-            if(mysqli_num_rows($result) >0){
+            if(mysqli_num_rows($result) > 0){
             //found
             return true;
             // echo "$value is found";
-                
             }else{
             //not found
             return false;

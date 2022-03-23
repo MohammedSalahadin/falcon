@@ -1,5 +1,5 @@
 <?php
-require_once 'db.php';
+//require_once 'db.php';
 
 class Address
 {
@@ -95,10 +95,11 @@ class Address
         }
 }
 
-$property_id = '1'; $streetNumber= '5151'; $streetName= 'fiftyone';  $streetTypeId= '14'; $city= 'Husten' ; $states_id= '43';
-$zip= '33443';$country= 'United States';$buildingNumber= ''; $addressTypeId= '4'; $GPSLongitude = '2993888'; $GPSLatitude = '66577473';
+// $property_id = '1'; $streetNumber= '5151'; $streetName= 'fiftyone';  $streetTypeId= '14'; $city= 'Husten' ; $states_id= '43';
+// $zip= '33443';$country= 'United States';$buildingNumber= ''; $addressTypeId= '4'; $GPSLongitude = '2993888'; $GPSLatitude = '66577473';
 
 $address = new Address();
+$address->generate('1');
 
 /* $r = $address->create($property_id, $streetNumber, $streetName, $streetTypeId, $city, $states_id, $zip, $country, $buildingNumber, $addressTypeId, $GPSLongitude, $GPSLatitude);
 if($r){

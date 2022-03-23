@@ -1,132 +1,249 @@
 <?php
 
 require_once 'db.php';
+require_once 'address.php';
 class Property
 {
     public $id;
-
     public $name;
-
+    public $code;
+    public $inCustomGroups = array();
     public $webAddress;
-
     public $lockProperty;
-
-    public $managementCompany; // object of Company class
-
+    public $managementCompany;
     public $primaryAddress;
-
     public $billingAddress;
-
     public $notesPostOrders;
-
-    public $securityProgram; //acknowledgement
-
+    public $securityProgram; // acknowledgement
     public $maintenanceProgram;
-
     public $parkingProgram;
-
     public $photo;
-
     public $tours; // object of an Unknown class
-
-    public $address; // object of class Address
-
+    public $addresses = array(); // object of class Address
     public $tasks; // object of class Task
-
     public $alert; // object of class Alert
-
     public $attachedDocument;
-
-    public $checkPoints; // objct of class Checkpoint
-
-    //public $issue1 = new Issue(1);
-
+    public $checkPoints; // object of class Checkpoint
+    public $issue; // object of class issue
     public $checkPointsTours; // object of class CheckPointsTours
-
     public $phoneNumber; // object of class PhoneNumber
-
     public $location; // object of class Location
-
-    public static IssueType $issueType;
+    public $issueTypes = array();
 
     public function __construct()
     {
-        
-    }
 
-    // for adding issueType, can't finish it right now as the database side of it needs work.
-    public function addIssueType($issueTypeName,$description,$addTo,$issueFee,$active,$dispatch,$handheld,$webUsers,$autoClose,$checkPointOnly,$issueType,$issueLevel)
-    {
-        try {
-            //code...
-        } catch (\Throwable $th) {
-            //throw $th;
+    }
+    public function getGroupName($groupID){
+        $query="SELECT groupName from property_group where group_id='$groupID';";
+        $result = (new Execute($query, "single"))->result;
+
+        if (!empty($result)) 
+        {
+         //echo" The name of the group($groupID)  is -> $result "; 
+         return $result;
         }
+        else{
+            echo"Something wrong inside get group name";   return false;
+        }
+
     }
 
-    private function validateCompanyID() // to validate the update function.
-    {
-        return 0;
+    public function inCustomGroup(){
+        // if (!(isset($this->id) && $this->id > 0)) { echo "generate the object first";return false;}
+        $query = "SELECT * FROM falcon.group_has_properties where property_id = '$this->id';";
+        $result = (new Execute($query, "multiQuery"))->result;
+        //print_r($query);
+
+        if (!empty($result)) {
+            // the numbers that execute from this for loop is the group that the property belongs to. ex: 1 2 3.
+            foreach ($result as $group) {
+                //echo $group["property_group_id"]." ";
+                //$this->getGroupName($group["property_group_id"]);
+                $groupKey = $group["property_group_id"];
+                $groupName = $this->getGroupName($groupKey);
+                $this->inCustomGroups[$groupKey]=$groupName;
+            }
+            //print_r($result);
+        } else {
+            echo "coudn't execute"; return false;
+        }
+
     }
 
-    public function updateProperty($name,$notes,$clientManagCompany,$id)
-    {
-        $query = "UPDATE `falcon`.`properties` SET `propertyName` = '$name', `propertyNotes/PostOrders` = '$notes ', `clients_companies_id` = '$clientManagCompany' WHERE (`id` = '$id'); ";
-        $execute = new Execute($query, 'execute');
+    public function addIssueType()
+    {  
+        require_once 'issueType.php';
+        echo " Current propety's ID -> ".$this->id;
+        if ($this->id<=0) {return false;}
+        $openDoor = new IssueType();
+        $openDoor->create($this->id,"Creating issueType from property","new one",1.50,2,"Security",1,1,1,1,0,0,"current"); // adding through the current property
         
-        if ($execute) { //Propery has been updated
-             
-            $this->name = $name;
-            $this->notesPostOrders = $notes;
-            $this->managementCompany = $clientManagCompany;
-            $this->id = $id;
+        
 
-            echo "The name has been updated to ".$name."<br>The notes has been updated to ".$notes;
-            
-        } else { echo "Failed";}
+
     }
-    
 
-    public function createPropertyTX($name,$notes,$clientManagCompany)
+    public function update($name, $code, $web, $primary, $billing, $notes, $security, $maintanance, $parking, $clientManagCompany)
     {
-        try {
+        try 
+        {
+            $query = "UPDATE `falcon`.`properties` SET `propertyName` = '$name', `propertyCode` = '$code', `webAddress` = '$web', `primaryAddress` = '$primary', 
+            `billingAddress` = '$billing', `propertyNotes/PostOrders` = '$notes', `securityProgram` = '$security', `maintananceProgram` = '$maintanance', `parkingProgram` = '$parking', 
+            `clients_companies_id` = '$clientManagCompany' WHERE (`property_id` = '$this->id'); ";
+            //$execute = new Execute($query, 'execute');
+            //$execute->result
+            if ((new Execute($query, 'execute'))->result) //Propery has been updated
+            { 
+                echo " Propery has been updated successfully ";
+                return true;
+            }
+            else 
+            {
+                echo " There was a problem updating the property ";
+                return false;
+            }
+        } 
+        catch (\Throwable $th) 
+        {
+            return false;
+        }
+        
+    }
+
+
+    public function create($name, $notes, $clientManagCompany)
+    {
+        try 
+        {
+            // setting up connection to start a transaction.
             $dbConn = new db();
             $conn = $dbConn->getConnection();
+            if ($conn->connect_error) // checking database connection
+                {echo " Connection to the database was NOT successfull ";return false;}
             $conn->begin_transaction();
 
-            $query = "INSERT INTO `falcon`.`properties` (`propertyName`,`propertyNotes/PostOrders`, `clients_companies_id`) 
-            VALUES ('$name', '$notes','$clientManagCompany'); "; 
+            $query = "INSERT INTO `falcon`.`properties` (`propertyName`,`propertyNotes/PostOrders`, `securityProgram`, `maintananceProgram`, `clients_companies_id`)
+            VALUES ('$name', '$notes', '1', '1','$clientManagCompany'); ";
 
-            $result = $conn->query($query);
-
-            if ($result) { //Propery has been added
-                $this->name = $name;
-                $this->notesPostOrders = $notes;
-                echo $name."<br>".$notes."<br>";
-
-                $lastInsertId = $conn->insert_id; //getting last insert ID
-
-                echo $lastInsertId."<br>";
-
-                $query1 = "INSERT INTO `falcon`.`group_has_properties` (`property_id`, `property_group_id`) VALUES ($lastInsertId, '1'); ";
-                $result1 = $conn->query($query1);
-                if($result1){ //adding the most recent added property to all properties group
-                     echo " It fucking Worked ";
-                }
-           }
-           $conn->commit();
-           $conn->close();
-
-        } catch (\Throwable $th) {
+            if (is_int($clientManagCompany) && Execute::checkIdInTable('client_company_id', $clientManagCompany, 'clients_companies')) // checking the table we are inserting based on.
+            {
+                if ($conn->query($query)) //Propery has been added
+                    {
+                        $issueTypelastInsertedId = $conn->insert_id;
+                        echo " Propery has been added successfully ".$issueTypelastInsertedId ;                 
+                        $query1 = "INSERT INTO `falcon`.`group_has_properties` (`property_id`, `property_group_id`) VALUES ($issueTypelastInsertedId, '1'); ";
+                        if($conn->query($query1)) //adding the most recent added property to all properties group
+                            {
+                                echo " added the most recent added property to all properties group successfully " ;                 
+                            }
+                    } 
+            }else
+            {
+                echo " The type of the input is wrong or This Client's Company doens't exist " ;
+                return false;
+            }
+            $conn->commit();
+            $this->generate($issueTypelastInsertedId); //generate info
+            $conn->close();
+            return true;
+        }
+        catch (\Throwable $th) 
+        {
             $conn->rollback();
             $conn->close();
+            echo $th;
             return false;
+        }
+    }
+    public function generate($id)
+    {
+        echo " This property's ID before conditions -> ".$id;
+        if ($id<1) {return false;}
+        echo " This property's ID after first condition -> ".$id;
+        if (!Execute::checkIdInTable('property_id', $id, 'properties')) {return false;}
+
+        try 
+        {
+            $this->generated = true;
+            $query = "SELECT * FROM properties where property_id = '$id';";
+            $execute = new Execute($query, "multiQuery");
+            $result = ($execute->result)[0];
+            //print_r($result);
+
+            echo " This property's ID Before Generate -> ".$this->id;
+            $this->id = $id;
+            echo " This property's ID After Generate -> ".$this->id;
+            $this->name = $result['propertyName'];
+            $this->code = $result['propertyCode'];
+            $this->webAddress = $result['webAddress'];
+            $this->primaryAddress = $result['primaryAddress'];
+            $this->billingAddress = $result['billingAddress'];
+            $this->notesPostOrders = $result['propertyNotes/PostOrders'];
+            $this->inCustomGroups = $result['inCustomGroups'];
+            $this->securityProgram = $result['securityProgram'];
+            $this->maintenanceProgram = $result['maintananceProgram'];
+            $this->parkingProgram = $result['parkingProgram'];
+            $this->managementCompany = $result['clients_companies_id'];
+            return true;
+    
+        }
+        catch (\Throwable $th) 
+        {
+            echo "Something went wrong while generating";
+            return false;
+        } 
+        
+    }
+    
+    public function addToGroup($groupID){
+        if (!Execute::checkIdInTable('group_id', $groupID, 'property_group')){return false;}
+        $property_id = $this->id;
+
+        $query = "INSERT INTO `falcon`.`group_has_properties` (`property_id`, `property_group_id`) 
+        VALUES ('$property_id', '$groupID');";
+        $executed = (new Execute($query, "execute"))->result;
+        if ($executed) {
+            echo "added to group $groupID";
+            return true;
+        } else {
+            echo "coudn't add the property to the group $groupID";
+            return false;
+        }
+
+    }
+    public function generateAddresses()
+    {
+        
+        $query = "SELECT id FROM falcon.property_addresses where property_id = '$this->id';";
+        $addresses = (new Execute($query, "multiQuery"))->result;
+        //print_r($addresses);
+        foreach ($addresses as $address) 
+        {
+            //print_r($address["id"]);
+            $addressID = $address["id"];
+            $address = new Address();
+            $address->generate($addressID);
+            if ($address->generate($addressID)) {
+                $this->addresses[$addressID]=$address;
+            }
+            unset($address);
         }
     }
 }
 
-$property2 = new Property();
-//$property2->createPropertyTX("testingAddToAllPropertyAgain","Hopefully it worked this time",1);
-//$property2->updateProperty("Updated Name","Updated Note",1,2);
+$obj = new Property();
+// $majdiMall->create("Majdi Mall","Check each floor, check the fire exits.",1);
+//$majdiMall->addIssueType();
+//$property2->addIssueType("secondAddedViaProg","Trying for all properties",1.50,2,"Security",1,1,1,1,0,0,"allproperties");
+//$property2->update("Updated Name","Updated Note",1); // now it doesn't accept ID argument, it gets it from this->id.
+//$issueType->create("secondAddedViaProg","Trying for all properties",1.50,2,"Security",1,1,1,1,0,0,"allproperties");
+
+$obj->generate('1');
+//$obj->addToGroup('3');
+$obj->generateAddresses();
+//$obj->inCustomGroup();
+//print_r($obj->inCustomGroup);
+print_r($obj->addresses);
 
 ?>
