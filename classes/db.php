@@ -96,10 +96,12 @@ class Execute
     public function execute($query){
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-        if($stmt->affected_rows > 0) {
+        if($stmt->affected_rows >= 0) {
+            // echo "Effected Rows: ".$stmt->affected_rows;
              return true;
         } else {
             // print_r($query);
+            echo "Effected Rows when fails: ".$stmt->affected_rows;
             return false;
         }
 
@@ -141,20 +143,7 @@ class Execute
         }
     }
 
-    public function multiQuery($query)
-    {
-        $result =  $this->conn->multi_query($query);
-        $fetch = [];
-
-        do {
-            if ($result =  $this->conn->store_result()) {
-                $fetch = $result->fetch_all(MYSQLI_ASSOC) ;
-                // var_dump($result->fetch_all(MYSQLI_ASSOC));
-                $result->free();
-            }
-        } while ( $this->conn->next_result());
-        return $fetch;
-    }
+    
 
     
 }
