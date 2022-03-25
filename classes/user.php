@@ -345,3 +345,16 @@ if ($employee->loggedIn) {
     echo "coudn't login;";
 }
  */
+
+
+
+ class Customer extends User{
+     
+    public function createUserNotification(){}
+    public function avatarUpdate(){}
+    public function create(){}
+    public function update(){}
+    public function webLogin(){}
+    public function generate(){}
+
+ }
