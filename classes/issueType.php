@@ -1,6 +1,4 @@
 <?php
-use Twilio\TwiML\Voice\Echo_;
-
 class IssueType
 {
     public $id;
@@ -18,7 +16,7 @@ class IssueType
     public $createdAt;
     public $updatedAt;
     public $level;
-    public $getIssueTyes; //its going to be an array with object of IssueTypes Class, and Property Class.
+    public $getIssueTypes; //its going to be an array with object of IssueTypes Class, and Property Class.
     private $generated = false; //bool
 
     public function __construct()

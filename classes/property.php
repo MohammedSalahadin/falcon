@@ -1,7 +1,7 @@
 <?php
-
 require_once 'db.php';
 require_once 'address.php';
+require_once 'issueType.php';
 class Property
 {
     public $id;
@@ -243,28 +243,50 @@ class Property
         foreach ($addresses as $address) {
             //print_r($address["id"]);
             $addressID = $address["id"];
-            $address = new Address();
-            $address->generate($addressID);
-            if ($address->generate($addressID)) {
-                $this->addresses[$addressID] = $address;
+            $addressObj = new Address();
+            //$addressObj->generate($addressID);
+            if ($addressObj->generate($addressID)) {
+                $this->addresses[$addressID] = $addressObj;
             }
-            unset($address);
+            unset($addressObj);
+        }
+    }
+    public function generateIssueTypes()
+    {
+        if ($this->id < 1) {
+            echo " The id has not been generated yet ";
+            return false;
+        }
+        $query = "SELECT issue_type_id FROM falcon.issue_types where issue_type_id = '$this->id';";
+        $issueTypes = (new Execute($query, "multiQuery"))->result;
+        //print_r($addresses);
+        foreach ($issueTypes as $issueType) {
+            //print_r($address["id"]);
+            $issueTypeID = $issueType["issue_type_id"];
+            $issueTypeObj = new IssueType();
+            if ($issueTypeObj->generate($issueTypeID)) {
+                $this->issueTypes[$issueTypeID] = $issueTypeObj;
+            }
+            unset($issueTypeObj);
         }
     }
 }
 
-//$obj = new Property();
+$obj = new Property();
 // $majdiMall->create("Majdi Mall","Check each floor, check the fire exits.",1);
 //$majdiMall->addIssueType();
 //$property2->addIssueType("secondAddedViaProg","Trying for all properties",1.50,2,"Security",1,1,1,1,0,0,"allproperties");
 //$property2->update("Updated Name","Updated Note",1); // now it doesn't accept ID argument, it gets it from this->id.
 //$issueType->create("secondAddedViaProg","Trying for all properties",1.50,2,"Security",1,1,1,1,0,0,"allproperties");
 
-//$obj->generate('1');
+$obj->generate('1');
 //$obj->addToGroup('3');
 //$obj->generateAddresses();
+$obj->generateIssueTypes();
 //$obj->inCustomGroup();
 //print_r($obj->inCustomGroup);
 //print_r($obj->addresses);
+print_r($obj->issueTypes);
+
 
 ?>
