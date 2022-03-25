@@ -122,7 +122,7 @@ class Company
 }
 
 // Creating/ Updating Company 
-$companyName = "NEw comp.";
+/* $companyName = "NEw comp.";
 $webAddress = "www.newcomp.com";
 $notes = "last company for this week";
 $streetNumber = "4511";
@@ -134,9 +134,9 @@ $states_id = "41";
 $zip = "34433";
 $buildingNumber = "332";
 $mainPhone = "22331";
-$fax = "054665442";
+$fax = "054665442"; */
 
-$c = new Company();
+// $c = new Company();
 // $result = $c->create($companyName, $webAddress, $notes, $streetNumber, $streetName, $streetType, $street_types_id, $city, $states_id, $zip, $buildingNumber, $mainPhone, $fax);
 
 // if ($result) {
@@ -163,11 +163,11 @@ if ($update) {
 
  //Remove Company
 
-$id = "18";
-$removed = $c->remove($id);
-if ($removed) {
-    echo "Company $id have been removed";
-    unset($id);
-} else {
-    echo "Coudn't Remove the company $id";
-}
+// $id = "18";
+// $removed = $c->remove($id);
+// if ($removed) {
+//     echo "Company $id have been removed";
+//     unset($id);
+// } else {
+//     echo "Coudn't Remove the company $id";
+// }
