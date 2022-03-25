@@ -151,13 +151,12 @@ class IssueType
     {
         //if($this->generated == false){echo "this issueType has not been generated before, so you can't update it. ";return false;} //stop,  
         try {
-            $currentDateTime = (new DateTime())->format('Y-m-d h:m:s');
-            //echo $currentDateTime ."<br> This is the current time/date and this is the id of the current object -> ".$this->id;
-
             if (!Execute::checkIdInTable('issue_type_id', $id, 'issue_types')) {
                 echo " The IssueType you're trying to update doesn't exist ";
                 return false;
             }
+            $currentDateTime = (new DateTime())->format('Y-m-d h:m:s');
+            //echo $currentDateTime ."<br> This is the current time/date and this is the id of the current object -> ".$this->id;
 
             $query = "UPDATE falcon.issue_types SET issueDescription = '$description', issueFee = '$issueFee', issueLevel = '$issueLevel', 
             isActiveIssue = '$active', displayForDispach = '$dispatch', displayOnHandheld = '$handheld',

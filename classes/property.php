@@ -2,6 +2,7 @@
 require_once 'db.php';
 require_once 'address.php';
 require_once 'issueType.php';
+require_once 'alert.php';
 class Property
 {
     public $id;
@@ -21,7 +22,7 @@ class Property
     public $tours; // object of an Unknown class
     public $addresses = array(); // object of class Address
     public $tasks; // object of class Task
-    public $alert; // object of class Alert
+    public $alerts = array(); // object of class Alert
     public $attachedDocument;
     public $checkPoints; // object of class Checkpoint
     public $issue; // object of class issue
@@ -90,12 +91,14 @@ class Property
 
     }
 
-    public function update($name, $code, $web, $primary, $billing, $notes, $security, $maintanance, $parking, $clientManagCompany)
+    public function update($id,$name, $code, $web, $primary, $billing, $notes, $security, $maintanance, $parking, $clientManagCompany)
     {
+        
 
         try {
-            if (Execute::checkIdInTable()) {
-            # code...
+            if (!Execute::checkIdInTable('property_id', $id, 'properties')) {
+                echo " The IssueType you're trying to update doesn't exist ";
+                return false;
             }
             $query = "UPDATE `falcon`.`properties` SET `propertyName` = '$name', `propertyCode` = '$code', `webAddress` = '$web', `primaryAddress` = '$primary', 
             `billingAddress` = '$billing', `propertyNotes/PostOrders` = '$notes', `securityProgram` = '$security', `maintananceProgram` = '$maintanance', `parkingProgram` = '$parking', 
@@ -122,7 +125,7 @@ class Property
     public function create($name, $notes, $clientManagCompany)
     {
         if ($this->id >= 1) {
-            echo " this issueType has been generated before. ";
+            echo " The id have been generated before [inside create function] ";
             return false;
         }
 
@@ -173,10 +176,12 @@ class Property
     {
         echo " This property's ID before conditions -> " . $id;
         if ($id < 1) {
+            echo " The id you're trying to generate is of wrong type or empty ";
             return false;
         }
         echo " This property's ID after first condition -> " . $id;
         if (!Execute::checkIdInTable('property_id', $id, 'properties')) {
+            echo " No such id exists inside property table ";
             return false;
         }
 
@@ -226,7 +231,7 @@ class Property
             return true;
         }
         else {
-            echo "coudn't add the property to the group $groupID";
+            echo "couldn't add the property to the group $groupID";
             return false;
         }
 
@@ -270,6 +275,25 @@ class Property
             unset($issueTypeObj);
         }
     }
+    public function generateAlerts()
+    {
+        if ($this->id < 1) {
+            echo " The id has not been generated yet ";
+            return false;
+        }
+        $query = "SELECT id FROM falcon.alert where id = '$this->id';";
+        $alerts = (new Execute($query, "multiQuery"))->result;
+        //print_r($addresses);
+        foreach ($alerts as $alert) {
+            //print_r($address["id"]);
+            $alertID = $alert["id"];
+            $alertObj = new Alert();
+            if ($alertObj->generate($alertID)) {
+                $this->alerts[$alertID] = $alertObj;
+            }
+            unset($alertObj);
+        }
+    }
 }
 
 $obj = new Property();
@@ -283,10 +307,12 @@ $obj->generate('1');
 //$obj->addToGroup('3');
 //$obj->generateAddresses();
 //$obj->generateIssueTypes();
+$obj->generateAlerts();
 //$obj->inCustomGroup();
 //print_r($obj->inCustomGroup);
 //print_r($obj->addresses);
 //print_r($obj->issueTypes);
+print_r($obj->alerts);
 
 
 ?>
