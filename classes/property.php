@@ -3,6 +3,8 @@ require_once 'db.php';
 require_once 'address.php';
 require_once 'issueType.php';
 require_once 'alert.php';
+require_once 'checkpoint.php';
+require_once 'tour.php';
 class Property
 {
     public $id;
@@ -24,9 +26,9 @@ class Property
     public $tasks; // object of class Task
     public $alerts = array(); // object of class Alert
     public $attachedDocument;
-    public $checkPoints; // object of class Checkpoint
+    public $checkpoints = array(); // object of class Checkpoint
     public $issue; // object of class issue
-    public $checkPointsTours; // object of class CheckPointsTours
+    public $checkpointTours = array(); // object of class CheckPointsTours
     public $phoneNumber; // object of class PhoneNumber
     public $location; // object of class Location
     public $issueTypes = array();
@@ -91,10 +93,8 @@ class Property
 
     }
 
-    public function update($id,$name, $code, $web, $primary, $billing, $notes, $security, $maintanance, $parking, $clientManagCompany)
+    public function update($id, $name, $code, $web, $primary, $billing, $notes, $security, $maintanance, $parking, $clientManagCompany)
     {
-        
-
         try {
             if (!Execute::checkIdInTable('property_id', $id, 'properties')) {
                 echo " The IssueType you're trying to update doesn't exist ";
@@ -294,6 +294,45 @@ class Property
             unset($alertObj);
         }
     }
+    public function generateCheckpoints()
+    {
+        if ($this->id < 1) {
+            echo " The id has not been generated yet ";
+            return false;
+        }
+        $query = "SELECT id FROM falcon.property_checkpoints where id = '$this->id';";
+        $checkpoints = (new Execute($query, "multiQuery"))->result;
+        //print_r($addresses);
+        foreach ($checkpoints as $checkpoint) {
+            //print_r($address["id"]);
+            $checkpointID = $checkpoint["id"];
+            $checkpointObj = new Checkpoint();
+            if ($checkpointObj->generate($checkpointID)) {
+                $this->checkpoints[$checkpointID] = $checkpointObj;
+            }
+            unset($checkpointObj);
+        }
+    }
+    public function generateCheckpointTours()
+    {
+        if ($this->id < 1) {
+            echo " The id has not been generated yet ";
+            return false;
+        }
+        $query = "SELECT id FROM falcon.property_tours where id = '$this->id';";
+        $tours = (new Execute($query, "multiQuery"))->result;
+        //print_r($addresses);
+        foreach ($tours as $tour) {
+            //print_r($address["id"]);
+            $tourID = $tour["id"];
+            $tourObj = new Tours();
+            if ($tourObj->generate($tourID)) {
+                $this->checkPointTours[$tourID] = $tourObj;
+            }
+            unset($tourObj);
+        }
+    }
+
 }
 
 $obj = new Property();
@@ -307,12 +346,17 @@ $obj->generate('1');
 //$obj->addToGroup('3');
 //$obj->generateAddresses();
 //$obj->generateIssueTypes();
-$obj->generateAlerts();
+//$obj->generateAlerts();
+//$obj->generateCheckpoints();
+$obj->generateCheckpointTours();
+
 //$obj->inCustomGroup();
 //print_r($obj->inCustomGroup);
 //print_r($obj->addresses);
 //print_r($obj->issueTypes);
-print_r($obj->alerts);
+//print_r($obj->alerts);
+//print_r($obj->checkpoints);
+print_r($obj->checkpointTours);
 
 
 ?>

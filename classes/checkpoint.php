@@ -1,6 +1,6 @@
 <?php
 
-require 'db.php';
+//require 'db.php';
 
 class Checkpoint{
     public $id;

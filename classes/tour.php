@@ -1,6 +1,6 @@
 <?php
 
-require 'db.php';
+//require 'db.php';
 
 /*
     When creating a new tour you should pass array of the checkpoints ids in order to add them to the tour
@@ -189,7 +189,7 @@ class Tours
 
                 //reset checkpoints
                 $this->checkpoints = array();
-                foreach ($result2 as $key => $checkpoint) {
+                foreach ($result2 as $checkpoint) {
                     $this->checkpoints[] = $checkpoint['property_checkpoints_id'];
                 }
 
@@ -207,21 +207,21 @@ class Tours
     }
 }
 
-$property_id = '2';
-$tourName = 'update test 2';
-$tourDescription = 'update test have to include all data 2';
-$tourStartTime = '11:00 pm';
-$tourEndTime = '12:00 am';
-$allowManualSubmission = '0';
-$isActiveTour = '1';
-//get from front-end arrange to array
-$tourDaysOfWeek = array('sun' => 1, 'mon' => 0, 'tue' => 1, 'wed' => 0, 'thu' => 1, 'fri' => 0, 'sat' => 1);
-$checkpoints = array(1, 2, 3, 4);
+// $property_id = '2';
+// $tourName = 'update test 2';
+// $tourDescription = 'update test have to include all data 2';
+// $tourStartTime = '11:00 pm';
+// $tourEndTime = '12:00 am';
+// $allowManualSubmission = '0';
+// $isActiveTour = '1';
+// //get from front-end arrange to array
+// $tourDaysOfWeek = array('sun' => 1, 'mon' => 0, 'tue' => 1, 'wed' => 0, 'thu' => 1, 'fri' => 0, 'sat' => 1);
+// $checkpoints = array(1, 2, 3, 4);
 
 
 // create days of week from the form input/ check days weeks id.
 
-$tours  = new Tours();
+// $tours  = new Tours();
 // $create = $tours->create($property_id, $tourName, $tourDescription, $tourStartTime, $tourEndTime,
 //  $allowManualSubmission, $isActiveTour, $tourDaysOfWeek, $checkpoints);
 // if ($create) {
@@ -230,15 +230,15 @@ $tours  = new Tours();
 //     echo "not created";
 // }
 
-$tourID = '2';
-$update = $tours->update($tourID, $tourName, $tourDescription, $tourStartTime, $tourEndTime,
-$allowManualSubmission, $isActiveTour, $tourDaysOfWeek, $checkpoints);
+// $tourID = '2';
+// $update = $tours->update($tourID, $tourName, $tourDescription, $tourStartTime, $tourEndTime,
+// $allowManualSubmission, $isActiveTour, $tourDaysOfWeek, $checkpoints);
 
-if ($update) {
-    echo $tourID. " Have been updated";
-    echo $tours->id;echo $tours->tourName;
-} else {
-    echo "failed to update the tour: ".$tourID;
-}
+// if ($update) {
+//     echo $tourID. " Have been updated";
+//     echo $tours->id;echo $tours->tourName;
+// } else {
+//     echo "failed to update the tour: ".$tourID;
+// }
 
 
