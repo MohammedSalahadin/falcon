@@ -77,9 +77,9 @@ class Property
 
     public function addIssueType()
     {
-        require_once 'issueType.php';
         echo " Current propety's ID -> " . $this->id;
-        if ($this->id <= 0) {
+        if ($this->id < 1) {
+            echo " The id has not been generated yet ";
             return false;
         }
         $openDoor = new IssueType();
@@ -282,11 +282,11 @@ $obj = new Property();
 $obj->generate('1');
 //$obj->addToGroup('3');
 //$obj->generateAddresses();
-$obj->generateIssueTypes();
+//$obj->generateIssueTypes();
 //$obj->inCustomGroup();
 //print_r($obj->inCustomGroup);
 //print_r($obj->addresses);
-print_r($obj->issueTypes);
+//print_r($obj->issueTypes);
 
 
 ?>
