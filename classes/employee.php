@@ -197,6 +197,10 @@ class Employee extends User
         }
     }
 
+    public function appLogin(){
+        //will implement later
+    }
+
 
     public function generate($id = '')
     {
