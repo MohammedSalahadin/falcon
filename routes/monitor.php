@@ -1,9 +1,5 @@
 <?php
- ob_start();
- if(isset($_SESSION['username'])){
-
-  header("Location: index.php");
-}
+require_once '../components/main.php'
  ?>
 
 <!DOCTYPE html>
@@ -31,7 +27,7 @@
    
   <div class="container">
      <div class=" p-1 rounded text-center mt-3 bg--primary">
-    <h1 class="" style="color: gray;">ISSUE MONITOR</h1>
+    <h3 class="" style="color: gray;">ISSUE MONITOR</h3>
      </div>
 
   <?php 

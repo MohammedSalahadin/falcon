@@ -7,7 +7,7 @@
                 <button class="btn mx-3 rounded btn-primary ">
                     issue monitor
                 </button>
-                 <a href="../logout.php">
+                 <a href="../components/logout.php">
                      <button  class=" btn mx-3 rounded btn-primary">
                          logout
                      </button>
@@ -18,8 +18,8 @@
                 </button>
             </div>
             <div class="LoggedinAdminName mx-3">
-                <p>USer: (A) The admin Name</p>
-                <p>ID: 123456</p>
+                <p>User:<?php echo $fullName; ?>
+                <p>ID: <?php echo $id; ?> </p>
             </div>
         </div>
     </div>
