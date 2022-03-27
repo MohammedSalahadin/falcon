@@ -1,6 +1,6 @@
 <?php
 
-//require 'db.php';
+//require_once 'db.php';
 
 /*
     When creating a new tour you should pass array of the checkpoints ids in order to add them to the tour
@@ -51,10 +51,12 @@ class Tours
         }
     }
 
-    private function updateDaysOfWeek($id, $TDOW){
+    private function updateDaysOfWeek($id, $TDOW)
+    {
         //input validation
         if (!is_array($TDOW) || empty($TDOW) || $id < 1) {
-            echo "Not array or empty or id: $id";return false;
+            echo "Not array or empty or id: $id";
+            return false;
         }
         $sun = $TDOW['sun'];
         $mon = $TDOW['mon'];
@@ -68,9 +70,9 @@ class Tours
         $result = $execute->result;
         if ($result) {
             return true;
-        } else { return false;}
-
-
+        } else {
+            return false;
+        }
     }
     //in case of updating
     private function checkDaysOfWeekId($id)
@@ -86,8 +88,11 @@ class Tours
     }
 
     //get tours of week id 
-    private function getToursOfWeek($tourID){
-        if( $tourID < 1){ return false;} // validation
+    private function getToursOfWeek($tourID)
+    {
+        if ($tourID < 1) {
+            return false;
+        } // validation
         $query = "SELECT tourDaysOfWeek_id FROM falcon.property_tours where id = '$tourID'";
         $execute = new Execute($query, 'multiQuery');
         $id = ($execute->result)[0]['tourDaysOfWeek_id'];
@@ -100,14 +105,22 @@ class Tours
 
 
     // last attrebute recives an array  checkpoints ids, and daysOfWeeks .
-    public function create($property_id, $tourName, $tourDescription, $tourStartTime, $tourEndTime,
-     $allowManualSubmission, $isActiveTour, $daysOfWeek, $checkpoints)
-        {
+    public function create(
+        $property_id,
+        $tourName,
+        $tourDescription,
+        $tourStartTime,
+        $tourEndTime,
+        $allowManualSubmission,
+        $isActiveTour,
+        $daysOfWeek,
+        $checkpoints
+    ) {
         if ($this->generated) {
             return false;
         };
         // print_r($tourDaysOfWeek_id);
-        if (!is_array($checkpoints) || !is_array($daysOfWeek )  ) {
+        if (!is_array($checkpoints) || !is_array($daysOfWeek)) {
             return false;
         } //checkpoints should be array and shouldn't be empty
         //create weeks of day id
@@ -141,8 +154,12 @@ class Tours
 
     public function update($tourID, $tourName, $tourDescription, $tourStartTime, $tourEndTime, $allowManualSubmission, $isActiveTour, $tourDaysOfWeek, $checkpoints)
     {
-        if (!$this->id < 1) { return false;} // if the id is not initilized
-        if (!is_array($checkpoints) || !is_array($tourDaysOfWeek )  ) {return false;} //checkpoints should be array and shouldn't be empty
+        if (!$this->id < 1) {
+            return false;
+        } // if the id is not initilized
+        if (!is_array($checkpoints) || !is_array($tourDaysOfWeek)) {
+            return false;
+        } //checkpoints should be array and shouldn't be empty
         //get tours 
         $toursDaysOfWeek_id =  $this->getToursOfWeek($tourID);
 
@@ -151,20 +168,31 @@ class Tours
         $result = $execute->result;
         if ($result) {
             //update the days of week
-            if($this->updateDaysOfWeek($toursDaysOfWeek_id, $tourDaysOfWeek)){
-                if ($this->generate($tourID)){
+            if ($this->updateDaysOfWeek($toursDaysOfWeek_id, $tourDaysOfWeek)) {
+                if ($this->generate($tourID)) {
                     return true;
-                }else { return false;}
-            }else {  return false;}
-        } else { return false;} 
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
 
     public function generate($id = '')
-        {
+    {
         if ($id < 1) {
-            if (isset($this->id) && $this->id > 0){$id = $this->id;} // when already generated
-            else { echo "generate stopped";return false;}                                    // when not generated and not sent
+            if (isset($this->id) && $this->id > 0) {
+                $id = $this->id;
+            } // when already generated
+            else {
+                echo "generate stopped";
+                return false;
+            }                                    // when not generated and not sent
         }
         //getting information and assign it to the objects
         $query = "SELECT * FROM falcon.property_tours where id = '$id';";
@@ -197,11 +225,10 @@ class Tours
                 $this->generated = true;
                 return true;
             } else {
-                echo "result2 is empty: $query2";
-                return false;
+                return true; // property tour donesn't have checkpoints
             }
         } else {
-            
+
             return false;
         }
     }
@@ -241,4 +268,9 @@ class Tours
 //     echo "failed to update the tour: ".$tourID;
 // }
 
-
+// generating a new tour
+// $tour = new Tours();
+// if ($tour->generate('2')) {
+//     echo $tour->id;
+//     echo $tour->tourName;
+// }

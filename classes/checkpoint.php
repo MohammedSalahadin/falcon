@@ -99,20 +99,20 @@ class Checkpoint{
 
 }
 //get from db, used for test create function
-$property_addresses_id = '1';
-$propertyID = '1';
-$checkpintIssueType = '2';
+// $property_addresses_id = '1';
+// $propertyID = '1';
+// $checkpintIssueType = '2';
 
 
 
-$chp = new Checkpoint();
+// $chp = new Checkpoint();
 // $chp->create('1', 'chName', "street 1", 'c3ff', $property_addresses_id, 'chpointUnit', $checkpintIssueType, '1', 'Last hint of the checkpoint is here', 'Notes for the report', 'do good check for the entries', '1', '0', '1', '1');
-$chp->generate('1');
+// $chp->generate('1');
             // ($checkPointName, $checkPointLocation, $QR_NFCCodeValue, $property_addresses_id, $chckpointUnit, $checkpintIssueType, $autoCreateIssueType, $checkpointLastHint, $reportNote, $officerInstructions, $isActive, $allowKeepOpen, $requirePhoto, $propertyCheckpointscol, $reportIfMissed ){
 
 // $chp->update('chName', "street 1", 'c3ff', $property_addresses_id, 'chpointUnit', $checkpintIssueType, '1', 'Last hint of the checkpoint is here', 'Notes for the report', 'do good check for the entries', '1', '0', '1', '1');
 
-echo $chp->QR_NFC_Value;
+// echo $chp->QR_NFC_Value;
 
 
 
