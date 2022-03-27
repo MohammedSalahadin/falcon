@@ -244,12 +244,9 @@ class Property
         }
         $query = "SELECT id FROM falcon.property_addresses where property_id = '$this->id';";
         $addresses = (new Execute($query, "multiQuery"))->result;
-        //print_r($addresses);
         foreach ($addresses as $address) {
-            //print_r($address["id"]);
             $addressID = $address["id"];
             $addressObj = new Address();
-            //$addressObj->generate($addressID);
             if ($addressObj->generate($addressID)) {
                 $this->addresses[$addressID] = $addressObj;
             }
@@ -264,9 +261,7 @@ class Property
         }
         $query = "SELECT issue_type_id FROM falcon.issue_types where issue_type_id = '$this->id';";
         $issueTypes = (new Execute($query, "multiQuery"))->result;
-        //print_r($addresses);
         foreach ($issueTypes as $issueType) {
-            //print_r($address["id"]);
             $issueTypeID = $issueType["issue_type_id"];
             $issueTypeObj = new IssueType();
             if ($issueTypeObj->generate($issueTypeID)) {
@@ -283,9 +278,7 @@ class Property
         }
         $query = "SELECT id FROM falcon.alert where id = '$this->id';";
         $alerts = (new Execute($query, "multiQuery"))->result;
-        //print_r($addresses);
         foreach ($alerts as $alert) {
-            //print_r($address["id"]);
             $alertID = $alert["id"];
             $alertObj = new Alert();
             if ($alertObj->generate($alertID)) {
@@ -302,9 +295,7 @@ class Property
         }
         $query = "SELECT id FROM falcon.property_checkpoints where id = '$this->id';";
         $checkpoints = (new Execute($query, "multiQuery"))->result;
-        //print_r($addresses);
         foreach ($checkpoints as $checkpoint) {
-            //print_r($address["id"]);
             $checkpointID = $checkpoint["id"];
             $checkpointObj = new Checkpoint();
             if ($checkpointObj->generate($checkpointID)) {
@@ -321,9 +312,7 @@ class Property
         }
         $query = "SELECT id FROM falcon.property_tours where id = '$this->id';";
         $tours = (new Execute($query, "multiQuery"))->result;
-        //print_r($addresses);
         foreach ($tours as $tour) {
-            //print_r($address["id"]);
             $tourID = $tour["id"];
             $tourObj = new Tours();
             if ($tourObj->generate($tourID)) {
