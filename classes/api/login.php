@@ -1,6 +1,6 @@
 <?php
 
-require '../user.php';
+require '../employee.php';
 
 // check for milisos code or mysql injection
 function validate($value){
@@ -14,8 +14,8 @@ if(isset($_POST['userName'])){
     $userName = validate($_POST['userName']);
     $password = validate($_POST['password']);
 
-    $gaurd = new Guard();
-    $gaurd-> login($username, $password);
+    $gaurd = new Employee();
+    $gaurd-> appLogin($username, $password);
     if ($gaurd->loggedIn) { //logged in
         if ($gaurd->active == true){ //user is active
             $returnBack['message'] = 'Succesfully Logged in'; // return success login

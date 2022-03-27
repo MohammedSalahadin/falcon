@@ -22,7 +22,8 @@ class db{
             echo " There was a problem connecting to the database " ; return false;
         } else // This part can be removed, its just for reassurance.
         {
-            echo " Connection with the database is Successfull " ; return true;
+            // echo " Connection with the database is Successfull " ;
+             return true;
         }
         
     }
@@ -33,6 +34,7 @@ class Execute
 {
     public $num_rows;
     public $result;
+    public $error;
     public $conn;
     public function __construct($query, $type)
     {
@@ -101,7 +103,10 @@ class Execute
              return true;
         } else {
             // print_r($query);
-            echo "Effected Rows when fails: ".$stmt->affected_rows;
+            $this->error = $stmt->error;
+            // echo "Effected Rows when fails: ".$stmt->affected_rows;
+            $stmt->close();
+            $this->conn->close();
             return false;
         }
 
@@ -140,7 +145,7 @@ class Execute
     public static function checkIdInTable($colID,$value, $table){
         $conn = new db(); $conn = $conn->getConnection();
         if(Execute::checkTableExists($table)){
-            $query = "select $colID from $table where $colID = $value";
+            $query = "select $colID from $table where $colID = '$value';";
             $result = mysqli_query($conn, $query);
             if(mysqli_num_rows($result) > 0){
             //found
@@ -156,6 +161,7 @@ class Execute
         }
     }
 
+    
     
 
     

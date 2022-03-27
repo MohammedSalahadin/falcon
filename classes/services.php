@@ -16,9 +16,12 @@ class Services{
         }
         return $randomString;
     }
-    
-    public static function uploadImage($name){
-        $target_dir = "../uploads/";
+    // This function will return the uploaded file path. it returns false if the file isn't uploaded
+    //Uploaded images will be in upload directory, if path is added they will be stored inside that path
+    // When calling this function provide the name of the file input in the form and everthing else will be
+    // Automaticly setted, 
+    public static function uploadImage($name, $path = ''){
+        $target_dir = Services::backRootPath()."uploads/".$path;
         $target_file = $target_dir . basename($_FILES[$name]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -64,18 +67,48 @@ class Services{
         }
     }
 
+    //this function returns number of steps ../ to go back to the root directory works for windows.
+    public static function backRootPath(){
+        $currentPath = getcwd(); // get current path
+        $CPArray = explode('\\', $currentPath); //split it into an array
+        $cut1 = array_slice($CPArray, 3); // remove c:/xampp/htdocs, last 3 steps
+        foreach ($cut1 as $key => $value) { $cut1[$key] = "..";} //replace path with ..
+        $path = implode("/", $cut1)."/";
+        return $path;
+    }
+
+    //delete folder and it's contents
+    public static function deleteDir($dirPath) {
+        if (! is_dir($dirPath)) {
+            //throw new InvalidArgumentException("$dirPath must be a directory");
+            return false;
+        }
+        if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
+            $dirPath .= '/';
+        }
+        $files = glob($dirPath . '*', GLOB_MARK);
+        foreach ($files as $file) {
+            if (is_dir($file)) {
+                self::deleteDir($file);
+            } else {
+                unlink($file);
+            }
+        }
+        rmdir($dirPath);
+    }
+    //delete specific file
+    public static function deleteFile($filePath){
+        if (empty($filePath)) {
+            echo "empty path";return false;
+        }
+        if (!unlink($filePath)) { 
+             return false;
+        } 
+        else { 
+            return true; //file removed!
+        } 
+    }
+
 }
 
 // echo Services::generateRandomString();
-
-
-
-
-
-
-
-
-
-
-
-?>
