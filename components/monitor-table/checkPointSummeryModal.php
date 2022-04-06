@@ -1,4 +1,4 @@
-<div class="modal fade" id="checkPointSummery" tabindex="-1" aria-labelledby="checkPointSummeryLabel" aria-hidden="true">
+<div class="my-modal check-point-modal" id="checkPointSummery" tabindex="-1" aria-labelledby="checkPointSummeryLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg  modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
     <div class="modal-header bg--primary border-bottom">

@@ -1,6 +1,6 @@
 <?php
 
-require 'C:\Users\meera\Documents\GitHub\classes\user.php';
+require '../employee.php';
 
 // check for milisos code or mysql injection
 function validate($value){
@@ -14,29 +14,32 @@ if(isset($_POST['userName'])){
     $userName = validate($_POST['userName']);
     $password = validate($_POST['password']);
 
-    $user = new Guard();
-    $user-> login($username, $password);
-    if ($user->loggedIn) { //logged in
-        if ($user->active == true){ //user is active
+    $gaurd = new Employee();
+    $gaurd-> appLogin($username, $password);
+    if ($gaurd->loggedIn) { //logged in
+        if ($gaurd->active == true){ //user is active
             $returnBack['message'] = 'Succesfully Logged in'; // return success login
             $returnBack['loggedIn'] = false;                  // login state
-            $returnBack['id'] = $user->id;
-            $returnBack['firstName'] = $user->firstName;
-            $returnBack['lastName'] = $user->lastName;
-            $returnBack['avatar'] = $user->avatar;
+            $returnBack['id'] = $gaurd->id;
+            $returnBack['firstName'] = $gaurd->firstName;
+            $returnBack['lastName'] = $gaurd->lastName;
+            $returnBack['avatar'] = $gaurd->avatar;
 
         }
-        else { // loged in but inactive user
+        else { // loged in but inactive gaurd
             $returnBack['message'] = 'User is in Active';   //return fail message
             $returnBack['loggedIn'] = false;                // login state
         }
 
-    } else { //wrong user name and password
-        $returnBack['message'] = 'incorrect user name or password';   //return fail message
+    } else { //wrong gaurd user name and password
+        $returnBack['message'] = 'incorrect gaurd user name or password';   //return fail message
         $returnBack['loggedIn'] = false;                // login state
      }
-     
 
+     print_r($returnBack);
+}
+else {
+    echo "Wrong submittion";
 }
 
 

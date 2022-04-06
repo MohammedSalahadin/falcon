@@ -5,10 +5,89 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="assets/styles/styles.css">
     <title>Falcontrac</title>
+
+ 
+    
+ 
+
+
+            <?php
+
+            if(isset($_POST['submit'])) {
+                if (isset($_POST['rr'])){
+                    $check = $_POST['rr'];
+                    if ($check == "Admin"){
+                include 'classes/user.php';
+            $un = $_POST['userName'];
+            $pas = $_POST['password'];
+
+            $test = new admin();
+       $test -> login($un,$pas);
+
+            if($test -> loggedIn == true){
+
+                    echo '<script type="text/javascript">
+
+            alert("You have loged in as an Admin");
+
+            window.location.href = "routes/monitor.php"; 
+
+                            </script>';
+
+               
+
+            }else{
+                echo '<script type="text/javascript">
+
+            alert("Your Email or Password is Incorrect"); 
+
+                            </script>';
+            }
+        }else {
+            if($check == "custommer"){
+                include 'classes/user.php';
+            $un = $_POST['userName'];
+            $pas = $_POST['password'];
+
+            $test = new customer();
+       $test -> login($un,$pas);
+
+            if($test -> loggedIn == true){
+
+                echo '<script type="text/javascript">
+
+            alert("You have loged in as a custommer"); 
+window.location.href = "routes/monitor.php";
+                            </script>';
+               
+
+            }else{
+                echo '<script type="text/javascript">
+
+            alert("Your Email or Password is Incorrect"); 
+
+                            </script>';
+            }
+        }
+        } 
+    }
+    }
+        
+    
+                
+                
+                
+            ?>
+		
+
+
 </head>
 
 
@@ -34,46 +113,58 @@
         </div>
         <!-- navbar end   -->
 
+        
+
         <!-- login form start  -->
         <div class="d-flex justify-content-center pt-5">
-            <form class="bg-light p-5 rounded shadow w-75" action="routes/monitor.php">
+            <!-- --------------------------------------------formm------------------------------------- -->
+            <form class="bg-light p-5 rounded shadow w-75" method="POST">
                 <h1 class="text-center login-text">Login</h1>
+                <br>
+                <input type="radio" name="rr" value="Admin">
+                      <label for="Admin">Admin</label>
+                      <input type="radio" name="rr" value="custommer">
+                      <label for="custommer">Custommer</label><br>
                 <div class="mb-3">
-                <div class="input-group flex-nowrap">
-  <span class="input-group-text" id="addon-wrapping">@</span>
-  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping">
-</div>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text" id="addon-wrapping">@</span>
+                        <input type="text" class="form-control" placeholder="Username" 
+                            name="userName" id="userName" >
+                    </div>
                 </div>
                 <div class="mb-3">
-                <div class="input-group flex-nowrap">
-  <span class="input-group-text" id="addon-wrapping">***</span>
-  <input type="password" class="form-control" placeholder="password" aria-label="Username" aria-describedby="addon-wrapping">
-</div>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text" id="addon-wrapping">***</span>
+                        <input type="password" class="form-control" placeholder="password" 
+                            name="password" id="password" >
+                    </div>
                     <div id="emailHelp" class="form-text">We'll never share your password with anyone else.</div>
+                    <div class="text-center m-1">
+
+
+ </div>
+
                 </div>
                 <div class="mb-3 forget-password">
                     <p data-bs-toggle="modal" data-bs-target="#exampleModal">Forgot your passwoed ?</p>
-                   
+
                 </div>
-                <button type="submit" name="loginSubmit" class="btn btn-primary">Submit</button>
+                <button type="submit" name="submit" class="btn btn-primary"">Submit</button>
             </form>
         </div>
     </div>
     <!-- login form end  -->
 
+
    
-    </div>
-    </div>
 
     <!-- login form end --->
 
 
     <!-- resetmodal -->
-    <?php require('./components/resetPasswordModal.php')    ?>
+  
+
     
- 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script src="assets/js/falcon.js"></script>
 
 </body>
 
