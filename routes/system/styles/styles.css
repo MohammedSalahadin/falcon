@@ -1,0 +1,273 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 86.5%;
+}
+
+.bg--primary {
+  background-color: #e2e2e2 !important;
+  background-color: #e2e2e2;
+}
+
+.bg--secondary {
+  background-color: #d8d8d8;
+}
+
+.bg--dark {
+  background-color: #979797;
+  color: white;
+}
+
+button {
+  -webkit-transition: all 0.3s ease-in-out !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+button:hover {
+  -webkit-box-shadow: rgba(128, 128, 128, 0.671) 0px 0px 10px;
+          box-shadow: rgba(128, 128, 128, 0.671) 0px 0px 10px;
+}
+
+.minWidth {
+  min-width: 1000px;
+}
+
+.height-full {
+  min-height: 100vh !important;
+}
+
+.aligin-item-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+a {
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  color: #181818 !important;
+}
+
+a:hover {
+  color: #0560d8 !important;
+}
+
+.login-text {
+  color: #818181 !important;
+}
+
+.forget-password {
+  color: #0560d8 !important;
+  cursor: pointer;
+}
+
+.forget-password:hover {
+  color: #05479c !important;
+}
+
+.logo img, .logo svg {
+  width: 100px  !important;
+  vertical-align: none !important;
+  opacity: 0.8;
+}
+
+.table {
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+  margin-bottom: 0 !important;
+}
+
+.table tbody th {
+  color: #03508e;
+  font-weight: 400;
+  font-family: 'Inconsolata', monospace;
+}
+
+.table tbody tr {
+  -webkit-transition: all .1s ease-in-out;
+  transition: all .1s ease-in-out;
+  cursor: pointer;
+}
+
+.table tbody tr:hover {
+  background-color: #fdce79 !important;
+}
+
+.table tbody tr:hover th {
+  color: darkred;
+}
+
+.table thead {
+  vertical-align: none !important;
+}
+
+.table thead tr {
+  color: gray;
+  font-weight: 500;
+}
+
+.tableCameraImg i {
+  font-size: 1.3rem;
+}
+
+.tableCameraImg i:hover {
+  color: #0560d8 !important;
+  cursor: pointer;
+}
+
+.cameraModalHeader {
+  background-color: #e2e2e2;
+  border-bottom: 1px solid #9c9c9c;
+}
+
+.cameraModalBody {
+  background-color: #e2e2e2;
+}
+
+.container {
+  min-width: 1000px;
+}
+
+.issue-active {
+  background-color: #6ba782 !important;
+  color: white !important;
+}
+
+.issue-unactive {
+  background-color: gray !important;
+  text-decoration: line-through;
+}
+
+.messagebox {
+  width: 300px;
+  margin-top: 1%;
+  margin-right: 1%;
+  position: relative;
+}
+
+.messagebox h1 {
+  font-size: clamp(1.3rem, 1vw, 2rem);
+}
+
+.users {
+  border: solid silver 1px !important;
+}
+
+.users h1, .users p {
+  font-weight: 400;
+}
+
+.users img {
+  max-width: 75px !important;
+  max-height: 75px !important;
+  border: gray 1px solid;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+  border-radius: 2px;
+}
+
+.bi-x-circle {
+  position: absolute;
+  right: 3%;
+  top: 0%;
+  color: black;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.bi-x-circle:hover {
+  color: darkred;
+}
+
+.footerModal {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 1rem;
+}
+
+.footerModal img {
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.footerModal img:hover {
+  -webkit-transform: translateY(-5px);
+          transform: translateY(-5px);
+}
+
+.border {
+  border: rgba(128, 128, 128, 0.589) solid 1.5px !important;
+}
+
+.issueSummeryModal h2 {
+  color: #004196;
+  font-weight: 400;
+  font-size: large;
+}
+
+.relative {
+  position: relative;
+}
+
+.mapController {
+  position: absolute;
+  top: 0;
+  right: 0;
+  max-width: 30% !important;
+  padding: .5% 1%;
+}
+
+.mapController select {
+  width: 100%;
+}
+
+summary span {
+  padding: 1%;
+}
+
+summary span:hover {
+  background-color: #03508e;
+  border-radius: 5px;
+  color: white !important;
+}
+
+.my-modal {
+  display: none;
+  z-index: -10;
+  position: fixed;
+  top: 0;
+  width: 50%;
+  height: 50%;
+  -webkit-backdrop-filter: blur(4px);
+          backdrop-filter: blur(4px);
+  opacity: 0;
+}
+
+.show-Modal {
+  -webkit-transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+  display: block;
+  z-index: 1000000 !important;
+  width: 100%;
+  height: 102%;
+  opacity: 1;
+}
+/*# sourceMappingURL=styles.css.map */
