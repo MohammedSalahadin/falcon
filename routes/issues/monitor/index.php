@@ -17,6 +17,42 @@
     <link rel="icon" href="../../../assets/images/favicon.png">
 
     <title>Falcontrac</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+     <!-- Filter issues Script -->
+     <script>
+          $(document).ready(function(){
+            $("#filter_issue").change(function() {
+              var value = $(this).val().toLowerCase();
+              $("#monitor_table tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+              });
+            });
+          });
+    </script>
+    <!-- Filter Property Name -->
+    <script>
+          $(document).ready(function(){
+            $("#filter_property").change(function() {
+              var value = $(this).val().toLowerCase();
+              $("#monitor_table tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+              });
+            });
+          });
+    </script>
+    <!-- Filter issues Script -->
+    <script>
+          $(document).ready(function(){
+            $("#filter_issue").change(function() {
+              var value = $(this).val().toLowerCase();
+              $("#monitor_table tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+              });
+            });
+          });
+    </script>
+
+
 </head>
 
 <body>

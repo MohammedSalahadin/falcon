@@ -1,24 +1,27 @@
 <div class="d-block">
 
-  <table class="table table-striped ">
+  <table class="table table-striped" id="monitor_table">
     <thead class="bg--secondary">
     <tr>
       <th scope="col">Issue ID</th>
       <th scope="col">
-        <select class="form-select bg-light" aria-label="property name">
-          <option selected disabled>Property Name</option>
-
+        <select class="form-select bg-light" aria-label="property name" id="filter_property">
+          <option selected value="" >All Properties</option>
+          <option  value="Austin" >Austin</option>
+          <option  value="New Yourk" >New Yourk</option>
         </select>
       </th>
 
       <th scope="col">
-
-        <select class="form-select bg-light" aria-label="property name">
-          <option selected disabled>Reported Issue</option>
-          <option value="1">test</option>
-
+        <select class="form-select bg-light" aria-label="property name" id="filter_issue">
+          <option selected value="" >All Issues</option>
+          <option value="property inspection">property inspection</option>
+          <option value="check in">check in</option>
+          <option value="check out">check out</option>
         </select>
+       
       </th>
+
       <th scope="col">
 
         <input type="datetime-local" class="form-select bg-light" name="createdDate" id="">
